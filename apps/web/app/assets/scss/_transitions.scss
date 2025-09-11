@@ -1,0 +1,172 @@
+/* ============================================
+   PAGE TRANSITIONS
+   ============================================ */
+
+/* Default page transition - smooth fade with slight slide */
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.page-enter-to,
+.page-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* Layout transitions */
+.layout-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.layout-enter-active,
+.layout-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+
+.layout-enter-to,
+.layout-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.layout-leave-to {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+/* ============================================
+   ALTERNATIVE TRANSITION STYLES
+   Uncomment these in nuxt.config.ts to use different effects
+   ============================================ */
+
+/* Slide transition - horizontal slide effect */
+.slide-enter-from {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.slide-enter-to,
+.slide-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Fade transition - simple opacity fade */
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+/* Scale transition - zoom in/out effect */
+.scale-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.scale-enter-to,
+.scale-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.scale-leave-to {
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+/* Flip transition - 3D flip effect */
+.flip-enter-from {
+  opacity: 0;
+  transform: rotateY(-90deg);
+}
+
+.flip-enter-active,
+.flip-leave-active {
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-style: preserve-3d;
+}
+
+.flip-enter-to,
+.flip-leave-from {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.flip-leave-to {
+  opacity: 0;
+  transform: rotateY(90deg);
+}
+
+/* Blur transition - blur in/out effect */
+.blur-enter-from {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.blur-enter-active,
+.blur-leave-active {
+  transition: all 0.4s ease;
+}
+
+.blur-enter-to,
+.blur-leave-from {
+  opacity: 1;
+  filter: blur(0);
+}
+
+.blur-leave-to {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+/* ============================================
+   LEGACY TRANSITIONS (keeping for compatibility)
+   ============================================ */
+
+/* Post transition */
+.post-enter-from {
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+.post-enter-active,
+.post-leave-active {
+  transition: all 0.2s;
+}
+
+.post-enter,
+.post-leave-to {
+  opacity: 0;
+}

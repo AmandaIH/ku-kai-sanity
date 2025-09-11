@@ -1,0 +1,15 @@
+@use "./setup";
+
+
+//all other custom scss files or css should be added here
+@use "./spacing";
+@use "./buttons";
+@use "./forms";
+@use "./transitions";
+@use "./tables";
+@use "./flowmate";
+@use "./slider";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

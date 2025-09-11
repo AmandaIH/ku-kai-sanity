@@ -1,0 +1,19 @@
+.btn {
+  @apply inline-block border border-transparent duration-300 transition-colors rounded-full appearance-none text-sm;
+
+  // &.btn-large:not(.btn-transparent) {
+  //   @apply px-10 py-5;
+  // }
+  // &.btn-small:not(.btn-transparent) {
+  //   @apply px-5 py-2.5;
+  // }
+  // &.btn-transparent {
+  //   @apply bg-transparent text-current p-0 hover:underline;
+  // }
+  &.btn-primary {
+    @apply text-black uppercase text-sm no-underline cursor-pointer;
+  }
+  &.btn-secondary {
+    @apply text-white uppercase text-sm no-underline cursor-pointer;
+  }
+}

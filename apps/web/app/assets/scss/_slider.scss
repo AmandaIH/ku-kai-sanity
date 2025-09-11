@@ -1,0 +1,120 @@
+/* SliderBlock component styling */
+.slider-block-wrapper {
+  @apply px-20;
+
+  /* Arrow container */
+  .arrow-container {
+    @apply relative;
+  }
+
+  .slide-content {
+    @apply p-4 h-full flex flex-col;
+  }
+
+  .slide-image {
+    @apply overflow-hidden flex-shrink-0 mb-4;
+  }
+
+  .slide-header {
+    @apply flex-grow flex items-start;
+  }
+
+  .slide-header a {
+    @apply text-inherit no-underline;
+  }
+
+  .slide-header a:hover {
+    @apply underline;
+  }
+
+  /* Progress bar styling */
+  .slider-progress {
+    @apply mt-6 w-full bg-gray-200 rounded-full;
+  }
+
+  .slider-progress-bar {
+    @apply bg-primary rounded-full;
+    height: 4px;
+    transition: width 400ms ease;
+    width: 0;
+  }
+
+  /* Basic Splide styling */
+  .splide__slide {
+    @apply flex flex-col transition-all duration-300 ease-in-out opacity-60;
+  }
+
+  /* Active slide styling */
+  .splide__slide.is-active {
+    @apply opacity-100;
+  }
+
+  /* Arrow styling */
+  .splide__arrows {
+    @apply absolute inset-0 z-10 pointer-events-none;
+  }
+
+  .splide__arrow {
+    @apply bg-white shadow-lg border border-gray-200 opacity-100 pointer-events-auto;
+    @apply absolute top-1/2 transform -translate-y-1/2;
+    @apply w-12 h-12 rounded-full flex items-center justify-center;
+    @apply transition-all duration-200;
+  }
+
+  .splide__arrow--prev {
+    @apply -left-20;
+  }
+
+  .splide__arrow--next {
+    @apply -right-20;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    @apply px-16;
+    
+    .splide__arrow {
+      @apply w-10 h-10;
+    }
+    
+    .splide__arrow--prev {
+      @apply -left-16;
+    }
+    
+    .splide__arrow--next {
+      @apply -right-16;
+    }
+  }
+
+  @media (max-width: 768px) {
+    @apply px-14;
+    
+    .splide__arrow {
+      @apply w-10 h-10;
+    }
+    
+    .splide__arrow--prev {
+      @apply -left-14;
+    }
+    
+    .splide__arrow--next {
+      @apply -right-14;
+    }
+  }
+
+  @media (max-width: 480px) {
+    @apply px-12;
+    
+    .splide__arrow {
+      @apply w-8 h-8;
+    }
+    
+    .splide__arrow--prev {
+      @apply -left-12;
+    }
+    
+    .splide__arrow--next {
+      @apply -right-12;
+    }
+  }
+} 

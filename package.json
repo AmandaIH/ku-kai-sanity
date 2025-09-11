@@ -1,0 +1,14 @@
+{
+  "name": "checkmate-sanity-boilerplate",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:studio": "pnpm --filter checkmate-sanity-studio dev",
+    "dev:web": "pnpm --filter checkmate-sanity-nuxt dev"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

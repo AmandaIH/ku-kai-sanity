@@ -1,0 +1,64 @@
+import { defineField, defineType } from 'sanity';
+import { commonFields } from './common'
+import slugify from 'slugify';
+
+export const menu = defineType({
+  name: 'menu',
+  title: 'Menu',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Menu Name',
+      type: 'string',
+      description: 'Internal name for this menu (e.g., "Main Navigation", "Footer Menu")',
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        slugify: (input: string) => {
+          return slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
+        },
+      },
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
+      name: 'menuItems',
+      title: 'Menu Items',
+      type: 'array',
+      description: 'Add top-level menu items. Use sub-menu items within each item for dropdowns.',
+      of: [{ type: 'navigation.link' }],
+      validation: (Rule) => Rule.max(8).warning('Consider limiting top-level menu items for better UX')
+    })
+  ],
+  preview: {
+    select: {
+      name: 'title',
+      slug: 'slug',
+      itemCount: 'menuItems'
+    },
+    prepare({ name, itemCount }) {
+      const count = itemCount ? itemCount.length : 0;
+      
+      // Count total items including children recursively
+      const countAllItems = (items: any[]): number => {
+        if (!items) return 0;
+        return items.reduce((total, item) => {
+          return total + 1 + (item.children ? countAllItems(item.children) : 0);
+        }, 0);
+      };
+      
+      const totalCount = countAllItems(itemCount || []);
+      const topLevelCount = count;
+      
+      return {
+        title: name,
+        subtitle: `${topLevelCount} top-level${totalCount > topLevelCount ? ` • ${totalCount} total` : ''}`
+      }
+    }
+  }
+}); 

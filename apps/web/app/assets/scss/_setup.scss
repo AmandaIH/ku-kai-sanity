@@ -1,0 +1,107 @@
+/**
+ * Apply global styles to the project
+ */
+@layer base {
+
+  // TODO -- SEE https://tailwindcss.com/docs/customizing-colors#adding-additional-colors for how to add more colors
+  :root {
+    --theme-color_primary: 30 31 34;
+    --theme-color_secondary:  250 250 427;
+    --theme-color_secondary-2: 214 230 214;
+    --theme-color_secondary-3: 255 93 82;
+    --theme-color_secondary-4: 30 31 34;
+    --theme-color_black: 30 31 34;
+    --theme-color_white: 250 250 247;
+    --theme-font_headlines_font_family: "Poppins", sans-serif;
+    --theme-font_paragraph_font_family: "Poppins", sans-serif;
+    --theme-font_bold_weight: 500;
+    --theme-font_regular_weight: 300;
+    --theme-font_headlines_font_weight: 500;
+    --theme-font_paragraph_font_weight: 300;
+    --theme-font_headlines_line_height: 1.1;
+    --theme-font_paragraph_line_height: 1.4;
+  }
+
+  body {
+    @apply font-body text-black antialiased font-body-weight leading-body;
+  }
+}
+
+/**
+    Apply styles to elements
+*/
+@layer components {
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+    @apply mb-4 last:mb-0 font-headline leading-headline;
+  }
+  h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5 {
+    @apply font-headline-weight;
+  }
+
+  h1, .h1 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h2, .h2 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h3, .h3 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h4, .h4 {
+    @apply text-lg lg:text-xl;
+  }
+
+  h5, .h5 {
+    @apply text-lg lg:text-xl;
+  }
+
+  h6, .h6 {
+    @apply text-lg;
+  }
+
+  p,a,li {
+    @apply text-base mb-4 last:mb-0;
+  }
+
+  .flex-section {
+    ol, ul {
+      @apply ml-6 mb-4 last:mb-0;
+    }
+
+    ol {
+      @apply list-decimal;
+    }
+
+    ul {
+      @apply list-disc;
+    }
+
+    a {
+      @apply text-primary underline underline-offset-2 transition-colors duration-200 hover:text-primary/80 hover:no-underline;
+    }
+  }
+}
+
+.pagination {
+  ul {
+    @apply list-none;
+    li {
+      @apply mb-0;
+    }
+  }
+}
+
+.pagination-button {
+  @apply w-8 h-8 md:w-10 md:h-10 rounded-full relative leading-tight border flex items-center justify-center list-none m-0;
+
+  &.active {
+    @apply bg-primary text-white border-primary;
+  }
+
+  &.dots {
+    @apply border-none w-4 h-8 md:w-6 md:h-10;
+  }
+}
