@@ -1,8 +1,8 @@
 import { contentFields, settingsFields } from '../common'
 
-export const linkBlock = {
-  name: 'linkBlock',
-  title: 'Link Block',
+export const serviceSliderBlock = {
+  name: 'serviceSliderBlock',
+  title: 'Service Slider',
   type: 'object',
   description: 'Display 1-5 link items with headers, images, and call-to-action buttons. Perfect for showcasing services, products, or featured content.',
   groups: [
@@ -49,6 +49,12 @@ export const linkBlock = {
               description: 'Image for this link item'
             },
             {
+              name: 'description',
+              title: 'Description',
+              type: 'text',
+              description: 'Description text for this service item'
+            },
+            {
               name: 'ctaButton',
               title: 'Call to Action Button',
               type: 'ctaButton',
@@ -84,7 +90,7 @@ export const linkBlock = {
     prepare({ title, linkItems }: any) {
       return {
         title: title || 'No title set',
-        subtitle: `Link Block ${linkItems ? `(${linkItems.length} items)` : ''}`,
+        subtitle: `Service Slider ${linkItems ? `(${linkItems.length} items)` : ''}`,
         media: linkItems?.[0]?.image || null
       }
     }

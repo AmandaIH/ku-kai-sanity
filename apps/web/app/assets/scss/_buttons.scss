@@ -11,7 +11,7 @@
   //   @apply bg-transparent text-current p-0 hover:underline;
   // }
   &.btn-primary {
-    @apply text-black uppercase text-sm no-underline cursor-pointer;
+    @apply bg-transparent border border-black text-black uppercase text-sm no-underline cursor-pointer py-1 px-2 rounded-lg;
   }
   &.btn-secondary {
     @apply text-white uppercase text-sm no-underline cursor-pointer;

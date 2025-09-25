@@ -76,7 +76,7 @@ export const solutions = {
         { type: 'textAndVideoBlock' },
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
-        { type: 'linkBlock' }
+        { type: 'serviceSliderBlock' }
       ],
       group: 'content'
     },

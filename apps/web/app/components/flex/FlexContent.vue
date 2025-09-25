@@ -18,7 +18,7 @@
       <ArchiveBlock v-if="item._type === 'archiveBlock'" :data="item" :index="index" />
       <LogoSliderBlock v-if="item._type === 'sliderBlock'" :data="item" :index="index" />
       <NumbersBlock v-if="item._type === 'numbersBlock'" :data="item" :index="index" />
-      <LinkBlock v-if="item._type === 'linkBlock'" :data="item" :index="index" />
+      <ServiceSliderBlock v-if="item._type === 'serviceSliderBlock'" :data="item" :index="index" />
       <EmployeeBlock v-if="item._type === 'employeesBlock'" :data="item" :index="index" />
     </FlexSection>
   </div>

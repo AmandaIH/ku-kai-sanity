@@ -33,5 +33,5 @@ export const schemaTypes = [
   blocks.textAndVideoBlock,
   blocks.sliderBlock,
   blocks.numbersBlock,
-  blocks.linkBlock
+  blocks.serviceSliderBlock
 ]
