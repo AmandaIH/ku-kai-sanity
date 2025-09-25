@@ -20,22 +20,27 @@ export const heroBlock = {
     // Headers
     ...contentFields.headers,
     
-    // Stats
+    // Paragraph Text
     {
-      name: 'stats',
-      title: 'Stats',
+      name: 'paragraphText',
+      title: 'Paragraph Text',
+      type: 'text',
+      group: 'content',
+      description: 'Add descriptive paragraph text to display below the header'
+    },
+    
+    // CTA Buttons
+    {
+      name: 'ctas',
+      title: 'Call to Action Buttons',
       type: 'array',
       group: 'content',
-      description: 'Add 1 to 3 stat values to display key metrics or achievements',
+      description: 'Add call-to-action buttons',
       of: [
         {
-          type: 'string',
-          name: 'statValue',
-          title: 'Stat Value',
-          validation: (Rule: any) => Rule.required()
+          type: 'ctaButton'
         }
-      ],
-      validation: (Rule: any) => Rule.min(1).max(3)
+      ]
     },
     
     // Background Image
