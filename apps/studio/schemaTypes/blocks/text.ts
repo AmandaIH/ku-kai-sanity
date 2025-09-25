@@ -64,7 +64,7 @@ export const textBlock = {
     prepare({ subtitle, layout }: any) {
       return {
         title: subtitle || 'No title set',
-        subtitle: `Text Block ${layout === 'two-column' ? '(Two Column)' : '(Single Column)'}`
+        subtitle: `Text Block (${layout || 'left'} aligned)`
       }
     }
   }

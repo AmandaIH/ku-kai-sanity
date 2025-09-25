@@ -22,11 +22,11 @@
         <div :class="textColumnClass">
           <!-- Header section (eyebrow, header, subheader) -->
           <div class="mb-[1.875rem]" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class=" text-sm mb-[1.875rem]" v-html="componentData.eyebrow"></p>
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="text-sm font-medium uppercase mb-[1.875rem]" v-html="componentData.eyebrow"></p>
             <div class="mb-[1.875rem]" ref="headerWrapperRef" v-if="componentData.header">
-              <h1 v-if="index === 0" class="h1">
+              <h2 v-if="index === 0" class="">
                 <span v-html="componentData.header"></span>
-              </h1>
+              </h2>
               <h2 v-else class="h2 text-3xl">
                 <span v-html="componentData.header"></span>
               </h2>

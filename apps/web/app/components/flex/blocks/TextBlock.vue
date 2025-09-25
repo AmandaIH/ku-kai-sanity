@@ -1,13 +1,14 @@
 <template>
-  <div class="section-container py-8 md:py-16" :class="containerClasses">
-    <div class="default-grid" v-if="componentSettings.layout === 'single'" :class="isInSbs ? 'half-grid' : ''">
-      <div class="col-span-full" :class="isInSbs ? '' : getLayoutPosition()">
+  <div class="section-container py-8 md:py-16 px-8 md:px-16" :class="containerClasses">
+    <!-- RIGHT LAYOUT: Text aligned to the right side of the grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
+      <div class="col-span-1 md:col-span-12 gap-8" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h1 v-if="index === 0" class="h1 !mb-0">
+            <h2 v-if="index === 0" class=" !mb-0">
               <span v-html="componentData.header"></span>
-            </h1>
+            </h2>
             <h2 v-else class="h2 !mb-0">
               <span v-html="componentData.header"></span>
             </h2>
@@ -22,14 +23,15 @@
         </div>
       </div>
     </div>
-    <div class="default-grid" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'half-grid' : ''">
-      <div class="col-span-full" :class="isInSbs ? '' : getLayoutPosition()">
+    <!-- LEFT LAYOUT: Text aligned to the left side of the grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'left'" :class="isInSbs ? 'md:grid-cols-6' : ''">
+      <div class="col-span-1 md:col-span-12" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h1 v-if="index === 0" class="h1 !mb-0">
+            <h2 v-if="index === 0" class="!mb-0">
               <span v-html="componentData.header"></span>
-            </h1>
+            </h2>
             <h2 v-else class="h2 !mb-0">
               <span v-html="componentData.header"></span>
             </h2>
@@ -44,67 +46,15 @@
         </div>
       </div>
     </div>
-    <div class="default-grid" v-if="componentSettings.layout === 'two-column'" :class="isInSbs ? 'half-grid' : ''">
-      <div class="col-span-full " :class="isInSbs ? '' : 'md:col-span-8 md:col-start-3 lg:col-start-4 lg:col-span-6'">
+    <!-- CENTER LAYOUT: Text centered in the middle of the grid -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'center'" :class="isInSbs ? 'md:grid-cols-6' : ''">
+      <div class="col-span-1 md:col-span-12" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h1 v-if="index === 0" class="h1 !mb-0">
-              <span v-html="componentData.header"></span>
-            </h1> 
-            <h2 v-else class="h2 !mb-0">
+            <h2 v-if="index === 0" class="!mb-0">
               <span v-html="componentData.header"></span>
             </h2>
-          </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0" v-html="componentData.subheader"></h6>
-        </div>
-      </div>
-
-      <div class="col-span-full lg:col-span-3" :class="isInSbs ? '' : 'md:col-span-8 md:col-start-3 lg:col-start-4'">
-        <div ref="firstColumnTextRef" class="opacity-0" v-if="componentData.bodyText" :class="[componentData.eyebrow || componentData.header || componentData.subheader ? 'mt-4' : '', getTextAlignment()]">
-          <PortableText :value="componentData.bodyText" />
-        </div>
-        <div ref="buttonsRef" class="opacity-0" v-if="componentData.ctas && componentData.ctas.length > 0" :class="getTextAlignment()">
-          <Buttons :data="componentData.ctas"></Buttons>
-        </div>
-      </div>
-
-      <div class="col-span-full lg:col-span-3" :class="isInSbs ? '' : 'md:col-span-8 md:col-start-3'">
-        <div ref="secondColumnTextRef" class="opacity-0" v-if="componentData.secondColumnText" :class="getTextAlignment()">
-          <PortableText :value="componentData.secondColumnText" />
-        </div>
-      </div>
-    </div>
-    <div class="default-grid" v-if="componentSettings.layout === 'left'" :class="isInSbs ? 'half-grid' : ''">
-      <div class="col-span-full" :class="isInSbs ? '' : getLayoutPosition()">
-        <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm" v-html="componentData.eyebrow"></p>
-          <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h1 v-if="index === 0" class="h1 !mb-0">
-              <span v-html="componentData.header"></span>
-            </h1>
-            <h2 v-else class="h2 !mb-0">
-              <span v-html="componentData.header"></span>
-            </h2>
-          </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0" v-html="componentData.subheader"></h6>
-        </div>
-        <div ref="textRef" class="opacity-0" v-if="componentData.bodyText" :class="[componentData.eyebrow || componentData.header || componentData.subheader ? 'mt-4' : '', getTextAlignment()]">
-          <PortableText :value="componentData.bodyText" />
-        </div>
-        <div ref="buttonsRef" class="opacity-0" v-if="componentData.ctas && componentData.ctas.length > 0" :class="getTextAlignment()">
-          <Buttons :data="componentData.ctas"></Buttons>
-        </div>
-      </div>
-    </div>
-    <div class="default-grid" v-if="componentSettings.layout === 'center'" :class="isInSbs ? 'half-grid' : ''">
-      <div class="col-span-full" :class="isInSbs ? '' : getLayoutPosition()">
-        <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm" v-html="componentData.eyebrow"></p>
-          <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h1 v-if="index === 0" class="h1 !mb-0">
-              <span v-html="componentData.header"></span>
-            </h1>
             <h2 v-else class="h2 !mb-0">
               <span v-html="componentData.header"></span>
             </h2>
@@ -133,9 +83,8 @@ interface TextBlockData {
   eyebrow?: string;
   header?: string;
   subheader?: string;
-  layout?: 'single' | 'two-column' | 'left' | 'center' | 'right';
+  layout?: 'left' | 'center' | 'right';
   bodyText?: any[];
-  secondColumnText?: any[];
   ctas?: any[];
   backgroundColor?: string;
   textColor?: string;
@@ -157,8 +106,6 @@ const eyebrowRef = ref<HTMLElement | null>(null);
 const headerWrapperRef = ref<HTMLElement | null>(null);
 const subheaderRef = ref<HTMLElement | null>(null);
 const textRef = ref<HTMLElement | null>(null);
-const firstColumnTextRef = ref<HTMLElement | null>(null);
-const secondColumnTextRef = ref<HTMLElement | null>(null);
 const buttonsRef = ref<HTMLElement | null>(null);
 const scrollTriggerInstance = ref<any>(null);
 
@@ -183,11 +130,7 @@ const setupAnimations = () => {
   
   // Collect content elements based on layout
   const contentElements = [];
-  if (componentSettings.value.layout === 'single') {
-    contentElements.push(textRef.value, buttonsRef.value);
-  } else if (componentSettings.value.layout === 'two-column') {
-    contentElements.push(firstColumnTextRef.value, secondColumnTextRef.value, buttonsRef.value);
-  } else if (componentSettings.value.layout && ['left', 'center', 'right'].includes(componentSettings.value.layout)) {
+  if (componentSettings.value.layout && ['left', 'center', 'right'].includes(componentSettings.value.layout)) {
     contentElements.push(textRef.value, buttonsRef.value);
   }
   
@@ -236,17 +179,18 @@ const containerClasses = computed(() => {
 });
 
 // Get text alignment classes based on layout
+// NOTE: Currently all layouts use text-left, but this can be customized per layout
 const getTextAlignment = () => {
   const layout = componentSettings.value.layout;
   switch (layout) {
     case 'left':
-      return 'text-left';
+      return 'text-left';   // LEFT: Text aligned to the left
     case 'center':
-      return 'text-left';
+      return 'text-left';   // CENTER: Currently left-aligned (can be changed to 'text-center')
     case 'right':
-      return 'text-left'; 
+      return 'text-left';   // RIGHT: Currently left-aligned (can be changed to 'text-right')
     default:
-      return 'text-left';
+      return 'text-left';   // DEFAULT: Text aligned to the left
   }
 };
 
@@ -255,13 +199,13 @@ const getLayoutPosition = () => {
   const layout = componentSettings.value.layout;
   switch (layout) {
     case 'left':
-      return 'md:col-start-1 md:col-span-7';
+      return 'md:col-start-1 md:col-span-5'; // LEFT: Starts at column 1, spans 5 columns
     case 'center':
-      return 'md:col-start-4 md:col-span-6';
+      return 'md:col-start-4 md:col-span-6'; // CENTER: Starts at column 4, spans 6 columns
     case 'right':
-      return 'md:col-start-7 md:col-span-7';
+      return 'md:col-start-8 md:col-span-5'; // RIGHT: Starts at column 8, spans 5 columns
     default:
-      return 'md:col-start-3 md:col-span-5';
+      return 'md:col-start-4 md:col-span-6'; // DEFAULT: Centered (same as center)
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div @click="handleOutsideClick">
+    <div @click="handleOutsideClick" class="bg-primary min-h-screen">
       
         <ClientOnly>
             <Preloader />

@@ -5,25 +5,25 @@
 
   // TODO -- SEE https://tailwindcss.com/docs/customizing-colors#adding-additional-colors for how to add more colors
   :root {
-    --theme-color_primary: 30 31 34;
+    --theme-color_primary: 238 236 231;
     --theme-color_secondary:  250 250 427;
     --theme-color_secondary-2: 214 230 214;
     --theme-color_secondary-3: 255 93 82;
     --theme-color_secondary-4: 30 31 34;
     --theme-color_black: 30 31 34;
     --theme-color_white: 250 250 247;
-    --theme-font_headlines_font_family: "Poppins", sans-serif;
-    --theme-font_paragraph_font_family: "Poppins", sans-serif;
+    --theme-font_headlines_font_family: "Neue Montreal", sans-serif;
+    --theme-font_paragraph_font_family: "Neue Montreal", sans-serif;
     --theme-font_bold_weight: 500;
-    --theme-font_regular_weight: 300;
+    --theme-font_regular_weight: 400;
     --theme-font_headlines_font_weight: 500;
-    --theme-font_paragraph_font_weight: 300;
+    --theme-font_paragraph_font_weight: 400;
     --theme-font_headlines_line_height: 1.1;
     --theme-font_paragraph_line_height: 1.4;
   }
 
   body {
-    @apply font-body text-black antialiased font-body-weight leading-body;
+    @apply font-body text-black antialiased font-body-weight leading-body bg-primary;
   }
 }
 
@@ -39,23 +39,23 @@
   }
 
   h1, .h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
+    @apply text-5xl;
   }
 
   h2, .h2 {
-    @apply text-2xl md:text-3xl lg:text-4xl;
+    @apply text-4xl;
   }
 
   h3, .h3 {
-    @apply text-xl md:text-2xl lg:text-3xl;
+    @apply text-3xl;
   }
 
   h4, .h4 {
-    @apply text-lg lg:text-xl;
+    @apply text-2xl;
   }
 
   h5, .h5 {
-    @apply text-lg lg:text-xl;
+    @apply text-xl;
   }
 
   h6, .h6 {
