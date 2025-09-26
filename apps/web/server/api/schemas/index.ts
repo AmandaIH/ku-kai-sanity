@@ -99,7 +99,8 @@ export default defineEventHandler(async (event) => {
     // Process content blocks
     const contentBlocks = [
       processSchema(blocks.heroBlock, 'block'),
-      processSchema(blocks.heroSmallBlock, 'block'),
+      processSchema(blocks.heroTextBlock, 'block'),
+      processSchema(blocks.backgroundImageTextBlock, 'block'),
       processSchema(blocks.textBlock, 'block'),
       processSchema(blocks.accordionBlock, 'block'),
       processSchema(blocks.archiveBlock, 'block'),

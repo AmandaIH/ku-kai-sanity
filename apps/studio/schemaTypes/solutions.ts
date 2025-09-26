@@ -67,7 +67,8 @@ export const solutions = {
       description: 'Add content blocks to build your solution page',
       of: [
         { type: 'heroBlock' },
-        { type: 'heroSmallBlock' },
+        { type: 'heroTextBlock' },
+        { type: 'backgroundImageTextBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
         { type: 'archiveBlock' },

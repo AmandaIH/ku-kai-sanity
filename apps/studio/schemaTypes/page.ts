@@ -66,7 +66,8 @@ export const page = {
       description: 'Add content blocks to build your page',
       of: [
         { type: 'heroBlock' },
-        { type: 'heroSmallBlock' },
+        { type: 'heroTextBlock' },
+        { type: 'backgroundImageTextBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
         { type: 'archiveBlock' },
