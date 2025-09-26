@@ -1,5 +1,5 @@
 <template>
-  <div class="section-container py-4 md:py-8" :class="containerClasses">
+  <div class="section-container py-8 md:py-16 px-8 md:px-16" :class="containerClasses">
     <div class="" :class="isInSbs ? 'half-grid' : ''">
 
       <!-- Main content grid -->

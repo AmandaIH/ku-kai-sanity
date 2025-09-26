@@ -1,7 +1,7 @@
 <template>
   <div class=" py-16">
     <!-- White Container -->
-    <div :class="containerClasses" class="px-8 py-8">
+    <div class="px-8 md:px-16 py-8">
       <!-- White Background Container -->
       <div class="bg-[#F8F6F5] rounded-lg shadow-sm px-8 py-16 md:p-16">
         <!-- Header Section -->

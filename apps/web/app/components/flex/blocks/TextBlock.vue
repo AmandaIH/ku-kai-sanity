@@ -1,5 +1,6 @@
 <template>
-  <div class="section-container py-8 md:py-16 px-8 md:px-16" :class="containerClasses">
+  <div class="py-16">
+    <div class="px-8 md:px-16">
     <!-- RIGHT LAYOUT: Text aligned to the right side of the grid -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12 gap-8" :class="isInSbs ? '' : getLayoutPosition()">
@@ -68,6 +69,7 @@
           <Buttons :data="componentData.ctas"></Buttons>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </template>
