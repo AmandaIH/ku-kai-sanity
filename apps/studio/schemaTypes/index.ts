@@ -26,6 +26,7 @@ export const schemaTypes = [
   blocks.heroBlock,
   blocks.heroTextBlock,
   blocks.backgroundImageTextBlock,
+  blocks.imageBlock,
   blocks.textBlock,
   blocks.accordionBlock,
   blocks.archiveBlock,

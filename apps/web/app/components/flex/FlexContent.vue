@@ -12,6 +12,7 @@
       <HeroBlock v-if="item._type === 'heroBlock'" :data="item" :index="index" />
       <HeroTextBlock v-if="item._type === 'heroTextBlock'" :data="item" :index="index" />
       <BackgroundImageTextBlock v-if="item._type === 'backgroundImageTextBlock'" :data="item" :index="index" />
+      <ImageBlock v-if="item._type === 'imageBlock'" :data="item" :index="index" />
       <TextBlock v-if="item._type === 'textBlock'" :data="item" :index="index" />
       <TextImageBlock v-if="item._type === 'textAndImageBlock'" :data="item" :index="index" />
       <TextVideoBlock v-if="item._type === 'textAndVideoBlock'" :data="item" :index="index" />

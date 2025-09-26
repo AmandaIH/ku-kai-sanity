@@ -93,7 +93,8 @@ export const ctaButton = {
       options: {
         list: [
           { title: 'Primary', value: 'primary' },
-          { title: 'Secondary', value: 'secondary' }
+          { title: 'Secondary', value: 'secondary' },
+          { title: 'Secondary 2', value: 'secondary2' }
         ]
       },
       initialValue: 'primary'

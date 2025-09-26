@@ -1,19 +1,39 @@
 .btn {
-  @apply inline-block border border-transparent duration-300 transition-colors rounded-full appearance-none text-sm;
-
-  // &.btn-large:not(.btn-transparent) {
-  //   @apply px-10 py-5;
-  // }
-  // &.btn-small:not(.btn-transparent) {
-  //   @apply px-5 py-2.5;
-  // }
-  // &.btn-transparent {
-  //   @apply bg-transparent text-current p-0 hover:underline;
-  // }
-  &.btn-primary {
-    @apply bg-transparent border border-black text-black uppercase text-sm no-underline cursor-pointer py-1 px-2 rounded-md;
+  @apply inline-block border duration-300 transition-colors rounded-md appearance-none text-sm uppercase no-underline cursor-pointer py-1 px-2;
+  text-decoration: none !important;
+  
+  &:hover {
+    text-decoration: none !important;
   }
+  
+  &:focus {
+    text-decoration: none !important;
+  }
+
+  // Primary button: white background, black text, hover: #0A1172 background, white text
+  &.btn-primary {
+    @apply bg-white border-white text-black;
+    
+    &:hover {
+      @apply bg-[#0A1172] border-[#0A1172] text-white;
+    }
+  }
+
+  // Secondary button: transparent background, white border and text, hover: white background, black text
   &.btn-secondary {
-    @apply text-white uppercase text-sm no-underline cursor-pointer;
+    @apply bg-transparent border-white text-white;
+    
+    &:hover {
+      @apply bg-white border-white text-black;
+    }
+  }
+
+  // Secondary2 button: transparent background, black border and text, hover: black background, white text
+  &.btn-secondary2 {
+    @apply bg-transparent border-black text-black;
+    
+    &:hover {
+      @apply bg-black border-black text-white;
+    }
   }
 }

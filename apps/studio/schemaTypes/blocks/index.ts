@@ -1,6 +1,7 @@
 export { heroBlock } from './hero'
 export { heroTextBlock } from './heroText'
 export { backgroundImageTextBlock } from './backgroundImageText'
+export { imageBlock } from './image'
 export { textBlock } from './text'
 export { accordionBlock } from './accordion'
 export { archiveBlock } from './archive'

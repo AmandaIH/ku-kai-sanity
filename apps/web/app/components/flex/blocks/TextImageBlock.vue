@@ -1,12 +1,13 @@
 <template>
-  <div class="section-container py-8 md:py-16 px-8 md:px-16" :class="containerClasses">
+  <div class="py-16">
+    <div class="px-8 md:px-16">
     <div class="" :class="isInSbs ? 'half-grid' : ''">
 
       <!-- Main content grid -->
       <div class="col-span-full grid grid-cols-1 md:grid-cols-12" :class="layoutClasses">
         
         <!-- Image column - always maintains its position -->
-        <div ref="imageRef" class="opacity-0 overflow-hidden" :class="imageColumnClass">
+        <div ref="imageRef" class="opacity-0 overflow-hidden mb-8 md:mb-0" :class="imageColumnClass">
           <cm-picture class="w-full h-auto" 
             v-if="componentData.image" 
             :image-object="componentData.image" 
@@ -45,6 +46,7 @@
 
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -53,7 +55,6 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { PortableText } from '@portabletext/vue';
 import { useGsapAnimations } from '~/composables/useGsapAnimations';
-import { useCheckmateFlexSettings } from '~/composables/checkmateFlexSettings';
 
 // Define the component data interface
 interface TextImageBlockData {
@@ -99,8 +100,6 @@ const { scrollTriggerAnimation, staggerAnimation } = useGsapAnimations();
 const componentData = computed(() => props.data);
 const componentSettings = computed(() => props.data);
 
-// Initialize the flex settings composable
-const { getContainerClasses } = useCheckmateFlexSettings(componentSettings);
 
 // Setup all animations
 const setupAnimations = () => {
@@ -140,12 +139,6 @@ const setupAnimations = () => {
   }
 };
 
-/**
- * Container classes computed property
- */
-const containerClasses = computed(() => {
-  return getContainerClasses('background', 'text', 'padding', 'margin', 'width');
-});
 
 /**
  * Layout classes based on ratio - now using 12-column grid

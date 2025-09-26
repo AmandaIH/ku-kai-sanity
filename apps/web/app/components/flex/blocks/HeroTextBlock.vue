@@ -1,5 +1,7 @@
 <template>
-  <div class="w-full relative overflow-hidden flex items-center" :id="'hero-text-' + (index || 0)" :class="containerClasses">
+  <div class="py-8 md:py-16">
+    <div class="px-8 md:px-16">
+      <div class="w-full relative overflow-hidden flex items-center" :id="'hero-text-' + (index || 0)" :class="containerClasses">
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
 
     <cm-picture v-if="heroType === 'image' && componentData.backgroundImage" :image-object="componentData.backgroundImage" :crops="['default:800', 'md:1200', 'lg:1600']" 
@@ -12,21 +14,21 @@
         <!-- Mobile: single column, centered -->
         <div class="w-full md:hidden text-center">
           <div class="flex flex-col gap-4" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
-            <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0  text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
+            <div ref="headerWrapperRef" class="" v-if="componentData.header">
               <h2 class="h2 !mb-0 text-black">
                 <span v-html="componentData.header"></span>
               </h2>
             </div>
-            <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0 text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
+            <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0  text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
           </div>
         </div>
         
         <!-- Desktop: eyebrow and header in columns 3-10 (spans 8 columns), centered -->
         <div class="hidden md:block md:col-span-8 md:col-start-3 text-center">
           <div class="flex flex-col gap-4" v-if="componentData.eyebrow || componentData.header">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
-            <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0  text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
+            <div ref="headerWrapperRef" class="" v-if="componentData.header">
               <h2 class="h2 !mb-0 text-black">
                 <span v-html="componentData.header"></span>
               </h2>
@@ -36,8 +38,10 @@
         
         <!-- Desktop: subheader in columns 4-9 (spans 6 columns), centered -->
         <div class="hidden md:block md:col-span-6 md:col-start-4 text-center" v-if="componentData.subheader">
-          <h6 ref="subheaderRef" class="!mb-0 opacity-0 text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" class="!mb-0  text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
         </div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
@@ -87,6 +91,11 @@ const setupAnimations = () => {
 
   if (headlineElements.length > 0 && headlineElements[0]) {
     try {
+      // Set initial state for all elements
+      headlineElements.forEach(element => {
+        gsap.set(element, { opacity: 0, y: 30 });
+      });
+
       // Create staggered animation using the composable
       const timeline = staggerAnimation(headlineElements, {
         duration: 0.6,
