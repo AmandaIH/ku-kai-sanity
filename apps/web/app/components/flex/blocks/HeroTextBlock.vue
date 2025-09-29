@@ -1,5 +1,5 @@
 <template>
-  <div class="py-8 md:py-16">
+  <div class="pt-20 pb-2 md:pt-28 md:pb-4">
     <div class="px-8 md:px-16">
       <div class="w-full relative overflow-hidden flex items-center" :id="'hero-text-' + (index || 0)" :class="containerClasses">
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
@@ -132,7 +132,7 @@ const heroType = computed(() => {
 });
 
 const containerClasses = computed(() => {
-  return 'min-h-[50vh]';
+  return 'min-h-[25vh]';
 });
 
 </script>

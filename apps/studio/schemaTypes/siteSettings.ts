@@ -67,46 +67,104 @@ export const siteSettings = {
       description: 'Company contact and address information',
       fields: [
         {
-          name: 'companyName',
-          title: 'Company Name',
-          type: 'string',
-          description: 'The official company name',
-        },
-        {
-          name: 'companyAddress',
-          title: 'Company Address',
-          type: 'string',
-          description: 'Street address of the company',
-        },
-        {
-          name: 'companyZipCode',
-          title: 'Company Zip Code',
-          type: 'string',
-          description: 'Postal/ZIP code of the company address',
-        },
-        {
-          name: 'companyCity',
-          title: 'Company City',
-          type: 'string',
-          description: 'City where the company is located',
-        },
-        {
           name: 'companyCvr',
           title: 'Company CVR',
           type: 'string',
           description: 'Main company CVR number',
         },
         {
-          name: 'companyPhone',
-          title: 'Company Phone',
-          type: 'string',
-          description: 'Main company phone number',
-        },
-        {
           name: 'companyEmail',
           title: 'Company Email',
           type: 'string',
           description: 'Main company email address',
+        },
+        {
+          name: 'location1',
+          title: 'Location 1',
+          type: 'object',
+          description: 'First company location',
+          fields: [
+            {
+              name: 'companyName',
+              title: 'Company Name',
+              type: 'string',
+              description: 'Company name for this location',
+            },
+            {
+              name: 'address',
+              title: 'Address',
+              type: 'string',
+              description: 'Street address',
+            },
+            {
+              name: 'zipCode',
+              title: 'Zip Code',
+              type: 'string',
+              description: 'Postal/ZIP code',
+            },
+            {
+              name: 'city',
+              title: 'City',
+              type: 'string',
+              description: 'City',
+            },
+            {
+              name: 'phone',
+              title: 'Phone',
+              type: 'string',
+              description: 'Phone number for this location',
+            },
+            {
+              name: 'email',
+              title: 'Email',
+              type: 'string',
+              description: 'Email address for this location',
+            },
+          ]
+        },
+        {
+          name: 'location2',
+          title: 'Location 2',
+          type: 'object',
+          description: 'Second company location',
+          fields: [
+            {
+              name: 'companyName',
+              title: 'Company Name',
+              type: 'string',
+              description: 'Company name for this location',
+            },
+            {
+              name: 'address',
+              title: 'Address',
+              type: 'string',
+              description: 'Street address',
+            },
+            {
+              name: 'zipCode',
+              title: 'Zip Code',
+              type: 'string',
+              description: 'Postal/ZIP code',
+            },
+            {
+              name: 'city',
+              title: 'City',
+              type: 'string',
+              description: 'City',
+            },
+            {
+              name: 'phone',
+              title: 'Phone',
+              type: 'string',
+              description: 'Phone number for this location',
+            },
+            {
+              name: 'email',
+              title: 'Email',
+              type: 'string',
+              description: 'Email address for this location',
+            },
+          ]
         },
       ]
     },

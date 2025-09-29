@@ -46,7 +46,7 @@
             </p>
             
             <!-- CTA Button -->
-            <div v-if="item.ctaButton" class="mt-auto">
+            <div v-if="item.ctaButton" class="mt-auto flex justify-center">
               <Buttons :data="[item.ctaButton]" />
             </div>
           </div>

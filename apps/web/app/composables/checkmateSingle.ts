@@ -85,13 +85,24 @@ interface SiteSettings {
   favicon?: any;
   frontpage?: FrontpageSettings;
   companyInfo?: {
-    companyName?: string;
-    companyAddress?: string;
-    companyZipCode?: string;
-    companyCity?: string;
     companyCvr?: string;
-    companyPhone?: string;
     companyEmail?: string;
+    location1?: {
+      companyName?: string;
+      address?: string;
+      zipCode?: string;
+      city?: string;
+      phone?: string;
+      email?: string;
+    };
+    location2?: {
+      companyName?: string;
+      address?: string;
+      zipCode?: string;
+      city?: string;
+      phone?: string;
+      email?: string;
+    };
   };
   socialMediaChannels?: {
     linkedin?: string;

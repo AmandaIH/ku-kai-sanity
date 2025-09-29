@@ -9,7 +9,7 @@ import {structure} from './customStructure'
 
 export default defineConfig({
   name: 'default',
-  title: 'Thylander',
+  title: 'Waystar',
 
   projectId: process.env.SANITY_STUDIO_PROJECT_ID!,
   dataset: process.env.SANITY_STUDIO_DATASET!,

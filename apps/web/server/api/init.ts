@@ -14,7 +14,26 @@ export default cachedEventHandler(
             siteTitle,
             siteDescription,
             logos,
-            companyInfo,
+            companyInfo {
+              companyCvr,
+              companyEmail,
+              location1 {
+                companyName,
+                address,
+                zipCode,
+                city,
+                phone,
+                email
+              },
+              location2 {
+                companyName,
+                address,
+                zipCode,
+                city,
+                phone,
+                email
+              }
+            },
             socialMediaChannels,
             frontpage->{
               _id,

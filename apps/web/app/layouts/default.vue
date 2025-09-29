@@ -12,9 +12,9 @@
         <SiteFooter />
         
       
-        <button v-if="coreStore.getShowMenu" @click="coreStore.toggleShowMenu()" class="fixed bottom-5 right-5 w-10 h-10 rounded-full bg-black z-[50] flex items-center justify-center sm:hidden">
-            <span class="h-0.5 w-5 absolute -rotate-45 bg-[#FF5D52]"></span>
-            <span class="h-0.5 w-5 absolute rotate-45 bg-[#FF5D52]"></span>
+        <button v-if="coreStore.getShowMenu" @click="coreStore.toggleShowMenu()" class="fixed top-5 right-5 w-10 h-10 z-[50] flex items-center justify-center">
+            <span class="h-0.5 w-5 absolute -rotate-45 bg-white"></span>
+            <span class="h-0.5 w-5 absolute rotate-45 bg-white"></span>
         </button>
     </div>
 </template>
