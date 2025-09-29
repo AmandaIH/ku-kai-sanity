@@ -84,11 +84,114 @@ export const accordionBlock = {
                 }
               ]
             },
+            // Accordion Image
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true
+              },
+              description: 'Optional image for this accordion item'
+            },
+            // CTA Buttons
+            {
+              name: 'ctas',
+              title: 'Call to Action Buttons',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  name: 'cta',
+                  title: 'CTA Button',
+                  fields: [
+                    {
+                      name: 'linkTitle',
+                      title: 'Button Text',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required()
+                    },
+                    {
+                      name: 'linkType',
+                      title: 'Link Type',
+                      type: 'string',
+                      options: {
+                        list: [
+                          { title: 'Internal Link', value: 'internal' },
+                          { title: 'External Link', value: 'external' }
+                        ]
+                      },
+                      initialValue: 'internal'
+                    },
+                    {
+                      name: 'internalLink',
+                      title: 'Internal Link',
+                      type: 'reference',
+                      to: [
+                        { type: 'page' },
+                        { type: 'article' },
+                        { type: 'portfolio' },
+                        { type: 'solutions' }
+                      ],
+                      hidden: ({ parent }: any) => parent?.linkType !== 'internal'
+                    },
+                    {
+                      name: 'externalLink',
+                      title: 'External Link',
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'url',
+                          title: 'URL',
+                          type: 'url',
+                          validation: (Rule: any) => Rule.required()
+                        },
+                        {
+                          name: 'openInNewTab',
+                          title: 'Open in New Tab',
+                          type: 'boolean',
+                          initialValue: false
+                        }
+                      ],
+                      hidden: ({ parent }: any) => parent?.linkType !== 'external'
+                    },
+                    {
+                      name: 'variant',
+                      title: 'Button Style',
+                      type: 'string',
+                      options: {
+                        list: [
+                          { title: 'Primary', value: 'primary' },
+                          { title: 'Secondary', value: 'secondary' },
+                          { title: 'Outline', value: 'outline' }
+                        ]
+                      },
+                      initialValue: 'primary'
+                    }
+                  ],
+                  preview: {
+                    select: {
+                      title: 'linkTitle',
+                      linkType: 'linkType',
+                      internalTitle: 'internalLink.title',
+                      externalUrl: 'externalLink.url'
+                    },
+                    prepare({ title, linkType, internalTitle, externalUrl }: any) {
+                      const linkText = linkType === 'internal' ? internalTitle : externalUrl
+                      return {
+                        title: title,
+                        subtitle: linkText || 'No link set'
+                      }
+                    }
+                  }
+                }
+              ]
+            }
           ],
           preview: {
             select: {
               title: 'title',
-              media: 'content.0'
+              media: 'image'
             }
           }
         }

@@ -1,10 +1,11 @@
 <template>
-  <div class="section-container py-8 md:py-16" :class="containerClasses">
-    <div class="default-grid !gap-y-16">
+  <div class="section-container">
+    <div class="px-8 md:px-16 py-8 md:py-16">
+      <div class="default-grid !gap-y-0">
       <div class="col-span-full" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-        <div class="flex flex-col gap-5">
-          <p ref="eyebrowRef" class="!mb-0 opacity-0" v-if="componentData.eyebrow" v-html="componentData.eyebrow"></p>
-          <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
+        <div class="flex flex-col gap-5 py-6 border-b border-b-2 border-[#111111] border-opacity-10">
+          <p ref="eyebrowRef" class="!mb-0" v-if="componentData.eyebrow" v-html="componentData.eyebrow"></p>
+          <div ref="headerWrapperRef" v-if="componentData.header">
             <h1 v-if="index == 0" class="h1 !mb-0">
               <span v-html="componentData.header"></span>
             </h1>
@@ -12,7 +13,7 @@
               <span v-html="componentData.header"></span>
             </h2>
           </div>
-          <h6 ref="subheaderRef" class="!mb-0 opacity-0" v-if="componentData.subheader" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" class="!mb-0" v-if="componentData.subheader" v-html="componentData.subheader"></h6>
         </div>
       </div>
 
@@ -25,6 +26,7 @@
             :activeIndexes="activeIndexes"
             :toggleActiveIndex="toggleActiveIndex"
         />
+      </div>
       </div>
     </div>
   </div>
