@@ -1,94 +1,146 @@
 <template>
-  <footer class="bg-black text-white py-16 md:pt-[100px] md:pb-10 mx-2 md:mx-4 lg:mx-8 xl:mx-12 mb-2 md:mb-4 lg:mb-8 xl:mb-12">
-    <div class="container">
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-      
-        
-        <div class="md:row-start-1"></div>
-      
-  
-        <div class="flex justify-center md:justify-center md:col-start-6 md:col-span-2 md:row-start-2 mb-8">
-          <cm-picture v-if="footerLogo" classes="w-32 h-auto max-w-full" :image-object="footerLogo"></cm-picture>
-          <SmallLogo class="w-32 h-auto max-w-full" v-else></SmallLogo>
-        </div>
+  <footer class="bg-[#0A1172] text-white">
+    <!-- Mobile layout (under md) -->
+    <div class="md:hidden p-8">
+      <div class="grid grid-cols-2 gap-8 min-h-[400px]">
+        <!-- Column 1: Locations and Footer Menu -->
+        <div class="flex flex-col justify-start">
+          <!-- Location 1 -->
+          <div v-if="companyInfo?.location1" class="flex flex-col text-left mb-16">
+            <p class="mb-4 uppercase">{{ companyInfo.location1.companyName || 'Location 1' }}</p>
+            <div>
+              <div class="space-y-0.5">
+                <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-xl block">{{ companyInfo.location1.phone }}</a>
+                <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block">{{ companyInfo.location1.email }}</a>
+              </div>
+              <div class="space-y-0.5 mt-2">
+                <p v-if="companyInfo.location1.address" class="text-lg">{{ companyInfo.location1.address }}</p>
+                <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-lg">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
+              </div>
+            </div>
+          </div>
 
-    
-        <div class="text-center md:text-left md:col-start-2 md:col-span-2 md:row-start-3 mb-8">
-          <div v-if="footerMenu1" class="flex flex-col gap-2">
-            <div v-for="item in footerMenu1">
-              <a v-if="item.openInNewTab" class="uppercase text-sm" :href="item.url" target="_blank" rel="noopener noreferrer">
-                <span v-html="item.title"></span>
-              </a>
-              <nuxt-link v-else class="uppercase text-sm" :to="item.url">
-                <span v-html="item.title"></span>
-              </nuxt-link>
+          <!-- Location 2 -->
+          <div v-if="companyInfo?.location2" class="flex flex-col text-left mb-16">
+            <p class="mb-4 uppercase">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
+            <div>
+              <div class="space-y-0.5">
+                <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-xl block">{{ companyInfo.location2.phone }}</a>
+                <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block">{{ companyInfo.location2.email }}</a>
+              </div>
+              <div class="space-y-0.5 mt-2">
+                <p v-if="companyInfo.location2.address" class="text-lg">{{ companyInfo.location2.address }}</p>
+                <p v-if="companyInfo.location2.zipCode && companyInfo.location2.city" class="text-lg">{{ companyInfo.location2.zipCode }} {{ companyInfo.location2.city }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Menu -->
+          <div v-if="footerMenu" class="flex flex-col">
+            <div class="flex flex-col gap-2">
+              <div v-for="item in footerMenu">
+                <a v-if="item.openInNewTab" class="text-lg" :href="item.url" target="_blank" rel="noopener noreferrer">
+                  <span v-html="item.title"></span>
+                </a>
+                <nuxt-link v-else class="text-lg" :to="item.url">
+                  <span v-html="item.title"></span>
+                </nuxt-link>
+              </div>
             </div>
           </div>
         </div>
 
-      
-        <div v-if="companyInfo" class="text-center md:col-start-5 md:col-span-4 md:row-start-3 mb-8 flex flex-col items-center md:items-center">
-          <a :href="'tel:' + companyInfo.companyPhone" v-if="companyInfo.companyPhone" class="h6 block w-fit mb-0 uppercase">{{companyInfo.companyPhone}}</a>
-          <a :href="'mailto:' + companyInfo.companyEmail" v-if="companyInfo.companyEmail" class="h6 block w-fit">{{companyInfo.companyEmail}}</a>
-        </div>
-
-        
-        <div v-if="companyInfo" class="text-center md:col-start-5 md:col-span-4 md:row-start-4 mb-8 flex flex-col items-center md:items-center">
-          <p class="mb-0 uppercase text-sm" v-if="companyInfo.companyAddress">{{ companyInfo.companyAddress }}</p>
-          <p class="uppercase text-sm" v-if="companyInfo.companyZipCode && companyInfo.companyCity">{{ companyInfo.companyZipCode }} {{ companyInfo.companyCity }}</p>
-        </div>
-
-        
-        <div v-if="companyInfo" class="text-center md:col-start-5 md:col-span-4 md:row-start-5 mb-8 flex flex-col items-center md:items-center">
-          <p class="mb-0 uppercase text-sm" v-if="companyInfo.companyName">{{ companyInfo.companyName }}</p>
-          <p class="uppercase text-sm" v-if="companyInfo.companyCvr">{{ companyInfo.companyCvr }}</p>
-        </div>
-
-    
-        <div class="text-center md:text-left md:col-start-10 md:col-span-2 md:row-start-3">
-          <div v-if="footerMenu2" class="flex flex-col gap-2">
-            <div v-for="item in footerMenu2">
-              <a v-if="item.openInNewTab" class="uppercase text-sm" :href="item.url" target="_blank" rel="noopener noreferrer">
-                <span v-html="item.title"></span>
-              </a>
-              <nuxt-link v-else class="uppercase text-sm" :to="item.url">
-                <span v-html="item.title"></span>
-              </nuxt-link>
-            </div>
-          </div>
-        </div>
-
-    
-        <div class="md:col-start-1 md:col-span-12 md:row-start-6 h-16"></div>
-
-      
-        <div class="text-center md:col-start-11 md:col-span-2 md:row-start-7">
-          <div class="flex gap-10 justify-center">
-            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-sm uppercase text-white" v-if="socialMediaChannels.instagram">
+        <!-- Column 2: Social Media at bottom -->
+        <div class="flex flex-col justify-end items-end text-left">
+          <div class="flex flex-col gap-2">
+            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-lg text-white" v-if="socialMediaChannels.instagram">
               Instagram
             </a>
-            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-sm uppercase text-white" v-if="socialMediaChannels.linkedin">
+            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-lg text-white" v-if="socialMediaChannels.linkedin">
               LinkedIn
             </a>
           </div>
         </div>
+      </div>
+    </div>
 
-  
-        <div class="text-center md:text-left md:col-start-1 md:col-span-5 md:row-start-7">
-          <p class="mb-0 text-sm uppercase">© {{ new Date().getFullYear() }} Thylander. All rights reserved.</p>
+    <!-- Desktop layout (md and up) -->
+    <div class="hidden md:block">
+      <div class="grid grid-cols-5 p-16 gap-8 py-16 pt-32 px-20">
+        <!-- Column 1: Location 1 -->
+        <div v-if="companyInfo?.location1" class="flex flex-col justify-center text-left">
+          <p class="mb-4 uppercase">{{ companyInfo.location1.companyName || 'Location 1' }}</p>
+          <div>
+            <div class="space-y-0.5">
+              <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-xl block">{{ companyInfo.location1.phone }}</a>
+              <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block">{{ companyInfo.location1.email }}</a>
+            </div>
+            <div class="space-y-0.5 mt-2">
+              <p v-if="companyInfo.location1.address" class="text-lg">{{ companyInfo.location1.address }}</p>
+              <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-lg">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
+            </div>
+          </div>
         </div>
 
-       
-        <div v-if="companyInfo && companyInfo.footer_cta" class="hidden md:block md:col-span-4">
-          <link-button :button="{internal_link: false, link: companyInfo.footer_cta, size: 'small'}"></link-button>
+        <!-- Column 2: Location 2 -->
+        <div v-if="companyInfo?.location2" class="flex flex-col justify-center text-left">
+          <p class="mb-4 uppercase">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
+          <div>
+            <div class="space-y-0.5">
+              <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-xl block">{{ companyInfo.location2.phone }}</a>
+              <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block">{{ companyInfo.location2.email }}</a>
+            </div>
+            <div class="space-y-0.5 mt-2">
+              <p v-if="companyInfo.location2.address" class="text-lg">{{ companyInfo.location2.address }}</p>
+              <p v-if="companyInfo.location2.zipCode && companyInfo.location2.city" class="text-lg">{{ companyInfo.location2.zipCode }} {{ companyInfo.location2.city }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 3: Logo -->
+        <div class="flex flex-col justify-center items-center">
+          <Logo class="w-40 h-40" fill-color="white" :fill-opacity="0.2" />
+        </div>
+
+        <!-- Column 4: Footer Menu -->
+        <div v-if="footerMenu" class="flex flex-col justify-start items-end text-left">
+          <div class="flex flex-col gap-2">
+            <div v-for="item in footerMenu">
+              <a v-if="item.openInNewTab" class="text-lg" :href="item.url" target="_blank" rel="noopener noreferrer">
+                <span v-html="item.title"></span>
+              </a>
+              <nuxt-link v-else class="text-lg" :to="item.url">
+                <span v-html="item.title"></span>
+              </nuxt-link>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 5: Social Media -->
+        <div class="flex flex-col justify-start items-end text-left">
+          <div class="flex flex-col gap-2">
+            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-lg text-white" v-if="socialMediaChannels.instagram">
+              Instagram
+            </a>
+            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-lg text-white" v-if="socialMediaChannels.linkedin">
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
+    </div>
+
+    <!-- Copyright - always at bottom -->
+    <div class="flex items-center justify-center py-8">
+      <p class="text-sm uppercase">© Waystar transport & logistics {{ new Date().getFullYear() }}</p>
     </div>
   </footer>
 </template>
 
 <script setup>
 import {useCoreStore} from "~/stores/core";
+import Logo from '~/components/ui/Logo.vue';
+
 const coreStore = useCoreStore();
 
 const companyInfo = computed(() => {
@@ -98,14 +150,8 @@ const companyInfo = computed(() => {
 const socialMediaChannels = computed(() => {
   return coreStore.getSettings?.socialMediaChannels;
 })
-const footerMenu1 = computed(() => {
-  return coreStore.getMenu('footer-menu-1');
-});
-const footerMenu2 = computed(() => {
-  return coreStore.getMenu('footer-menu-2');
+const footerMenu = computed(() => {
+  return coreStore.getMenu('footer-menu');
 });
 
-const footerLogo = computed(() => {
-  return coreStore.getSettings.logos?.logo_on_transparent;
-})
 </script>
