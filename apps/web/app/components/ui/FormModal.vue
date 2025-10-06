@@ -73,11 +73,14 @@
      
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
+                <label class="sr-only" for="containerSize">Containerstørrelse*</label>
                 <div class="relative">
                   <select 
+                    id="containerSize"
                     v-model="formValues.containerSize"
                     class="custom-select w-full px-3 py-2 bg-white rounded-lg text-base focus:outline-none text-black"
                     :class="errors.containerSize ? 'border-2 border-red-500' : ''"
+                    required
                   >
                     <option value="" disabled>Containerstørrelse*</option>
                     <option value="20ft">20ft</option>
@@ -93,11 +96,14 @@
                 <div v-if="errors.containerSize" class="text-red-500 text-sm mt-1">{{ errors.containerSize }}</div>
               </div>
               <div>
+                <label class="sr-only" for="transportType">Transporttype*</label>
                 <div class="relative">
                   <select 
+                    id="transportType"
                     v-model="formValues.transportType"
                     class="custom-select w-full px-3 py-2 bg-white rounded-lg text-base focus:outline-none text-black"
                     :class="errors.transportType ? 'border-2 border-red-500' : ''"
+                    required
                   >
                     <option value="" disabled>Transporttype*</option>
                     <option value="chassis">Chassis</option>
