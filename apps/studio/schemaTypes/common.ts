@@ -29,7 +29,8 @@ export const ctaButton = {
       options: {
         list: [
           { title: 'Internal Page', value: 'internal' },
-          { title: 'External URL', value: 'external' }
+          { title: 'External URL', value: 'external' },
+          { title: 'Open Form', value: 'form' }
         ],
       },
       initialValue: 'internal',
@@ -87,6 +88,40 @@ export const ctaButton = {
       ]
     },
     {
+      name: 'formConfig',
+      title: 'Form Configuration',
+      type: 'object',
+      description: 'Configure the form that will be opened',
+      hidden: ({ parent }: any) => parent?.linkType !== 'form',
+      fields: [
+        {
+          name: 'formId',
+          title: 'Form ID',
+          type: 'string',
+          description: 'Unique identifier for the form (e.g., contact-form, newsletter-signup)',
+          validation: (Rule: any) => Rule.custom((formId: any, context: any) => {
+            const parent = context?.parent as any;
+            if (parent?.linkType === 'form' && !formId) {
+              return 'Please enter a form ID';
+            }
+            return true;
+          })
+        },
+        {
+          name: 'formTitle',
+          title: 'Form Title',
+          type: 'string',
+          description: 'Title displayed in the form modal/overlay'
+        },
+        {
+          name: 'formDescription',
+          title: 'Form Description',
+          type: 'text',
+          description: 'Optional description text for the form'
+        }
+      ]
+    },
+    {
       name: 'variant',
       title: 'Variant',
       type: 'string',
@@ -106,9 +141,11 @@ export const ctaButton = {
       linkTitle: 'linkTitle',
       internalType: 'internalLink._type',
       internalLanguage: 'internalLink.language',
-      externalUrl: 'externalLink.url'
+      externalUrl: 'externalLink.url',
+      formId: 'formConfig.formId',
+      formTitle: 'formConfig.formTitle'
     },
-    prepare({ linkType, linkTitle, internalType, externalUrl }: any) {
+    prepare({ linkType, linkTitle, internalType, externalUrl, formId, formTitle }: any) {
       let displayTitle = 'Untitled Button';
       let subtitle = '';
 
@@ -124,6 +161,8 @@ export const ctaButton = {
           } catch {
             subtitle = 'External • Invalid URL';
           }
+        } else if (linkType === 'form') {
+          subtitle = `Form • ${formId || 'No ID set'}`;
         }
       } else if (linkType === 'external' && externalUrl) {
         displayTitle = externalUrl;
@@ -137,6 +176,9 @@ export const ctaButton = {
         displayTitle = 'Internal Link';
         const typeLabel = getDocumentTypeLabel(internalType);
         subtitle = `Internal • ${typeLabel}`;
+      } else if (linkType === 'form') {
+        displayTitle = formTitle || formId || 'Form Button';
+        subtitle = `Form • ${formId || 'No ID set'}`;
       } else {
         displayTitle = 'Incomplete Button';
         subtitle = 'Please configure the link';
@@ -163,7 +205,8 @@ export const navigationLink = defineType({
       options: {
         list: [
           { title: 'Internal Page', value: 'internal' },
-          { title: 'External URL', value: 'external' }
+          { title: 'External URL', value: 'external' },
+          { title: 'Open Form', value: 'form' }
         ],
       },
       initialValue: 'internal',
@@ -221,6 +264,40 @@ export const navigationLink = defineType({
       description: 'Check this to open the link in a new browser tab'
     }),
     defineField({
+      name: 'formConfig',
+      title: 'Form Configuration',
+      type: 'object',
+      description: 'Configure the form that will be opened',
+      hidden: ({ parent }) => parent?.linkType !== 'form',
+      fields: [
+        defineField({
+          name: 'formId',
+          title: 'Form ID',
+          type: 'string',
+          description: 'Unique identifier for the form (e.g., contact-form, newsletter-signup)',
+          validation: (Rule) => Rule.custom((formId, context) => {
+            const parent = context?.parent as any;
+            if (parent?.linkType === 'form' && !formId) {
+              return 'Please enter a form ID';
+            }
+            return true;
+          })
+        }),
+        defineField({
+          name: 'formTitle',
+          title: 'Form Title',
+          type: 'string',
+          description: 'Title displayed in the form modal/overlay'
+        }),
+        defineField({
+          name: 'formDescription',
+          title: 'Form Description',
+          type: 'text',
+          description: 'Optional description text for the form'
+        })
+      ]
+    }),
+    defineField({
       name: 'children',
       title: 'Sub-menu Items',
       type: 'array',
@@ -237,9 +314,11 @@ export const navigationLink = defineType({
       internalLanguage: 'internalLink.language',
       externalUrl: 'externalUrl',
       externalTitle: 'externalTitle',
+      formId: 'formConfig.formId',
+      formTitle: 'formConfig.formTitle',
       hasChildren: 'children'
     },
-    prepare({ linkType, internalTitle, internalType, externalUrl, externalTitle, hasChildren }) {
+    prepare({ linkType, internalTitle, internalType, externalUrl, externalTitle, formId, formTitle, hasChildren }) {
       let displayTitle = 'Untitled';
       let subtitle = '';
 
@@ -263,6 +342,9 @@ export const navigationLink = defineType({
         } catch {
           subtitle = 'External • Invalid URL';
         }
+      } else if (linkType === 'form') {
+        displayTitle = formTitle || formId || 'Form Link';
+        subtitle = `Form • ${formId || 'No ID set'}`;
       } else {
         displayTitle = 'Incomplete Menu Item';
         subtitle = 'Please configure the link';

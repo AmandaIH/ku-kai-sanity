@@ -22,6 +22,15 @@
     >
       {{buttonText}}
     </a>
+    <!-- FORM TRIGGER -->
+    <button 
+      v-else-if="props.button.linkType === 'form'" 
+      class="flex gap-4 items-center btn" 
+      :class="buttonClasses"
+      @click="openForm"
+    >
+      {{buttonText}}
+    </button>
     <!-- Fallback for invalid links -->
     <span 
       v-else 
@@ -93,6 +102,8 @@ const buttonText = computed(() => {
     return props.button.internalLink?.title || '';
   } else if (props.button.linkType === 'external') {
     return props.button.externalLink?.url || '';
+  } else if (props.button.linkType === 'form') {
+    return props.button.formConfig?.formTitle || 'Open Form';
   }
   return '';
 })
@@ -112,5 +123,43 @@ const buttonPath = computed(() => {
 const hasValidPath = computed(() => {
   return buttonPath.value && buttonPath.value !== '';
 })
+
+// Open form modal/overlay
+const openForm = () => {
+  const formId = props.button.formConfig?.formId;
+  const formTitle = props.button.formConfig?.formTitle;
+  const formDescription = props.button.formConfig?.formDescription;
+  
+  if (!formId) {
+    console.warn('Form ID is required for form buttons');
+    return;
+  }
+  
+  // Emit event to parent component or use a global event bus
+  // This will need to be handled by your form modal system
+  const formData = {
+    id: formId,
+    title: formTitle,
+    description: formDescription
+  };
+  
+  // You can customize this based on your form system
+  // Option 1: Emit to parent
+  // emit('openForm', formData);
+  
+  // Option 2: Use global event bus (if you have one)
+  // $nuxt.$emit('openForm', formData);
+  
+  // Option 3: Use a store/state management
+  // const formStore = useFormStore();
+  // formStore.openForm(formData);
+  
+  // For now, we'll use a simple approach with a custom event
+  if (process.client) {
+    window.dispatchEvent(new CustomEvent('openForm', { 
+      detail: formData 
+    }));
+  }
+}
 
 </script>

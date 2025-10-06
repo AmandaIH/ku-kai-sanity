@@ -70,6 +70,12 @@ export default cachedEventHandler(
           isExternal: boolean
           openInNewTab: boolean
           children: MenuItem[]
+          linkType: string
+          formConfig?: {
+            formId: string
+            formTitle?: string
+            formDescription?: string
+          }
         }
         
         // Recursive function to transform menu items
@@ -78,6 +84,7 @@ export default cachedEventHandler(
           const internalLink = item.internalLink
           const externalUrl = item.externalUrl
           const externalTitle = item.externalTitle
+          const formConfig = item.formConfig
           
           let url = ''
           let title = ''
@@ -95,6 +102,12 @@ export default cachedEventHandler(
             id = internalLink._id
             type = internalLink._type
             url = internalLink.slug?.current ? `/${internalLink.slug.current}` : '/'
+          } else if (linkType === 'form' && formConfig) {
+            // Form link
+            title = formConfig.formTitle || 'Open Form'
+            id = formConfig.formId
+            type = 'form'
+            url = '' // Form links don't have URLs
           } else {
             // Skip items with incomplete configuration
             return null
@@ -119,7 +132,9 @@ export default cachedEventHandler(
             reference: internalLink || null,
             isExternal: linkType === 'external',
             openInNewTab: !!item.openInNewTab,
-            children: children
+            children: children,
+            linkType: linkType,
+            formConfig: linkType === 'form' ? formConfig : undefined
           }
         }
         

@@ -11,6 +11,8 @@
         </div>
         <SiteFooter />
         
+        <!-- Form Modal -->
+        <FormModal />
       
         <button v-if="coreStore.getShowMenu" @click="coreStore.toggleShowMenu()" class="fixed top-5 right-5 w-10 h-10 z-[50] flex items-center justify-center">
             <span class="h-0.5 w-5 absolute -rotate-45 bg-white"></span>
@@ -22,6 +24,7 @@
 <script setup>
 import { useCoreStore } from '~/stores/core';
 import Preloader from '~/components/partials/Preloader.vue';
+import FormModal from '~/components/ui/FormModal.vue';
 
 const coreStore = useCoreStore();
 

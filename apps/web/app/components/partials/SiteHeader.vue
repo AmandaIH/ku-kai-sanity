@@ -17,20 +17,58 @@
       <!-- Desktop Navigation - Centered -->
       <nav class="hidden md:flex items-center justify-center flex-1 z-[22]">
         <div class="flex items-center gap-8">
-          <nuxt-link 
-            v-for="menuItem in mainMenu" 
+          <NavigationLink 
+            v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form')" 
             :key="menuItem.ID" 
-            :to="menuItem.url" 
+            :link="menuItem"
             class="font-medium transition-colors duration-300 hover:text-[#FF5D52] whitespace-nowrap"
             :class="menuScrollActive ? 'text-[#181D2D]' : (shouldUseWhiteText ? 'text-white' : 'text-black')"
           >
             {{ menuItem.title }}
-          </nuxt-link>
+          </NavigationLink>
         </div>
       </nav>
 
+      <!-- Desktop Form Button - Right Side -->
+      <div class="hidden md:flex items-center z-[22]">
+        <NavigationLink 
+          v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
+          :key="'desktop-form-' + menuItem.ID" 
+          :link="menuItem"
+          class="btn btn-primary"
+        >
+          Booking
+        </NavigationLink>
+        <!-- Fallback booking button if no menu data -->
+        <button 
+          v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
+          @click="openFallbackForm"
+          class="btn btn-primary"
+        >
+          Booking
+        </button>
+      </div>
+
       <!-- Mobile Burger Menu -->
-      <div class="md:hidden flex items-center gap-8 z-[22]">
+      <div class="md:hidden flex items-center gap-4 z-[22]">
+        <!-- Form button on mobile - positioned left of burger icon -->
+        <NavigationLink 
+          v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
+          :key="'mobile-form-' + menuItem.ID" 
+          :link="menuItem"
+          class="btn btn-primary"
+        >
+          Booking
+        </NavigationLink>
+        <!-- Fallback booking button for mobile if no menu data -->
+        <button 
+          v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
+          @click="openFallbackForm"
+          class="btn btn-primary"
+        >
+          Booking
+        </button>
+        
         <div class="flex">
           <BurgerIcon />
           <BurgerMenu :main-menu="mainMenu" :is-scrolled="menuScrollActive" />
@@ -43,6 +81,7 @@
 <script setup>
 import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
+import NavigationLink from '~/components/ui/NavigationLink.vue';
 
 const props = defineProps({
   textIsWhite: {
@@ -56,6 +95,7 @@ const route = useRoute();
 
 const mainMenu = computed(() => {
   const menu = store.getMenu('main-menu') || [];
+  console.log('Main menu data:', menu);
   return menu;
 });
 
@@ -91,6 +131,21 @@ function handleScroll() {
 
 function toggleBurger() {
   isMenuOpen.value = !isMenuOpen.value;
+}
+
+// Fallback function to open form when menu data isn't available
+const openFallbackForm = () => {
+  const formData = {
+    id: 'contact-form',
+    title: 'Indhent et tilbud',
+    description: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
+  }
+  
+  if (process.client) {
+    window.dispatchEvent(new CustomEvent('openForm', { 
+      detail: formData 
+    }))
+  }
 }
 
 
