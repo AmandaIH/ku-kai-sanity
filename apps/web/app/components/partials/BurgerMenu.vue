@@ -11,7 +11,7 @@
     <div class="absolute top-0 left-0 p-6 z-30">
       <!-- Logo -->
       <nuxt-link to="/" @click="coreStore.toggleShowMenu()">
-        <Logo class="w-8 h-8" fill-color="white" :fill-opacity="0.8" />
+        <Logo class="w-auto h-9" fill-color="white" :fill-opacity="0.8" />
       </nuxt-link>
     </div>
 
@@ -20,9 +20,8 @@
       <nav v-if="mainMenu" class="pl-4">
         <ul class="flex flex-col">
           <li class="mb-0 relative group nav-item" v-for="link in mainMenu" :key="'burger-' + link.ID" >
-            <nuxt-link class="text-2xl font-medium text-white group-hover:text-[#FF5D52] transition-all duration-300 flex items-center group-hover:translate-x-0" :to="link.url" v-if="link.url">
-              <MiniLogo class="w-6 h-8 text-white group-hover:text-[#FF5D52] transition-all duration-300 transform group-hover:scale-110 opacity-0 group-hover:opacity-100 absolute" />
-              <span class="group-hover:ml-8 transition-all duration-300" v-html="link.title"></span>
+            <nuxt-link class="text-2xl font-medium text-white relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="link.url" v-if="link.url">
+              <span v-html="link.title"></span>
             </nuxt-link>
           </li>
         </ul>

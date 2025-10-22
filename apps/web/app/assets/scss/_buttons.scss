@@ -19,6 +19,15 @@
     }
   }
 
+  // Scrolled button: #0A1172 background, white text, hover: #EEECE7 background, black text
+  &.btn-scrolled {
+    @apply bg-[#0A1172] border-[#0A1172] text-white;
+    
+    &:hover {
+      @apply bg-[#EEECE7] border-[#EEECE7] text-black;
+    }
+  }
+
   // Secondary button: transparent background, white border and text, hover: white background, black text
   &.btn-secondary {
     @apply bg-transparent border-white text-white;

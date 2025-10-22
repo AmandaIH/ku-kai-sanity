@@ -1,17 +1,28 @@
 <template>
   <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent ' + (shouldUseWhiteText ? 'text-white' : 'text-black')]">
-    <div class="w-full px-4 md:px-6 flex items-center justify-between" :class="menuScrollActive ? 'py-2 md:py-3' : 'py-4 md:py-6'">
+    <div class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between" :class="menuScrollActive ? 'py-1 md:py-2' : 'py-4 md:py-6'">
 
       <!-- Logo -->
       <div class="z-[26] flex-shrink-0">
-        <nuxt-link to="/">
-          <Logo 
-            class="w-8 h-8" 
-            :class="[store.getShowMenu ? 'hidden sm:block' : '']"
-            :fill-color="menuScrollActive ? '#181D2D' : (shouldUseWhiteText ? 'white' : 'black')"
-            :fill-opacity="menuScrollActive ? '1' : '0.8'"
-          ></Logo>
-        </nuxt-link>
+      <nuxt-link to="/">
+        <!-- Regular logo when not scrolled -->
+        <Logo 
+        v-if="!menuScrollActive"
+        class="w-auto" 
+        style="height: 1.9rem;"
+        :class="[store.getShowMenu ? 'hidden sm:block' : '']"
+        :fill-color="shouldUseWhiteText ? 'white' : 'black'"
+        :fill-opacity="0.8"
+        :hide-text="false"
+         ></Logo>
+        <!-- Simple logo when scrolled -->
+        <SimpleLogo 
+        v-else
+        class="w-auto" 
+        style="height: 1.9rem;"
+        :class="[store.getShowMenu ? 'hidden sm:block' : '']"
+         ></SimpleLogo>
+      </nuxt-link>
       </div>
 
       <!-- Desktop Navigation - Centered -->
@@ -21,7 +32,7 @@
             v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form')" 
             :key="menuItem.ID" 
             :link="menuItem"
-            class="font-medium transition-colors duration-300 hover:text-[#FF5D52] whitespace-nowrap"
+            class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             :class="menuScrollActive ? 'text-[#181D2D]' : (shouldUseWhiteText ? 'text-white' : 'text-black')"
           >
             {{ menuItem.title }}
@@ -35,7 +46,7 @@
           v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
           :key="'desktop-form-' + menuItem.ID" 
           :link="menuItem"
-          class="btn btn-primary"
+          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
         >
           Booking
         </NavigationLink>
@@ -43,7 +54,7 @@
         <button 
           v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
           @click="openFallbackForm"
-          class="btn btn-primary"
+          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
         >
           Booking
         </button>
@@ -56,7 +67,7 @@
           v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
           :key="'mobile-form-' + menuItem.ID" 
           :link="menuItem"
-          class="btn btn-primary"
+          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
         >
           Booking
         </NavigationLink>
@@ -64,7 +75,7 @@
         <button 
           v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
           @click="openFallbackForm"
-          class="btn btn-primary"
+          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
         >
           Booking
         </button>
@@ -81,6 +92,7 @@
 <script setup>
 import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
+import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
 
 const props = defineProps({
@@ -149,6 +161,7 @@ const openFallbackForm = () => {
 }
 
 
+
 watch(isMenuOpen, (newVal) => {
   if (newVal) {
     document.body.classList.add('overflow-hidden');
@@ -158,9 +171,7 @@ watch(isMenuOpen, (newVal) => {
 });
 
 onMounted(() => {
- 
   window.addEventListener('scroll', handleScroll, { passive: true });
-
   handleScroll();
 });
 
