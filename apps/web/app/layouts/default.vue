@@ -1,9 +1,6 @@
 <template>
     <div @click="handleOutsideClick" class="bg-primary min-h-screen">
       
-        <ClientOnly>
-            <Preloader />
-        </ClientOnly>
         
         <SiteHeader/>
         <div id="slot" :class="[coreStore.getShowMenu ? 'sm:blur-sm' : '']">
@@ -23,7 +20,6 @@
 
 <script setup>
 import { useCoreStore } from '~/stores/core';
-import Preloader from '~/components/partials/Preloader.vue';
 import FormModal from '~/components/ui/FormModal.vue';
 
 const coreStore = useCoreStore();
