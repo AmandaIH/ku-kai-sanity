@@ -132,7 +132,7 @@
 
     <!-- Copyright - always at bottom -->
     <div class="flex items-center justify-center py-8">
-      <p class="text-sm uppercase">© Waystar transport & logistics {{ new Date().getFullYear() }}</p>
+      <p class="text-sm uppercase">© Five transport & logistics {{ new Date().getFullYear() }}</p>
     </div>
   </footer>
 </template>
