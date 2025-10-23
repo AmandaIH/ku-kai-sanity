@@ -36,12 +36,12 @@
           <!-- Content -->
           <div class="text-center flex flex-col flex-grow">
             <!-- Header -->
-            <h6 v-if="item.header" class="">
+            <h5 v-if="item.header" class="">
               {{ item.header }}
-            </h6>
+            </h5>
             
             <!-- Description -->
-            <p v-if="item.description" class="text-sm mb-1">
+            <p v-if="item.description" class="mb-1">
               {{ item.description }}
             </p>
             
