@@ -27,7 +27,7 @@
             <!-- Body Text and Buttons Container -->
             <div class="flex flex-col">
               <!-- Body Text -->
-              <div v-if="componentData.paragraphText" class="text-white text-base md:text-lg leading-relaxed mb-4" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+              <div v-if="componentData.paragraphText" class="text-white text-base md:text-lg leading-relaxed mb-8" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
               </div>
               
               <!-- Buttons -->
