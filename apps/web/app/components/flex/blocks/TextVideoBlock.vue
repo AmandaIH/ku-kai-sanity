@@ -7,7 +7,7 @@
         
      
         <div class="col-span-full md:col-start-3 md:col-span-8 flex flex-col gap-5 text-center" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" v-if="componentData.header">
             <h1 v-if="index === 0" class="h1 !mb-0">
               <span v-html="componentData.header"></span>

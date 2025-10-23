@@ -14,7 +14,7 @@
         <!-- Mobile: single column, centered -->
         <div class="w-full md:hidden text-center">
           <div class="flex flex-col gap-4" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0  text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
             <div ref="headerWrapperRef" class="" v-if="componentData.header">
               <h2 class="h2 !mb-0 text-black">
                 <span v-html="componentData.header"></span>
@@ -27,7 +27,7 @@
         <!-- Desktop: eyebrow and header in columns 3-10 (spans 8 columns), centered -->
         <div class="hidden md:block md:col-span-8 md:col-start-3 text-center">
           <div class="flex flex-col gap-4" v-if="componentData.eyebrow || componentData.header">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0  text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
             <div ref="headerWrapperRef" class="" v-if="componentData.header">
               <h2 class="h2 !mb-0 text-black">
                 <span v-html="componentData.header"></span>

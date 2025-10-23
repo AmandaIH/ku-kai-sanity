@@ -9,13 +9,13 @@
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.overlayOpacity || 0) / 100 }"></div>
 
     <!-- Single responsive layout -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 md:px-8 lg:px-16 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 md:px-8 lg:px-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
-      <div class="md:col-span-4 md:col-start-1 text-white z-20 flex items-end">
+      <div class="lg:col-span-4 lg:col-start-1 text-white z-20 flex items-end">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
           <div class="flex flex-col">
             <!-- Eyebrow -->
-            <p v-if="componentData.eyebrow" class="text-sm uppercase text-white/80 md:text-white tracking-wider mb-0" v-html="componentData.eyebrow"></p>
+            <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white/80 md:text-white tracking-wider" v-html="componentData.eyebrow"></p>
             
             <!-- Header -->
             <div v-if="componentData.header" class="mb-32">

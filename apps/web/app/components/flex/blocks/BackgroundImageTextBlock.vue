@@ -22,7 +22,7 @@
                   <!-- Top Section: Eyebrow and Header -->
                   <div class="flex flex-col">
                     <!-- Eyebrow -->
-                    <p v-if="componentData.eyebrow" class="text-sm uppercase text-white tracking-wider mb-0" v-html="componentData.eyebrow"></p>
+                    <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white tracking-wider" v-html="componentData.eyebrow"></p>
                     
                     <!-- Header -->
                     <div v-if="componentData.header" class="mb-16 md:mb-16">

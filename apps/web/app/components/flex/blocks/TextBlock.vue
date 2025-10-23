@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12 gap-8" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
             <h2 v-if="index === 0" class=" !mb-0">
               <span v-html="componentData.header"></span>
@@ -28,7 +28,7 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'left'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
             <h2 v-if="index === 0" class="!mb-0">
               <span v-html="componentData.header"></span>
@@ -51,7 +51,7 @@
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'center'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
             <h2 v-if="index === 0" class="!mb-0">
               <span v-html="componentData.header"></span>

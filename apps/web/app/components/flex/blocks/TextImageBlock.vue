@@ -22,8 +22,8 @@
         <!-- Text content column - always maintains its position -->
         <div :class="textColumnClass">
           <!-- Header section (eyebrow, header, subheader) -->
-          <div class="mb-[1.875rem]" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="text-sm font-medium uppercase mb-[1.875rem]" v-html="componentData.eyebrow"></p>
+          <div v-if="componentData.eyebrow || componentData.header || componentData.subheader">
+            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
             <div class="mb-[1.875rem]" ref="headerWrapperRef" v-if="componentData.header">
               <h2 v-if="index === 0" class="">
                 <span v-html="componentData.header"></span>

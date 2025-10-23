@@ -6,7 +6,7 @@
       <div class="bg-[#F8F6F5] rounded-lg shadow-sm px-8 py-16 md:p-16">
         <!-- Header Section -->
         <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
-          <p v-if="componentData.eyebrow" class="text-sm uppercase">
+          <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase">
             {{ componentData.eyebrow }}
           </p>
           <h2 v-if="componentData.header" class="text-3xl font-bold mb-4">

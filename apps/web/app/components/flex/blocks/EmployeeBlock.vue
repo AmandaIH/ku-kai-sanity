@@ -3,7 +3,7 @@
     <div class="w-full px-4 md:px-8">
       <!-- Header section -->
       <div class="flex flex-col gap-5 mb-8 mx-auto" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
-        <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
+        <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
         <div ref="headerWrapperRef" v-if="componentData.header">
           <h1 v-if="index === 0" class="h1 !mb-0">
             <span v-html="componentData.header"></span>

@@ -3,7 +3,7 @@
     <div class="default-grid" :class="isInSbs ? 'half-grid' : ''">
       <div class="col-span-full" :class="isInSbs ? '' : ''">
         <div class="flex flex-col gap-5" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="!mb-0 opacity-0" v-html="componentData.eyebrow"></p>
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
             <h1 v-if="index === 0" class="h1 !mb-0">
               <span v-html="componentData.header"></span>
