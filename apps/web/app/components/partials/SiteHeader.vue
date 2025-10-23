@@ -9,7 +9,7 @@
         <Logo 
         v-if="!menuScrollActive"
         class="w-auto" 
-        style="height: 1.9rem;"
+        style="height: 3.5rem;"
         :class="[store.getShowMenu ? 'hidden sm:block' : '']"
         :fill-color="shouldUseWhiteText ? 'white' : 'black'"
         :fill-opacity="0.8"
