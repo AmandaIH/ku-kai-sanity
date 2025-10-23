@@ -3,7 +3,7 @@
   
     <div class="hidden sm:grid grid-cols-12 gap-4">
       <!-- First 4 columns: Number, Question, Answer, and Buttons -->
-      <div class="col-span-4 flex items-start gap-4">
+      <div class="col-span-4 flex items-start gap-4 items-center">
         <!-- Number display -->
         <div class="flex-shrink-0 w-12 text-left">
           <span class="text-xl">{{ String(index + 1).padStart(2, '0') }}</span>

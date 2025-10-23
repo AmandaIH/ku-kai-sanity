@@ -16,7 +16,7 @@
               <span v-html="componentData.header"></span>
             </h2>
           </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" v-if="componentData.subheader" v-html="componentData.subheader"></h6>
         </div>
 
         

@@ -12,7 +12,7 @@
             <span v-html="componentData.header"></span>
           </h2>
         </div>
-        <h6 ref="subheaderRef" v-if="componentData.subheader" class="font-bold text-center !mb-0 opacity-0" v-html="componentData.subheader"></h6>
+        <h6 ref="subheaderRef" v-if="componentData.subheader" class="font-bold text-center opacity-0" v-html="componentData.subheader"></h6>
       </div>
     
       <!-- Loading State -->

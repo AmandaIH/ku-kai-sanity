@@ -14,7 +14,7 @@
               <span v-html="componentData.header"></span>
             </h2>
           </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" v-if="componentData.subheader" class="opacity-0" v-html="componentData.subheader"></h6>
         </div>
         <div ref="textRef" class="opacity-0" v-if="componentData.bodyText" :class="[componentData.eyebrow || componentData.header || componentData.subheader ? 'mt-4' : '', getTextAlignment()]">
           <PortableText :value="componentData.bodyText" />
@@ -37,7 +37,7 @@
               <span v-html="componentData.header"></span>
             </h2>
           </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" v-if="componentData.subheader" class="opacity-0" v-html="componentData.subheader"></h6>
         </div>
         <div ref="textRef" class="opacity-0" v-if="componentData.bodyText" :class="[componentData.eyebrow || componentData.header || componentData.subheader ? 'mt-4' : '', getTextAlignment()]">
           <PortableText :value="componentData.bodyText" />
@@ -60,7 +60,7 @@
               <span v-html="componentData.header"></span>
             </h2>
           </div>
-          <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0 opacity-0" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" v-if="componentData.subheader" class="opacity-0" v-html="componentData.subheader"></h6>
         </div>
         <div ref="textRef" class="opacity-0" v-if="componentData.bodyText" :class="[componentData.eyebrow || componentData.header || componentData.subheader ? 'mt-4' : '', getTextAlignment()]">
           <PortableText :value="componentData.bodyText" />

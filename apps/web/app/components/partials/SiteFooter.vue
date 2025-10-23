@@ -76,7 +76,7 @@
               <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block mb-0">{{ companyInfo.location1.email }}</a>
             </div>
             <div class="space-y-0.5 mt-6">
-              <p v-if="companyInfo.location1.address" class="text-base">{{ companyInfo.location1.address }}</p>
+              <p v-if="companyInfo.location1.address" class="text-base mb-0">{{ companyInfo.location1.address }}</p>
               <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-base">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
             </div>
           </div>
@@ -91,7 +91,7 @@
               <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block mb-0">{{ companyInfo.location2.email }}</a>
             </div>
             <div class="space-y-0.5 mt-6">
-              <p v-if="companyInfo.location2.address" class="text-base">{{ companyInfo.location2.address }}</p>
+              <p v-if="companyInfo.location2.address" class="text-base mb-0">{{ companyInfo.location2.address }}</p>
               <p v-if="companyInfo.location2.zipCode && companyInfo.location2.city" class="text-base">{{ companyInfo.location2.zipCode }} {{ companyInfo.location2.city }}</p>
             </div>
           </div>
@@ -119,10 +119,10 @@
         <!-- Column 5: Social Media -->
         <div class="flex flex-col justify-start items-end text-left">
           <div class="flex flex-col gap-2">
-            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-lg text-white" v-if="socialMediaChannels.instagram">
+            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base text-white" v-if="socialMediaChannels.instagram">
               Instagram
             </a>
-            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-lg text-white" v-if="socialMediaChannels.linkedin">
+            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-base text-white" v-if="socialMediaChannels.linkedin">
               LinkedIn
             </a>
           </div>

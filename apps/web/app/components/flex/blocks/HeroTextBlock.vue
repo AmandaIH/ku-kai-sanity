@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-20 pb-2 md:pt-28 md:pb-4">
+  <div class="pt-32 pb-2 md:pt-40 md:pb-4">
     <div class="px-8 md:px-16">
       <div class="w-full relative overflow-hidden flex items-center" :id="'hero-text-' + (index || 0)" :class="containerClasses">
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
@@ -20,7 +20,7 @@
                 <span v-html="componentData.header"></span>
               </h2>
             </div>
-            <h6 ref="subheaderRef" v-if="componentData.subheader" class="!mb-0  text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
+            <h6 ref="subheaderRef" v-if="componentData.subheader" class="text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
           </div>
         </div>
         
@@ -38,7 +38,7 @@
         
         <!-- Desktop: subheader in columns 4-9 (spans 6 columns), centered -->
         <div class="hidden md:block md:col-span-6 md:col-start-4 text-center" v-if="componentData.subheader">
-          <h6 ref="subheaderRef" class="!mb-0  text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
+          <h6 ref="subheaderRef" class="text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
         </div>
       </div>
     </div>
