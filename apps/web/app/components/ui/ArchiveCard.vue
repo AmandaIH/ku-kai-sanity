@@ -7,7 +7,7 @@
         :image-object="item.featuredImage" 
         :crops="['default:600', 'md:800']" 
         :lazy="true"
-        :classes="['w-full h-full object-cover'].join(' ')"
+        :classes="'w-full h-full object-cover'"
       />
       <div v-else class="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200"></div>
     </div>

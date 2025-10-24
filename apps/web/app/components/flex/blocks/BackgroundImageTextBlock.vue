@@ -7,9 +7,9 @@
         <!-- Background image - absolute positioned -->
         <div class="absolute inset-0">
           <cm-picture v-if="heroType === 'image' && componentData.backgroundImage" :image-object="componentData.backgroundImage" :crops="['default:800', 'md:1200', 'lg:1600']" 
-            :classes="['w-full h-full object-cover'].join(' ')" :lazy="(index || 0) > 0"></cm-picture>
+            :classes="'w-full h-full object-cover'" :lazy="(index || 0) > 0"></cm-picture>
           
-          <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="['w-full h-full object-cover'].join(' ')"></hero-cm-video>
+          <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full object-cover'"></hero-cm-video>
         </div>
         
         <!-- Content - positioned on image for both mobile and desktop -->

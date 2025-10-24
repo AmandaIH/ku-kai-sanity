@@ -1,7 +1,7 @@
 import { createSanityClient, commonFields, ctaReferences } from '../../../utils/sanity'
+import { defineEventHandler, getQuery, createError } from 'h3'
 
-export default cachedEventHandler(
-  async (event) => {
+export default defineEventHandler(async (event) => {
     try {
       const query = getQuery(event)
       const limit = parseInt(query.limit as string) || 10
@@ -31,7 +31,18 @@ export default cachedEventHandler(
         `
 
         const sanityClient = createSanityClient()
-        const document = await sanityClient.fetch(groqQuery, { path: cleanPath })
+        // Try both with and without leading slash
+        let document = await sanityClient.fetch(groqQuery, { path: cleanPath })
+        
+        // If not found, try with leading slash
+        if (!document) {
+          document = await sanityClient.fetch(groqQuery, { path: `/${cleanPath}` })
+        }
+        
+        // If still not found, try without leading slash but with the original path
+        if (!document && path !== cleanPath) {
+          document = await sanityClient.fetch(groqQuery, { path: path })
+        }
 
         if (!document) {
           throw createError({
@@ -99,13 +110,4 @@ export default cachedEventHandler(
         statusMessage: 'Failed to fetch documents'
       })
     }
-  },
-  {
-    maxAge: 30, // Cache for 30 seconds
-    getKey: (event) => {
-      const query = getQuery(event)
-      return `documents-${JSON.stringify(query)}`
-    },
-    shouldBypassCache: () => process.env.NODE_ENV !== 'production'
-  }
-) 
+}) 

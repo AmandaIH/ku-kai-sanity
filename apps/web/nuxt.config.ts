@@ -6,6 +6,14 @@ export default defineNuxtConfig({
 
   // Nuxt 4 defaults to server
   ssr: true,
+  
+  // Ensure proper routing
+  router: {
+    options: {
+      strict: false
+    }
+  },
+
 
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -33,6 +41,9 @@ export default defineNuxtConfig({
 
 
   app: {
+    // Add fallback for client-side routing
+    fallback: true,
+    
     // ============================================
     // PAGE TRANSITIONS - Choose your effect!
     // ============================================
@@ -78,10 +89,10 @@ export default defineNuxtConfig({
             {charset: 'utf-8'},
             {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
             {key: 'description', name: 'description', content: ''},
-            // Safari-specific meta tags
-            {name: 'format-detection', content: 'telephone=no'},
-            {name: 'apple-mobile-web-app-capable', content: 'yes'},
-            {name: 'apple-mobile-web-app-status-bar-style', content: 'default'},
+                   // Safari-specific meta tags
+                   {name: 'format-detection', content: 'telephone=no'},
+                   {name: 'mobile-web-app-capable', content: 'yes'},
+                   {name: 'apple-mobile-web-app-status-bar-style', content: 'default'},
         ],
         link: [
             { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -130,12 +141,10 @@ export default defineNuxtConfig({
     experimental: {
       wasm: true
     },
-    // Safari localhost fixes
-    devProxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      }
+    // Fix routing for production
+    prerender: {
+      crawlLinks: true,
+      routes: ['/']
     }
   },
 

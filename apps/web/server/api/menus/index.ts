@@ -1,7 +1,7 @@
 import { createSanityClient } from '../../utils/sanity'
+import { defineEventHandler, getQuery, createError } from 'h3'
 
-export default cachedEventHandler(
-  async (event) => {
+export default defineEventHandler(async (event) => {
     try {
       const query = getQuery(event)
       const menuSlug = query.slug as string
@@ -218,7 +218,5 @@ export default cachedEventHandler(
       const query = getQuery(event)
       const menuSlug = query.slug || 'all'
       return `menus-${menuSlug}`
-    },
-    shouldBypassCache: () => process.env.NODE_ENV !== 'production'
-  }
-) 
+    }
+}) 

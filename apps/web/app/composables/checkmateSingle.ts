@@ -214,8 +214,8 @@ export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
         if (settings?.frontpage?.slug?.current) {
             path = settings.frontpage.slug.current;
         } else {
-            // If no frontpage is configured, throw an error
-            throw new Error('No frontpage configured in site settings');
+            // Default to 'frontpage' if no frontpage is configured
+            path = 'frontpage';
         }
     } else {
         // Remove leading slash for Sanity compatibility

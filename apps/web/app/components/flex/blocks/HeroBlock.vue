@@ -1,9 +1,9 @@
 <template>
   <div class="w-full relative overflow-hidden" :id="'hero-' + (index || 0)" :class="[containerClasses, componentData.size === 'half' && props.index !== 0 ? '!items-center' : '']">
     <cm-picture v-if="heroType === 'image' && componentData.backgroundImage" :image-object="componentData.backgroundImage" :crops="['default:800', 'md:1200', 'lg:1600']" 
-      :classes="['absolute inset-0 flex items-center z-0 w-full h-full object-cover'].join(' ')" :lazy="(index || 0) > 0"></cm-picture>
+      :classes="'absolute inset-0 flex items-center z-0 w-full h-full object-cover'" :lazy="(index || 0) > 0"></cm-picture>
     
-    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="['w-full h-full absolute inset-0 z-0 h-full w-full object-cover'].join(' ')"></hero-cm-video>
+    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full absolute inset-0 z-0 h-full w-full object-cover'"></hero-cm-video>
     
     <!-- Overlay only on background media -->
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.overlayOpacity || 0) / 100 }"></div>

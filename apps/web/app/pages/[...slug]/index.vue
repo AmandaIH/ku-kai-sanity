@@ -64,7 +64,7 @@ const slug = computed(() => {
 // Use the refactored composable to fetch page data
 // The composable will automatically handle frontpage detection
 const { page: pageData, pending, error } = await useCheckmateSingle({
-  path: slug.value || undefined // Pass undefined for frontpage to let composable handle it
+  path: slug.value || '' // Pass empty string for frontpage to let composable handle it
 })
 
 

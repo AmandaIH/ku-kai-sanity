@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import { useGsapAnimations } from '../../../composables/useGsapAnimations';
+import { gsap } from 'gsap';
 
 // Define the component data interface
 interface HeroTextBlockData {
@@ -91,6 +92,12 @@ const setupAnimations = () => {
 
   if (headlineElements.length > 0 && headlineElements[0]) {
     try {
+      // Check if GSAP is available
+      if (typeof gsap === 'undefined') {
+        console.warn('GSAP is not available, skipping animations');
+        return;
+      }
+
       // Set initial state for all elements
       headlineElements.forEach(element => {
         gsap.set(element, { opacity: 0, y: 30 });

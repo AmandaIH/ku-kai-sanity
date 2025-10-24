@@ -1,7 +1,7 @@
 import { createSanityClient } from '../utils/sanity'
+import { defineEventHandler, getQuery, createError } from 'h3'
 
-export default cachedEventHandler(
-  async (event) => {
+export default defineEventHandler(async (event) => {
     try {
       const query = getQuery(event)
 
@@ -74,11 +74,4 @@ export default cachedEventHandler(
         statusMessage: 'Failed to fetch site settings'
       })
     }
-  },
-  {
-    maxAge: 600, // Cache for 10 minutes (longer cache since site settings don't change often)
-    getKey: (event) => {
-      return `init-settings`
-    }
-  }
-) 
+}) 

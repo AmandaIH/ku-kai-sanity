@@ -27,7 +27,7 @@
              :image-object="currentPage.featuredImage"
              :crops="['default:800', 'md:1200', 'lg:1600']"
              :alt="currentPage.title"
-             :classes="['absolute inset-0 flex items-center z-0 w-full h-full object-cover absolute inset-0'].join(' ')"
+             :classes="'absolute inset-0 flex items-center z-0 w-full h-full object-cover'"
            />
 
            <div class="w-full px-4 sm:px-15 relative z-10">

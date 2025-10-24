@@ -35,7 +35,7 @@
           <cm-picture 
             :image-object="item.image" 
             :crops="['default:400', 'md:600', 'lg:800']" 
-            :classes="['w-full h-auto object-cover rounded-lg']"
+            :classes="'w-full h-auto object-cover rounded-lg'"
             :lazy="true"
           />
         </div>
@@ -86,7 +86,7 @@
         <cm-picture 
           :image-object="item.image" 
           :crops="['default:400', 'md:600', 'lg:800']" 
-          :classes="['w-full h-auto object-cover rounded-lg']"
+          :classes="'w-full h-auto object-cover rounded-lg'"
           :lazy="true"
         />
       </div>
