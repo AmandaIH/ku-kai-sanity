@@ -10,6 +10,27 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Safari development server fixes
+  devServer: {
+    https: false, // Disable HTTPS for localhost to fix Safari SSL issues
+    host: 'localhost',
+    port: 3000
+  },
+
+  // Content Security Policy for Safari compatibility
+  security: {
+    headers: {
+      contentSecurityPolicy: {
+        'worker-src': ["'self'", 'blob:'],
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'blob:'],
+        'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        'font-src': ["'self'", 'https://fonts.gstatic.com'],
+        'img-src': ["'self'", 'data:', 'https:', 'blob:'],
+        'connect-src': ["'self'", 'https:', 'ws:', 'wss:']
+      }
+    }
+  },
+
 
   app: {
     // ============================================
@@ -55,8 +76,12 @@ export default defineNuxtConfig({
         },
         meta: [
             {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+            {name: 'viewport', content: 'width=device-width, initial-scale=1, user-scalable=no'},
             {key: 'description', name: 'description', content: ''},
+            // Safari-specific meta tags
+            {name: 'format-detection', content: 'telephone=no'},
+            {name: 'apple-mobile-web-app-capable', content: 'yes'},
+            {name: 'apple-mobile-web-app-status-bar-style', content: 'default'},
         ],
         link: [
             { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -88,6 +113,7 @@ export default defineNuxtConfig({
     },
     public: {
       // Public keys (available on both server and client)
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       sanity: {
         projectId: process.env.SANITY_STUDIO_PROJECT_ID,
         dataset: process.env.SANITY_STUDIO_DATASET || 'production',
@@ -103,6 +129,13 @@ export default defineNuxtConfig({
   nitro: {
     experimental: {
       wasm: true
+    },
+    // Safari localhost fixes
+    devProxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
     }
   },
 

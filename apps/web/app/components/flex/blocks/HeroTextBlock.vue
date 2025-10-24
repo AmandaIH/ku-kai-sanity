@@ -5,9 +5,9 @@
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
 
     <cm-picture v-if="heroType === 'image' && componentData.backgroundImage" :image-object="componentData.backgroundImage" :crops="['default:800', 'md:1200', 'lg:1600']" 
-      :classes="['absolute inset-0 flex items-center z-0 w-full h-full object-cover absolute inset-0'].join(' ')" :lazy="(index || 0) > 0"></cm-picture>
+      :classes="'absolute inset-0 flex items-center z-0 w-full h-full object-cover'" :lazy="(index || 0) > 0"></cm-picture>
     
-    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="['w-full h-full absolute inset-0 z-0 h-full w-full object-cover'].join(' ')"></hero-cm-video>
+    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full absolute inset-0 z-0 object-cover'"></hero-cm-video>
 
     <div class="w-full relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-items-center">

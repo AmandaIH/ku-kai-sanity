@@ -1,7 +1,5 @@
+// All @use rules must come first
 @use "./setup";
-
-
-//all other custom scss files or css should be added here
 @use "./spacing";
 @use "./buttons";
 @use "./forms";
@@ -10,6 +8,39 @@
 @use "./flowmate";
 @use "./slider";
 
+// Tailwind directives come after @use rules
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Safari-specific fixes */
+@layer base {
+  html {
+    /* Safari font rendering fixes */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent Safari from zooming on form inputs */
+    -webkit-text-size-adjust: 100%;
+    /* Safari scroll behavior */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  * {
+    /* Safari box-sizing fix */
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  /* Safari flexbox fixes */
+  .flex {
+    -webkit-display: flex;
+    display: flex;
+  }
+  
+  /* Safari grid fixes */
+  .grid {
+    -webkit-display: grid;
+    display: grid;
+  }
+}

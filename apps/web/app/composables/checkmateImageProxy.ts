@@ -8,8 +8,27 @@
 export function useCheckmateImageProxy(image_url: string) {
 
     const config = useRuntimeConfig();
-    const imageUrl = new URL(image_url);
+    
+    // Validate the image_url parameter
+    if (!image_url || typeof image_url !== 'string') {
+        return {
+            url: '',
+            isProxy: false
+        };
+    }
+    
     let url = image_url;
+    let imageUrl;
+    
+    try {
+        imageUrl = new URL(image_url);
+    } catch (error) {
+        // If the URL is invalid, return the original URL without proxy
+        return {
+            url: image_url,
+            isProxy: false
+        };
+    }
 
     const proxyUrl = config.public.siteUrl !== undefined && config.public.siteUrl !== null ? config.public.siteUrl : false;
     if (proxyUrl !== false && !proxyUrl.includes('localhost')) {
