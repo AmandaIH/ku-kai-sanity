@@ -103,7 +103,7 @@
         </div>
 
         <!-- Column 4: Footer Menu -->
-        <div v-if="footerMenu" class="flex flex-col justify-start items-end text-left">
+        <div v-if="footerMenu" class="flex flex-col justify-center items-end text-left">
           <div class="flex flex-col gap-2">
             <div v-for="item in footerMenu">
               <a v-if="item.openInNewTab" class="text-base" :href="item.url" target="_blank" rel="noopener noreferrer">
@@ -117,7 +117,7 @@
         </div>
 
         <!-- Column 5: Social Media -->
-        <div class="flex flex-col justify-start items-end text-left">
+        <div class="flex flex-col justify-center items-end text-left">
           <div class="flex flex-col gap-2">
             <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base text-white" v-if="socialMediaChannels.instagram">
               Instagram
