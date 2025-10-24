@@ -148,7 +148,7 @@ const companyInfo = computed(() => {
 })
 
 const socialMediaChannels = computed(() => {
-  return coreStore.getSettings?.socialMediaChannels;
+  return coreStore.getSettings?.socialMediaChannels || {};
 })
 const footerMenu = computed(() => {
   return coreStore.getMenu('footer-menu');

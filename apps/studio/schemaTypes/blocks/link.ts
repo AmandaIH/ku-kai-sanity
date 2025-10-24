@@ -96,3 +96,5 @@ export const serviceSliderBlock = {
     }
   }
 }
+
+export const linkBlock = serviceSliderBlock

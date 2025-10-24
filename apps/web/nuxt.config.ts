@@ -25,28 +25,14 @@ export default defineNuxtConfig({
     port: 3000
   },
 
-  // Content Security Policy for Safari compatibility
-  security: {
-    headers: {
-      contentSecurityPolicy: {
-        'worker-src': ["'self'", 'blob:'],
-        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'blob:'],
-        'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-        'font-src': ["'self'", 'https://fonts.gstatic.com'],
-        'img-src': ["'self'", 'data:', 'https:', 'blob:'],
-        'connect-src': ["'self'", 'https:', 'ws:', 'wss:']
-      }
-    }
-  },
+         // Content Security Policy for Safari compatibility
+         // Note: CSP headers should be configured at the server level
 
 
-  app: {
-    // Add fallback for client-side routing
-    fallback: true,
-    
-    // ============================================
-    // PAGE TRANSITIONS - Choose your effect!
-    // ============================================
+         app: {
+           // ============================================
+           // PAGE TRANSITIONS - Choose your effect!
+           // ============================================
     
     // Default smooth transition (currently active)
     pageTransition: { 
@@ -161,9 +147,10 @@ export default defineNuxtConfig({
   //     sources: ['/api/sitemap']
   // },
 
-  site: {
-      trailingSlash: true,
-  },
+         site: {
+             url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+             trailingSlash: true,
+         },
 
   components: [
       {

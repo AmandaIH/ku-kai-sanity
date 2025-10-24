@@ -10,6 +10,11 @@ export const createSanityClient = () => {
     apiVersion: string
   }
   
+  // Check if projectId is available
+  if (!sanityConfig?.projectId) {
+    throw new Error('Sanity projectId is not configured. Please set SANITY_STUDIO_PROJECT_ID environment variable.')
+  }
+  
   return createClient({
     projectId: sanityConfig.projectId,
     dataset: sanityConfig.dataset,
