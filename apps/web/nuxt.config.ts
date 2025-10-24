@@ -102,17 +102,17 @@ export default defineNuxtConfig({
         appId: process.env.NUXT_FLOWMATE_FIREBASE_APP_ID,
       }
     },
-    // Private keys (only available on server-side)
-    sanity: {
-      projectId: process.env.SANITY_STUDIO_PROJECT_ID,
-      dataset: process.env.SANITY_STUDIO_DATASET || 'production',
-      apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
-    },
+           // Private keys (only available on server-side)
+           sanity: {
+             projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'gdm79zyf',
+             dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+             apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
+           },
     public: {
       // Public keys (available on both server and client)
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       sanity: {
-        projectId: process.env.SANITY_STUDIO_PROJECT_ID,
+        projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'gdm79zyf',
         dataset: process.env.SANITY_STUDIO_DATASET || 'production',
         apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
       },
@@ -127,10 +127,10 @@ export default defineNuxtConfig({
     experimental: {
       wasm: true
     },
-    // Fix routing for production
+    // Disable prerendering during build to avoid API call failures
     prerender: {
-      crawlLinks: true,
-      routes: ['/']
+      crawlLinks: false,
+      routes: []
     }
   },
 

@@ -12,6 +12,19 @@ export const createSanityClient = () => {
   
   // Check if projectId is available
   if (!sanityConfig?.projectId) {
+    // During build time, return a mock client to prevent build failures
+    if (process.env.NODE_ENV === 'production' && !process.env.SANITY_STUDIO_PROJECT_ID) {
+      console.warn('Sanity projectId is not configured. Using mock client for build.')
+      return {
+        fetch: () => Promise.resolve(null),
+        getDocument: () => Promise.resolve(null),
+        getDocuments: () => Promise.resolve([]),
+        create: () => Promise.resolve(null),
+        createOrReplace: () => Promise.resolve(null),
+        patch: () => Promise.resolve(null),
+        delete: () => Promise.resolve(null),
+      } as any
+    }
     throw new Error('Sanity projectId is not configured. Please set SANITY_STUDIO_PROJECT_ID environment variable.')
   }
   

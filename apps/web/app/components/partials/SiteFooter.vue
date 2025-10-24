@@ -118,7 +118,7 @@
 
         <!-- Column 5: Social Media -->
         <div class="flex flex-col justify-center items-end text-left">
-          <div class="flex flex-col gap-2">
+          <div class="flex flex-col gap-0">
             <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base text-white" v-if="socialMediaChannels.instagram">
               Instagram
             </a>
