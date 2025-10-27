@@ -42,43 +42,19 @@
 
       <!-- Desktop Form Button - Right Side -->
       <div class="hidden md:flex items-center z-[22]">
-        <NavigationLink 
-          v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
-          :key="'desktop-form-' + menuItem.ID" 
-          :link="menuItem"
-          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
-        >
-          Booking
-        </NavigationLink>
-        <!-- Fallback booking button if no menu data -->
-        <button 
-          v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
-          @click="openFallbackForm"
-          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
-        >
-          Booking
-        </button>
+        <FormButton 
+          :button="defaultHeaderFormButton"
+          :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
+        />
       </div>
 
       <!-- Mobile Burger Menu -->
       <div class="md:hidden flex items-center gap-4 z-[22]">
         <!-- Form button on mobile - positioned left of burger icon -->
-        <NavigationLink 
-          v-for="menuItem in mainMenu.filter(item => item.linkType === 'form')" 
-          :key="'mobile-form-' + menuItem.ID" 
-          :link="menuItem"
-          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
-        >
-          Booking
-        </NavigationLink>
-        <!-- Fallback booking button for mobile if no menu data -->
-        <button 
-          v-if="mainMenu.filter(item => item.linkType === 'form').length === 0"
-          @click="openFallbackForm"
-          :class="menuScrollActive ? 'btn btn-scrolled' : 'btn btn-primary'"
-        >
-          Booking
-        </button>
+        <FormButton 
+          :button="defaultHeaderFormButton"
+          :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
+        />
         
         <div class="flex">
           <BurgerIcon />
@@ -94,6 +70,7 @@ import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
+import FormButton from '~/components/ui/FormButton.vue';
 
 const props = defineProps({
   textIsWhite: {
@@ -111,16 +88,29 @@ const mainMenu = computed(() => {
   return menu;
 });
 
+// Hardcoded header form button configuration
+const defaultHeaderFormButton = computed(() => {
+  return {
+    linkTitle: 'Booking',
+    variant: 'primary',
+    formConfig: {
+      formId: 'contact-form',
+      formTitle: 'Indhent et tilbud',
+      formDescription: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
+    }
+  };
+});
+
 // Check if we're on the front page
 const isFrontPage = computed(() => {
   return route.path === '/' || route.path === '/index' || route.path === '/frontpage';
 });
 
-// Determine text color based on page and scroll state
+// Determine text color based on scroll state
 const shouldUseWhiteText = computed(() => {
-  // On front page: use white text until scrolled, then black
-  // On other pages: always use black text
-  return isFrontPage.value && !menuScrollActive.value;
+  // Always use white text when at the top of the page (not scrolled)
+  // Use black text when scrolled
+  return !menuScrollActive.value;
 });
 
 const hideTop = ref(false);

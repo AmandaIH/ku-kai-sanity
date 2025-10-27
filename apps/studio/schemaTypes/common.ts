@@ -435,6 +435,75 @@ export const commonFields = {
     type: 'ctaButton'
   },
 
+  // Form Button
+  formButton: {
+    name: 'formButton',
+    title: 'Form Button',
+    type: 'object',
+    fields: [
+      {
+        name: 'linkTitle',
+        title: 'Button Text',
+        type: 'string',
+        description: 'Text displayed on the button',
+        validation: (Rule: any) => Rule.required()
+      },
+      {
+        name: 'variant',
+        title: 'Button Style',
+        type: 'string',
+        options: {
+          list: [
+            { title: 'Primary', value: 'primary' },
+            { title: 'Secondary', value: 'secondary' },
+            { title: 'Secondary 2', value: 'secondary2' }
+          ]
+        },
+        initialValue: 'primary'
+      },
+      {
+        name: 'formConfig',
+        title: 'Form Configuration',
+        type: 'object',
+        fields: [
+          {
+            name: 'formId',
+            title: 'Form ID',
+            type: 'string',
+            description: 'Unique identifier for the form (e.g., contact-form, newsletter-signup)',
+            validation: (Rule: any) => Rule.required()
+          },
+          {
+            name: 'formTitle',
+            title: 'Form Title',
+            type: 'string',
+            description: 'Title displayed in the form modal/overlay'
+          },
+          {
+            name: 'formDescription',
+            title: 'Form Description',
+            type: 'text',
+            description: 'Optional description text for the form'
+          }
+        ]
+      }
+    ],
+    preview: {
+      select: {
+        linkTitle: 'linkTitle',
+        variant: 'variant',
+        formId: 'formConfig.formId',
+        formTitle: 'formConfig.formTitle'
+      },
+      prepare({ linkTitle, variant, formId, formTitle }: any) {
+        return {
+          title: linkTitle || 'Untitled Form Button',
+          subtitle: `${variant || 'primary'} • Form: ${formId || 'No ID'}`
+        };
+      }
+    }
+  },
+
   // Component Settings
   backgroundColor: {
     name: 'backgroundColor',
