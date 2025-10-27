@@ -6,7 +6,7 @@
     <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full absolute inset-0 z-0 h-full w-full object-cover'"></hero-cm-video>
     
     <!-- Overlay only on background media -->
-    <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.overlayOpacity || 0) / 100 }"></div>
+    <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
 
     <!-- Single responsive layout -->
     <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pb-16">
@@ -59,7 +59,7 @@ interface HeroBlockData {
   backgroundType?: 'image' | 'video';
   backgroundImage?: any;
   backgroundVideo?: any;
-  overlayOpacity?: number;
+  opacity?: number;
   size?: 'full' | 'half';
   ctas?: any[];
   spacing?: string;

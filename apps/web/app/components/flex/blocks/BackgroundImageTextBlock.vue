@@ -12,6 +12,9 @@
           <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full object-cover'"></hero-cm-video>
         </div>
         
+        <!-- Overlay only on background media -->
+        <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
+        
         <!-- Content - positioned on image for both mobile and desktop -->
         <div class="relative z-10 w-full p-8 md:p-16">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
