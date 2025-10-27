@@ -1,6 +1,9 @@
 .btn {
-  @apply inline-block border duration-300 transition-colors rounded-md appearance-none text-sm uppercase no-underline cursor-pointer py-2 px-4;
+  @apply border duration-300 transition-colors rounded-md appearance-none text-sm uppercase no-underline cursor-pointer px-4 py-3 leading-none;
   text-decoration: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
     text-decoration: none !important;

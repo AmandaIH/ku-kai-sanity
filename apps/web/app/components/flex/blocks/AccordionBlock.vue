@@ -1,6 +1,6 @@
 <template>
   <div class="section-container">
-    <div class="px-8 md:px-16 py-8 md:py-16">
+    <div class="px-8 md:px-16 py-8 md:py-16 max-w-[1480px] mx-auto">
       <div class="default-grid !gap-y-0">
       <div class="col-span-full" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
         <div class="flex flex-col py-6 border-b border-b-2 border-[#111111] border-opacity-10">

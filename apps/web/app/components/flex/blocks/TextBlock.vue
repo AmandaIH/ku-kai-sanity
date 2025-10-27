@@ -1,6 +1,6 @@
 <template>
   <div class="py-16">
-    <div class="px-8 md:px-16">
+    <div class="px-8 md:px-16 max-w-[1480px] mx-auto">
     <!-- RIGHT LAYOUT: Text aligned to the right side of the grid -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12 gap-8" :class="isInSbs ? '' : getLayoutPosition()">

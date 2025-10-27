@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span class="flex gap-4 items-center btn cursor-pointer " :class="buttonClasses" v-if="props.isClickButton">
+    <span class="flex gap-4 items-center btn cursor-pointer" :class="buttonClasses" v-if="props.isClickButton">
       <slot></slot>
     </span>
     <!-- Internal Link -->

@@ -1,6 +1,6 @@
 <template>
   <div class="py-16">
-    <div class="px-8 md:px-16">
+    <div class="px-8 md:px-16 max-w-[1480px] mx-auto">
     <div class="" :class="isInSbs ? 'half-grid' : ''">
 
       <!-- Main content grid -->

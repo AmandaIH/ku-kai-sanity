@@ -29,7 +29,7 @@
       <nav class="hidden md:flex items-center justify-center flex-1 z-[22]">
         <div class="flex items-center gap-8">
           <NavigationLink 
-            v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form')" 
+            v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form' && item.url !== '/' && item.url !== '/index' && item.url !== '/frontpage')" 
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
@@ -41,7 +41,7 @@
       </nav>
 
       <!-- Desktop Form Button - Right Side -->
-      <div class="hidden md:flex items-center z-[22]">
+      <div class="hidden md:flex items-center justify-center z-[22]">
         <FormButton 
           :button="defaultHeaderFormButton"
           :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
@@ -49,14 +49,14 @@
       </div>
 
       <!-- Mobile Burger Menu -->
-      <div class="md:hidden flex items-center gap-4 z-[22]">
+      <div class="md:hidden flex items-center justify-center gap-4 z-[22]">
         <!-- Form button on mobile - positioned left of burger icon -->
         <FormButton 
           :button="defaultHeaderFormButton"
           :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
         />
         
-        <div class="flex">
+        <div class="flex items-center">
           <BurgerIcon />
           <BurgerMenu :main-menu="mainMenu" :is-scrolled="menuScrollActive" />
         </div>

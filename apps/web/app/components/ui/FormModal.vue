@@ -11,8 +11,8 @@
 
       <div class="flex flex-col items-center px-28 pt-16">
      
-        <div class="mb-0">
-          <Logo class="w-12 h-12" fill-color="white" :fill-opacity="1" />
+        <div class="mb-0 h-12 w-12">
+          <SmallLogo class="w-6 h-6" fill-color="white" :fill-opacity="0.2" />
         </div>
         
         <h2 class="text-center text-white mb-4">
@@ -169,7 +169,7 @@
               class="w-4 h-4 text-white bg-white rounded-full custom-checkbox"
             />
             <label for="privacy-consent" class="text-white text-sm leading-relaxed">
-              Jeg har læst og accepterer WayStars privatlivspolitik*
+              Jeg har læst og accepterer Five's privatlivspolitik*
             </label>
           </div>
 
