@@ -29,7 +29,7 @@
       </div>
 
       <div class="flex justify-start items-center gap-1">
-        <ButtonIcon/>
+        
         <NuxtLink :to="itemPath" class="!text-white btn btn-primary uppercase">
           Read More
         </NuxtLink>
