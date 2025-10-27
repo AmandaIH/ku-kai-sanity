@@ -1,9 +1,9 @@
 <template>
-  <div class="border-b border-b-2 border-[#111111] border-opacity-10 py-6" ref="accordionItem">
+  <div class="border-b border-b-2 border-[#111111] border-opacity-10 py-12" ref="accordionItem">
   
     <div class="hidden sm:grid grid-cols-12 gap-4">
-      <!-- First 4 columns: Number, Question, Answer, and Buttons -->
-      <div class="col-span-4 flex items-start gap-4 items-center">
+      <!-- First 5 columns: Number, Question, Answer, and Buttons -->
+      <div class="col-span-5 flex items-start gap-4">
         <!-- Number display -->
         <div class="flex-shrink-0 w-12 text-left">
           <span class="text-xl">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -29,9 +29,12 @@
         </div>
       </div>
       
-      <!-- Next 4 columns: Image -->
-      <div class="col-span-4 hidden md:block">
-        <div v-if="item.image && isActive" class="my-4">
+      <!-- Column 6: Empty spacer -->
+      <div class="col-span-1"></div>
+      
+      <!-- Columns 7-10: Image -->
+      <div class="col-span-4 hidden md:block flex items-start">
+        <div v-if="item.image && isActive" class="w-full">
           <cm-picture 
             :image-object="item.image" 
             :crops="['default:400', 'md:600', 'lg:800']" 
@@ -41,8 +44,11 @@
         </div>
       </div>
       
-      <!-- Last 4 columns: +/- Toggle button -->
-      <div class="col-span-4 flex justify-end">
+      <!-- Column 11: Empty spacer -->
+      <div class="col-span-1"></div>
+      
+      <!-- Column 12: +/- Toggle button -->
+      <div class="col-span-1 flex justify-end items-start">
         <button @click="toggleAccordion" class="w-12 h-12 flex items-center justify-center text-xl bg-[#111111] bg-opacity-10 duration-300 rounded-md">
           <span class="text-2xl" v-if="!isActive">+</span>
           <span class="text-2xl" v-else>−</span>

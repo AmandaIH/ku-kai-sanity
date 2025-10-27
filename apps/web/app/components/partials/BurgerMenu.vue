@@ -20,7 +20,12 @@
       <nav v-if="mainMenu" class="pl-4">
         <ul class="flex flex-col">
           <li class="mb-0 relative group nav-item" v-for="link in mainMenu" :key="'burger-' + link.ID" >
-            <nuxt-link class="text-2xl font-medium text-white relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="link.url" v-if="link.url">
+            <nuxt-link 
+              class="text-2xl font-medium text-white relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" 
+              :class="isActivePage(link.url) ? 'after:scale-x-100' : ''"
+              :to="link.url" 
+              v-if="link.url"
+            >
               <span v-html="link.title"></span>
             </nuxt-link>
           </li>
@@ -54,6 +59,29 @@ watch(() => route.path, () => {
     coreStore.toggleShowMenu();
   }
 })
+
+// Check if a menu item is the active page
+const isActivePage = (menuUrl) => {
+  if (!menuUrl) return false;
+  
+  // Normalize the current route path
+  const currentPath = route.path;
+  
+  // Normalize the menu URL
+  const normalizedMenuUrl = menuUrl.startsWith('/') ? menuUrl : `/${menuUrl}`;
+  
+  // Check for exact match
+  if (currentPath === normalizedMenuUrl) {
+    return true;
+  }
+  
+  // Check for subpages (e.g., if on /about/team and menu item is /about)
+  if (currentPath.startsWith(normalizedMenuUrl + '/')) {
+    return true;
+  }
+  
+  return false;
+};
 
 const companyInfo = computed(() => {
   return coreStore.getSettings?.companyInfo;

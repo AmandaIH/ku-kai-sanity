@@ -32,8 +32,11 @@
             v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form' && item.url !== '/' && item.url !== '/index' && item.url !== '/frontpage')" 
             :key="menuItem.ID" 
             :link="menuItem"
-            class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :class="menuScrollActive ? 'text-[#181D2D]' : (shouldUseWhiteText ? 'text-white' : 'text-black')"
+            class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+            :class="[
+              menuScrollActive ? 'text-[#181D2D]' : (shouldUseWhiteText ? 'text-white' : 'text-black'),
+              isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
+            ]"
           >
             {{ menuItem.title }}
           </NavigationLink>
@@ -105,6 +108,29 @@ const defaultHeaderFormButton = computed(() => {
 const isFrontPage = computed(() => {
   return route.path === '/' || route.path === '/index' || route.path === '/frontpage';
 });
+
+// Check if a menu item is the active page
+const isActivePage = (menuUrl) => {
+  if (!menuUrl) return false;
+  
+  // Normalize the current route path
+  const currentPath = route.path;
+  
+  // Normalize the menu URL
+  const normalizedMenuUrl = menuUrl.startsWith('/') ? menuUrl : `/${menuUrl}`;
+  
+  // Check for exact match
+  if (currentPath === normalizedMenuUrl) {
+    return true;
+  }
+  
+  // Check for subpages (e.g., if on /about/team and menu item is /about)
+  if (currentPath.startsWith(normalizedMenuUrl + '/')) {
+    return true;
+  }
+  
+  return false;
+};
 
 // Determine text color based on scroll state
 const shouldUseWhiteText = computed(() => {
