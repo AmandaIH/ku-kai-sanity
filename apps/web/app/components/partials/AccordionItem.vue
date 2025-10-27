@@ -1,9 +1,9 @@
 <template>
-  <div class="border-b border-b-2 border-[#111111] border-opacity-10 py-12" ref="accordionItem">
+  <div class="border-b border-b-2 border-[#111111] border-opacity-10 py-12 border-t-0" ref="accordionItem">
   
-    <div class="hidden sm:grid grid-cols-12 gap-4">
+    <div class="hidden md:grid grid-cols-12 gap-4">
       <!-- First 5 columns: Number, Question, Answer, and Buttons -->
-      <div class="col-span-5 flex items-start gap-4">
+      <div class="col-span-5 flex gap-4" :class="isActive ? 'items-start' : 'items-center'">
         <!-- Number display -->
         <div class="flex-shrink-0 w-12 text-left">
           <span class="text-xl">{{ String(index + 1).padStart(2, '0') }}</span>
@@ -12,14 +12,14 @@
         <!-- Question, Answer, and Buttons -->
         <div class="flex-1 min-w-0">
           <button class="w-full text-left" @click="toggleAccordion">
-            <span class="text-xl font-medium !mb-0 line-clamp-3" v-html="item.title"></span>
+            <h6 class="text-xl font-medium !mb-0 line-clamp-3">{{ item.title }}</h6>
           </button>
           
           <!-- Answer content and buttons -->
           <div ref="contentRef" :style="'max-height:'+maxHeight+';'" class="overflow-hidden duration-500">
             <div class="text-sm">
               <!-- Answer content -->
-              <PortableText :value="item.content" />
+              <PortableText :value="filteredContent" />
               <!-- Desktop: Buttons after content -->
               <div class="hidden md:block">
                 <Buttons :data="item.ctas"></Buttons>
@@ -33,7 +33,7 @@
       <div class="col-span-1"></div>
       
       <!-- Columns 7-10: Image -->
-      <div class="col-span-4 hidden md:block flex items-start">
+      <div class="col-span-4 hidden md:block flex" :class="isActive ? 'items-start' : 'items-center'">
         <div v-if="item.image && isActive" class="w-full">
           <cm-picture 
             :image-object="item.image" 
@@ -48,7 +48,7 @@
       <div class="col-span-1"></div>
       
       <!-- Column 12: +/- Toggle button -->
-      <div class="col-span-1 flex justify-end items-start">
+      <div class="col-span-1 flex justify-end" :class="isActive ? 'items-start' : 'items-center'">
         <button @click="toggleAccordion" class="w-12 h-12 flex items-center justify-center text-xl bg-[#111111] bg-opacity-10 duration-300 rounded-md">
           <span class="text-2xl" v-if="!isActive">+</span>
           <span class="text-2xl" v-else>−</span>
@@ -65,9 +65,9 @@
         </div>
         <div class="flex-1 flex items-center justify-between">
           <button class="flex-1 text-left" @click="toggleAccordion">
-            <span class="text-xl font-medium !mb-0" v-html="item.title"></span>
+            <h6 class="text-xl font-medium !mb-0">{{ item.title }}</h6>
           </button>
-          <button @click="toggleAccordion" class="w-8 h-8 flex items-center justify-center text-xl bg-[#111111] bg-opacity-10 duration-300 rounded-md ml-8">
+          <button @click="toggleAccordion" class="w-8 h-8 flex items-center justify-center text-xl bg-[#111111] bg-opacity-10 duration-300 rounded-md">
             <span class="text-2xl" v-if="!isActive">+</span>
             <span class="text-2xl" v-else>−</span>
           </button>
@@ -78,17 +78,17 @@
       <div ref="contentRefMobile" :style="'max-height:'+maxHeightMobile+';'" class="overflow-hidden duration-500">
         <div class="text-sm ml-14 mr-20">
           <!-- Answer content -->
-          <PortableText :value="item.content" />
+          <PortableText :value="filteredContent" />
+        </div>
+        
+        <!-- Mobile: Button inside content (only visible when expanded) -->
+        <div v-if="item.ctas" class="ml-14 mr-20 my-4 md:hidden">
+          <Buttons :data="item.ctas"></Buttons>
         </div>
       </div>
       
-      <!-- Mobile: Button always visible -->
-      <div v-if="item.ctas" class="ml-14 mr-20 my-4 md:hidden">
-        <Buttons :data="item.ctas"></Buttons>
-      </div>
-      
-      <!-- Mobile: Image always visible -->
-      <div v-if="item.image" class="my-4 ml-14 mr-20 md:hidden">
+      <!-- Mobile: Image only visible when expanded -->
+      <div v-if="item.image && isActive" class="my-4 ml-14 mr-20 md:hidden">
         <cm-picture 
           :image-object="item.image" 
           :crops="['default:400', 'md:600', 'lg:800']" 
@@ -131,6 +131,11 @@ const isActive = computed(() => props.activeIndexes.includes(props.index));
 const toggleAccordion = () => {
   props.toggleActiveIndex(props.index);
 };
+
+// Use content directly since question is now separate
+const filteredContent = computed(() => {
+  return props.item.content || [];
+});
 
 const accordionItem = ref();
 const showContent = ref(false);
