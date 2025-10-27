@@ -17,7 +17,7 @@
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
             <!-- Mobile: full width, Desktop: columns 1-4 -->
             <div class="md:col-span-4">
-              <div class="w-full md:max-w-none bg-white/10 backdrop-blur-md rounded-2xl p-6 md:p-10 max-w-full">
+              <div class="w-full md:max-w-none bg-white/10 backdrop-blur-md rounded-lg p-6 md:p-10 max-w-full">
                 <div class="flex flex-col justify-between h-full">
                   <!-- Top Section: Eyebrow and Header -->
                   <div class="flex flex-col">

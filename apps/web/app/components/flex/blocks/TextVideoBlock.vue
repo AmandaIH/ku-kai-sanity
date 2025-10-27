@@ -39,12 +39,12 @@
         
           <div 
             v-else-if="componentData.posterImage" 
-            class="w-full h-auto aspect-video pl-0 ml-0"
+            class="w-full h-auto aspect-video pl-0 ml-0 rounded-lg overflow-hidden"
           >
             <cm-picture 
               :image-object="componentData.posterImage" 
               :crops="['default:800', 'md:1200', 'lg:1600']"
-              :classes="'w-full h-full object-cover'"
+              :classes="'w-full h-full object-cover rounded-lg'"
             />
           </div>
         </div>

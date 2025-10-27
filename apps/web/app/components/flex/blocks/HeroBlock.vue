@@ -11,7 +11,7 @@
     <!-- Single responsive layout -->
     <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
-      <div class="lg:col-span-4 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
+      <div class="lg:col-span-5 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
           <div class="flex flex-col">
             <!-- Eyebrow -->
@@ -39,8 +39,8 @@
         </div>
       </div>
       
-      <!-- Spacer columns 5-12 (empty) - hidden on mobile -->
-      <div class="hidden md:block md:col-span-8"></div>
+      <!-- Spacer columns 6-12 (empty) - hidden on mobile -->
+      <div class="hidden md:block md:col-span-7"></div>
     </div>
   </div>
 </template>

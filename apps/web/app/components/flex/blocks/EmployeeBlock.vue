@@ -24,12 +24,12 @@
             :ref="el => setEmployeeRef(el, employeeIndex)"
           >
             <!-- Employee image -->
-            <div class="mb-4 overflow-hidden">
+            <div class="mb-4 overflow-hidden rounded-lg">
               <cm-picture 
                 v-if="employee.picture" 
                 :image-object="employee.picture" 
                 :crops="['default:300']" 
-                classes="w-full h-full object-cover"
+                classes="w-full h-full object-cover rounded-lg"
               />
               <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
                 <span class="text-gray-500 text-sm">No image</span>

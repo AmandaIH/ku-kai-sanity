@@ -75,7 +75,7 @@ const setupAnimations = () => {
  * Image classes based on style
  */
 const imageClasses = computed(() => {
-  let classes = ['w-full h-auto'];
+  let classes = ['w-full', 'h-auto', 'object-cover'];
   
   // Image style
   switch (componentData.value.imageStyle) {
@@ -83,12 +83,13 @@ const imageClasses = computed(() => {
       classes.push('rounded-lg');
       break;
     case 'circular':
-      classes.push('rounded-full aspect-square object-cover');
+      classes.push('rounded-full', 'aspect-square', 'object-cover');
       break;
     case 'framed':
-      classes.push('border-4 border-gray-200 p-2');
+      classes.push('border-4', 'border-gray-200', 'p-2', 'rounded-lg');
       break;
     default:
+      classes.push('rounded-lg'); // Default to rounded corners
       break;
   }
   

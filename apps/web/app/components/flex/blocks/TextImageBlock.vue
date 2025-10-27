@@ -7,8 +7,8 @@
       <div class="col-span-full grid grid-cols-1 md:grid-cols-12" :class="layoutClasses">
         
         <!-- Image column - always maintains its position -->
-        <div ref="imageRef" class="opacity-0 overflow-hidden mb-8 md:mb-0" :class="imageColumnClass">
-          <cm-picture class="w-full h-auto" 
+        <div ref="imageRef" class="opacity-0 mb-8 md:mb-0" :class="imageColumnClass">
+          <cm-picture 
             v-if="componentData.image" 
             :image-object="componentData.image" 
             :crops="['default:800', 'md:1000']" 
@@ -191,7 +191,7 @@ const spacingColumnClass = computed(() => {
  * Image classes based on style and size
  */
 const imageClasses = computed(() => {
-  let classes = ['w-full h-auto'];
+  let classes = ['w-full', 'h-auto', 'object-cover'];
   
   // Image style
   switch (componentData.value.imageStyle) {
@@ -202,14 +202,12 @@ const imageClasses = computed(() => {
       classes.push('rounded-full');
       break;
     case 'framed':
-      classes.push('border-4 border-gray-200 p-2');
+      classes.push('border-4', 'border-gray-200', 'p-2', 'rounded-lg');
       break;
     default:
+      classes.push('rounded-lg'); // Default to rounded corners
       break;
   }
-  
-  // Image size - removed max-width constraints to allow full height filling
-  // The image will now fill the available height regardless of size setting
   
   return classes.join(' ');
 });

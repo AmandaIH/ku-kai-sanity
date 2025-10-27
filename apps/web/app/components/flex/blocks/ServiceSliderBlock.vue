@@ -25,10 +25,10 @@
           class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
         >
           <!-- Image -->
-          <div v-if="item.image" class="w-full h-32 relative mb-4">
+          <div v-if="item.image" class="w-full h-32 relative mb-4 rounded-lg overflow-hidden">
             <CmPicture
               :image-object="item.image"
-              classes="w-full h-full object-contain"
+              classes="w-full h-full object-contain rounded-lg"
               :lazy="true"
             />
           </div>
