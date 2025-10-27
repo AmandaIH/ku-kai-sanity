@@ -118,11 +118,11 @@
 
         <!-- Column 5: Social Media -->
         <div class="flex flex-col justify-center items-end text-left">
-          <div class="flex flex-col gap-0">
-            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base text-white" v-if="socialMediaChannels.instagram">
+          <div class="flex flex-col gap-2">
+            <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base text-white mb-0" v-if="socialMediaChannels.instagram">
               Instagram
             </a>
-            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-base text-white" v-if="socialMediaChannels.linkedin">
+            <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-base text-white mb-0" v-if="socialMediaChannels.linkedin">
               LinkedIn
             </a>
           </div>

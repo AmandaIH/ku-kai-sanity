@@ -26,7 +26,7 @@
                     
                     <!-- Header -->
                     <div v-if="componentData.header" class="mb-16 md:mb-16">
-                      <h3 class="text-white leading-tight break-words" style="letter-spacing: -0.01em;">
+                      <h3 class="text-white leading-none break-words" style="letter-spacing: -0.01em;">
                         <span v-html="componentData.header"></span>
                       </h3>
                     </div>
@@ -36,11 +36,11 @@
                   <div class="flex flex-col mt-auto">
                     <!-- Subheader -->
                     <div v-if="componentData.subheader" class="mb-8">
-                      <h6 class="text-white text-lg leading-[1.4] break-words" v-html="componentData.subheader"></h6>
+                      <h6 class="text-white break-words text-bas leading-normal" v-html="componentData.subheader"></h6>
                     </div>
                     
                     <!-- Body Text -->
-                    <div v-if="componentData.paragraphText" class="text-white text-lg mb-4 break-words" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+                    <div v-if="componentData.paragraphText" class="text-white text-base mb-4 break-words" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
                     </div>
                     
                     <!-- Buttons -->

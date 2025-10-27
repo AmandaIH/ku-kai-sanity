@@ -88,7 +88,7 @@ const gridClasses = computed(() => {
   const itemCount = componentData.value.linkItems?.length || 0;
   
   // Base classes - single column on mobile, responsive on md+
-  let classes = 'grid grid-cols-1 gap-8 mt-16';
+  let classes = 'grid grid-cols-1 gap-16 mt-16';
   
   // Add responsive classes based on item count for md and up
   if (itemCount >= 2) {

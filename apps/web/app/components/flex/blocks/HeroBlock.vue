@@ -9,9 +9,9 @@
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.overlayOpacity || 0) / 100 }"></div>
 
     <!-- Single responsive layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 md:px-8 lg:px-16 pb-16">
+    <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
-      <div class="lg:col-span-4 lg:col-start-1 text-white z-20 flex items-end">
+      <div class="lg:col-span-4 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
           <div class="flex flex-col">
             <!-- Eyebrow -->
@@ -19,7 +19,7 @@
             
             <!-- Header -->
             <div v-if="componentData.header" class="mb-32">
-              <h1 class="text-4xl md:text-5xl font-bold text-white leading-none" style="letter-spacing: -0.02em;">
+              <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(2.25rem, 4vw, 8rem);">
                 <span v-html="componentData.header"></span>
               </h1>
             </div>
@@ -27,12 +27,12 @@
             <!-- Body Text and Buttons Container -->
             <div class="flex flex-col">
               <!-- Body Text -->
-              <div v-if="componentData.paragraphText" class="text-white text-base md:text-lg leading-relaxed mb-8" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+              <div v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-8" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
               </div>
               
               <!-- Buttons -->
               <div v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-0">
-                <Buttons :data="componentData.ctas" class="!justify-start !mt-0 !gap-8"></Buttons>
+                <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
               </div>
             </div>
           </div>

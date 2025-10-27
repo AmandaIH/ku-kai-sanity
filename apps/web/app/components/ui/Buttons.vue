@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-start gap-1 mt-6" v-if="buttons.length > 0">
+  <div class="flex items-center justify-start gap-4 mt-6" v-if="buttons.length > 0">
     <link-button v-for="(button, bIndex) in buttons" :key="'text-btn-'+bIndex" :button="button"></link-button>
   </div>
 </template>
