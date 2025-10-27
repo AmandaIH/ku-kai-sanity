@@ -1,58 +1,89 @@
 <template>
-  <div class="section-container py-8 md:py-16" :class="containerClasses">
-    <div class="absolute -top-16" ref="scrollTop"></div>
-    <div class="col-span-full md:col-span-8 md:col-start-3 lg:col-start-4 lg:col-span-6">
-      <div class="flex flex-col mb-8" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
-        <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
-        <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-          <h1 v-if="index === 0" class="h1 !mb-0">
-            <span v-html="componentData.header"></span>
-          </h1>
-          <h2 v-else class="h2 !mb-0">
-            <span v-html="componentData.header"></span>
+  <div class="py-16">
+    <!-- White Container -->
+    <div class="px-8 md:px-16 py-8">
+      <!-- White Background Container -->
+      <div class="bg-[#F8F6F5] rounded-lg shadow-sm px-8 py-16 md:p-16">
+        <!-- Header Section -->
+        <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
+          <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase">
+            {{ componentData.eyebrow }}
+          </p>
+          <h2 v-if="componentData.header" class="text-3xl font-bold mb-4">
+            {{ componentData.header }}
           </h2>
+          <h3 v-if="componentData.subheader" class="md:mb-8">
+            {{ componentData.subheader }}
+          </h3>
         </div>
-        <h6 ref="subheaderRef" v-if="componentData.subheader" class="font-bold text-center opacity-0" v-html="componentData.subheader"></h6>
-      </div>
-    
-      <!-- Loading State -->
-      <div v-if="isLoading && componentData.showPagination" class="grid gap-6 mt-8" :class="gridColumnsClass">
-        <div v-for="i in 4" :key="i" class="animate-pulse">
-          <div class="relative overflow-hidden h-[600px] bg-gray-200">
-            <!-- Loading skeleton with card structure -->
-            <div class="absolute inset-0 p-6 flex flex-col justify-between">
-              <div class="flex flex-col gap-3">
-                <div class="h-4 bg-gray-300 w-1/3"></div>
-                <div class="h-6 bg-gray-300 w-3/4"></div>
-                <div class="h-4 bg-gray-300 w-full"></div>
+
+        <!-- Loading State -->
+        <div v-if="isLoading" :class="[gridClasses, 'mt-24']">
+          <div v-for="i in (componentData.archiveMode === 'latest' ? 4 : 8)" :key="i" class="animate-pulse">
+            <div class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0">
+              <!-- Image skeleton -->
+              <div class="w-full h-64 md:h-56 lg:h-64 xl:h-72 relative mb-4 rounded-lg overflow-hidden bg-gray-200"></div>
+              <!-- Content skeleton -->
+              <div class="text-center flex flex-col flex-grow">
+                <div class="h-6 bg-gray-200 w-3/4 mx-auto mb-2"></div>
+                <div class="h-4 bg-gray-200 w-full mb-1"></div>
+                <div class="h-4 bg-gray-200 w-1/3 mx-auto mt-auto"></div>
               </div>
-              <div class="h-10 bg-gray-300 w-1/3"></div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Content -->
-      <div v-else-if="items.length > 0" :class="layoutClass">
-        <div 
-          v-for="(item, itemIndex) in items" 
-          :key="item._id" 
-          class="opacity-0"
-          :ref="(el) => setItemRef(el, itemIndex)"
-        >
-          <ArchiveCard 
-            :item="item"
-          />
+
+        <!-- Content -->
+        <div v-else-if="items.length > 0" :class="[gridClasses, 'mt-24']">
+          <div 
+            v-for="(item, index) in items" 
+            :key="item._id" 
+            class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
+          >
+            <!-- Image -->
+            <div v-if="item.featuredImage" class="w-full h-64 md:h-56 lg:h-64 xl:h-72 relative mb-4 rounded-lg overflow-hidden">
+              <CmPicture
+                :image-object="item.featuredImage"
+                classes="w-full h-full object-cover rounded-lg"
+                :lazy="true"
+              />
+            </div>
+            
+            <!-- Content -->
+            <div class="text-center flex flex-col flex-grow">
+              <!-- Title -->
+              <h5 v-if="item.title" class="mb-2">
+                {{ item.title }}
+              </h5>
+              
+              <!-- Excerpt -->
+              <p v-if="item.excerpt" class="mb-1 text-sm">
+                {{ item.excerpt }}
+              </p>
+              
+              <!-- Date -->
+              <p v-if="item.publishedAt" class="text-xs text-gray-600 mb-4">
+                {{ formatDate(item.publishedAt) }}
+              </p>
+              
+              <!-- CTA Button -->
+              <div class="mt-auto flex justify-center">
+                <NuxtLink :to="getItemUrl(item)" class="inline-block hover:opacity-80 transition-opacity">
+                  <Buttons :data="[{ linkTitle: 'Læs mere', variant: componentData.buttonStyle || 'primary', url: getItemUrl(item) }]" />
+                </NuxtLink>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div v-else class="text-center py-8">
-        No items found
-      </div>
+        <div v-else class="text-center py-8">
+          No items found
+        </div>
 
-      <!-- Pagination -->
-      <div class="mt-8 w-full flex justify-center" v-if="componentData.showPagination && totalPages > 1">
-        <Pagination :total-pages="totalPages" :current-page="currentPage" @update:currentPage="setCurrentPage"></Pagination>
+        <!-- Pagination (only for full archive mode) -->
+        <div class="mt-8 w-full flex justify-center" v-if="componentData.archiveMode === 'full' && componentData.showPagination && totalPages > 1">
+          <Pagination :total-pages="totalPages" :current-page="currentPage" @update:currentPage="setCurrentPage"></Pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -76,8 +107,11 @@ interface ArchiveBlockData {
   header?: string;
   subheader?: string;
   archiveType?: 'pages' | 'articles' | 'solutions' | 'employees' | 'portfolios';
+  archiveMode?: 'full' | 'latest' | 'manual';
+  manualItems?: any[];
   itemsPerPage?: number;
   showPagination?: boolean;
+  buttonStyle?: 'primary' | 'secondary' | 'text';
   layout?: 'grid' | 'list' | 'masonry';
   columns?: number;
   showFeaturedImage?: boolean;
@@ -206,57 +240,90 @@ const checkInitParams = () => {
 };
 
 /**
- * Fetches items from API based on the current page and settings.
+ * Fetches items from API based on the archive mode and settings.
  */
 const fetchItems = async () => {
   isLoading.value = true;
   
   try {
-    const itemsPerPage = 16;
-    const offset = (currentPage.value - 1) * itemsPerPage;
-    
-    // Determine which endpoint to use
+    const archiveMode = componentData.value.archiveMode || 'full';
     const archiveType = componentData.value.archiveType || 'articles';
-    let endpoint = '';
     
-    switch (archiveType) {
-      case 'articles':
-        endpoint = '/api/documents/articles/';
-        break;
-      case 'portfolios':
-        endpoint = '/api/documents/portfolios/';
-        break;
-      default:
-        console.warn(`Unsupported archive type: ${archiveType}, defaulting to articles`);
-        endpoint = '/api/documents/articles/';
-    }
-    
-    // Build API query parameters
-    const queryParams: Record<string, string | number> = {
-      limit: itemsPerPage,
-      offset: offset
-    };
-    
-    // Fetch data from API
-    const url = new URL(endpoint, window.location.origin);
-    Object.keys(queryParams).forEach(key => {
-      const value = queryParams[key];
-      if (value !== undefined) {
-        url.searchParams.append(key, value.toString());
+    if (archiveMode === 'manual') {
+      // For manual selection, we need to fetch the referenced items
+      if (componentData.value.manualItems && componentData.value.manualItems.length > 0) {
+        // Extract the reference IDs
+        const itemIds = componentData.value.manualItems
+          .map((item: any) => item._ref || item._id)
+          .filter(Boolean);
+        
+        if (itemIds.length > 0) {
+          // Build a GROQ query to fetch the referenced items
+          const query = `*[_type in ["article", "portfolio"] && _id in [${itemIds.map(id => `"${id}"`).join(',')}] | order(publishedAt desc)`;
+          
+          // Use the appropriate endpoint based on archive type
+          let endpoint = '/api/documents/articles/';
+          if (archiveType === 'portfolios') {
+            endpoint = '/api/documents/portfolios/';
+          }
+          
+          const response = await fetch(`${endpoint}?query=${encodeURIComponent(query)}`);
+          const data = await response.json();
+          
+          items.value = data.data || data || [];
+        } else {
+          items.value = [];
+        }
+      } else {
+        items.value = [];
       }
-    });
-    
-    const response = await fetch(url.toString());
-    const data = await response.json();
-    
-    if (data && data.data) {
-      items.value = data.data || [];
-      totalItems.value = data.meta?.total || data.data.length;
-      totalPages.value = Math.ceil(totalItems.value / itemsPerPage);
+      totalItems.value = items.value.length;
+      totalPages.value = 1;
     } else {
-      items.value = [];
-      totalItems.value = 0;
-      totalPages.value = 0;
+      // Fetch from API
+      const itemsPerPage = archiveMode === 'latest' ? 4 : 16;
+      const offset = archiveMode === 'latest' ? 0 : (currentPage.value - 1) * itemsPerPage;
+      
+      let endpoint = '';
+      switch (archiveType) {
+        case 'articles':
+          endpoint = '/api/documents/articles/';
+          break;
+        case 'portfolios':
+          endpoint = '/api/documents/portfolios/';
+          break;
+        default:
+          console.warn(`Unsupported archive type: ${archiveType}, defaulting to articles`);
+          endpoint = '/api/documents/articles/';
+      }
+      
+      // Build API query parameters
+      const queryParams: Record<string, string | number> = {
+        limit: itemsPerPage,
+        offset: offset
+      };
+      
+      // Fetch data from API
+      const url = new URL(endpoint, window.location.origin);
+      Object.keys(queryParams).forEach(key => {
+        const value = queryParams[key];
+        if (value !== undefined) {
+          url.searchParams.append(key, value.toString());
+        }
+      });
+      
+      const response = await fetch(url.toString());
+      const data = await response.json();
+      
+      if (data && data.data) {
+        items.value = data.data || [];
+        totalItems.value = data.meta?.total || data.data.length;
+        totalPages.value = archiveMode === 'latest' ? 1 : Math.ceil(totalItems.value / itemsPerPage);
+      } else {
+        items.value = [];
+        totalItems.value = 0;
+        totalPages.value = 0;
+      }
     }
     
   } catch (error) {
@@ -269,58 +336,66 @@ const fetchItems = async () => {
   }
 };
 
-/**
- * Container classes
- */
-const containerClasses = computed(() => {
-  return getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+// Dynamic grid classes based on number of items (matching ServiceSliderBlock)
+const gridClasses = computed(() => {
+  const itemCount = items.value.length;
+  
+  // Base classes - single column on mobile, responsive on md+
+  let classes = 'grid grid-cols-1 gap-16 mt-16';
+  
+  // Add responsive classes based on item count for md and up
+  if (itemCount >= 2) {
+    classes += ' md:grid-cols-2';
+  }
+  
+  if (itemCount >= 3) {
+    classes += ' lg:grid-cols-3';
+  }
+  
+  if (itemCount >= 4) {
+    classes += ' xl:grid-cols-4';
+  }
+  
+  if (itemCount >= 5) {
+    classes += ' 2xl:grid-cols-5';
+  }
+  
+  return classes;
 });
 
-/**
- * Grid columns class
- */
-const gridColumnsClass = computed(() => {
-  const columns = componentData.value.columns || 4;
-  switch (columns) {
-    case 1:
-      return 'grid-cols-1';
-    case 2:
-      return 'grid-cols-1 md:grid-cols-2';
-    case 3:
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
-    case 4:
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
-    case 5:
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-5';
-    case 6:
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-6';
-    default:
-      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
-  }
-});
+// Helper function to format dates
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('da-DK', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 
-/**
- * Layout class
- */
-const layoutClass = computed(() => {
-  switch (componentData.value.layout) {
-    case 'list':
-      return 'space-y-6';
-    case 'masonry':
-      return 'columns-1 md:columns-2 lg:columns-3 gap-6';
-    default:
-      return `grid gap-6 ${gridColumnsClass.value}`;
+// Helper function to get item URL
+const getItemUrl = (item: any) => {
+  const archiveType = componentData.value.archiveType || 'articles';
+  
+  // Extract slug from the path (articles/slug-name or portfolios/slug-name)
+  let slug = item.slug?.current || item.slug;
+  
+  // If slug is an object with current property, use that
+  if (typeof slug === 'object' && slug.current) {
+    slug = slug.current;
   }
-});
+  
+  // If slug contains a slash, extract the last part
+  if (slug && slug.includes('/')) {
+    slug = slug.split('/').pop(); // Get the last part after the slash
+  }
+  
+  return `/${archiveType}/${slug}`;
+};
 
 onMounted(() => {
   checkInitParams();
   fetchItems();
-  
-  // Set up headline animations after mount
-  nextTick(() => {
-    setupAnimations();
-  });
 });
 
 onBeforeUnmount(() => {

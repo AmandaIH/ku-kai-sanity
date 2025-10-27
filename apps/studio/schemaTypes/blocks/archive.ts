@@ -35,15 +35,68 @@ export const archiveBlock = {
       initialValue: 'articles'
     },
 
-    // Pagination toggle
+    // Archive mode
+    {
+      name: 'archiveMode',
+      title: 'Archive Mode',
+      type: 'string',
+      group: 'content',
+      description: 'Choose between showing all items with pagination or just the latest items',
+      options: {
+        list: [
+          { title: 'Full Archive (with pagination)', value: 'full' },
+          { title: 'Latest 4 Items Only', value: 'latest' },
+          { title: 'Manual Selection', value: 'manual' }
+        ]
+      },
+      initialValue: 'full'
+    },
+
+    // Manual selection items (only shown when manual mode is selected)
+    {
+      name: 'manualItems',
+      title: 'Manual Selection Items',
+      type: 'array',
+      group: 'content',
+      description: 'Select specific items to display',
+      hidden: ({ parent }: any) => parent?.archiveMode !== 'manual',
+      of: [
+        {
+          type: 'reference',
+          to: [
+            { type: 'article' },
+            { type: 'portfolio' }
+          ]
+        }
+      ]
+    },
+
+    // Pagination toggle (only shown when full archive mode is selected)
     {
       name: 'showPagination',
       title: 'Show Pagination',
       type: 'boolean',
       description: 'Display pagination controls',
       group: 'content',
-      hidden: ({ parent }: any) => parent?.archiveType !== 'articles',
+      hidden: ({ parent }: any) => parent?.archiveMode !== 'full',
       initialValue: true,
+    },
+
+    // Button style
+    {
+      name: 'buttonStyle',
+      title: 'Button Style',
+      type: 'string',
+      group: 'content',
+      description: 'Choose the style for the "Read More" buttons',
+      options: {
+        list: [
+          { title: 'Primary Button', value: 'primary' },
+          { title: 'Secondary Button', value: 'secondary' },
+          { title: 'Text Link', value: 'text' }
+        ]
+      },
+      initialValue: 'primary'
     },
     
     // Component settings
