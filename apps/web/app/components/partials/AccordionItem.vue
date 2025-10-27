@@ -17,7 +17,7 @@
           
           <!-- Answer content and buttons -->
           <div ref="contentRef" :style="'max-height:'+maxHeight+';'" class="overflow-hidden duration-500">
-            <div class="text-sm">
+            <div class="text-sm mt-4">
               <!-- Answer content -->
               <PortableText :value="filteredContent" />
               <!-- Desktop: Buttons after content -->
@@ -76,7 +76,7 @@
       
       <!-- Mobile content: question, text, button, then image -->
       <div ref="contentRefMobile" :style="'max-height:'+maxHeightMobile+';'" class="overflow-hidden duration-500">
-        <div class="text-sm ml-14 mr-20">
+        <div class="text-sm ml-14 mr-20 mt-4">
           <!-- Answer content -->
           <PortableText :value="filteredContent" />
         </div>
