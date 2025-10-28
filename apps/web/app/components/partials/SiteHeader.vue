@@ -36,7 +36,7 @@
             v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form' && item.url !== '/' && item.url !== '/index' && item.url !== '/frontpage')" 
             :key="menuItem.ID" 
             :link="menuItem"
-            class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+            class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             :class="[
               menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black')),
               isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
@@ -51,11 +51,11 @@
       <div class="hidden md:flex items-center justify-center gap-6 z-[22]">
         <!-- Få tilbud - Text Link -->
         <button 
-          class="uppercase font-medium cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+          class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
           :class="[
             menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
           ]"
-          @click="openFormFallback"
+          @click="openFallbackForm"
         >
           Få tilbud
         </button>
@@ -82,7 +82,7 @@
           :class="[
             menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
           ]"
-          @click="openFormFallback"
+          @click="openFallbackForm"
         >
           Få tilbud
         </button>

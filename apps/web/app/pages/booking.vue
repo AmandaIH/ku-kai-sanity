@@ -1,34 +1,26 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-green-700 relative overflow-hidden">
-    <!-- Background Image with Motion Blur Effect -->
-    <div class="absolute inset-0">
-      <div class="w-full h-full bg-gradient-to-br from-green-900 via-green-800 to-green-700 opacity-80"></div>
-      <!-- Add some animated elements for motion effect -->
-      <div class="absolute inset-0 opacity-20">
-        <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-green-300 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-1/3 right-1/3 w-48 h-48 bg-green-400 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div class="absolute top-1/2 right-1/4 w-24 h-24 bg-green-200 rounded-full blur-2xl animate-pulse delay-2000"></div>
-      </div>
+  <div class="min-h-screen relative overflow-hidden" :style="backgroundStyle">
+    <!-- Background Image -->
+    <div v-if="bookingData?.backgroundImage?.asset?.url" class="absolute inset-0">
+      <img 
+        :src="bookingData.backgroundImage.asset.url" 
+        :alt="bookingData.backgroundImage.alt || 'Background'"
+        class="w-full h-full object-cover"
+      />
+      <!-- Overlay -->
+      <div 
+        class="absolute inset-0" 
+        :style="overlayStyle"
+      ></div>
     </div>
+    
+    <!-- Fallback gradient background -->
+    <div v-else class="absolute inset-0 bg-gradient-to-br from-green-900 via-green-800 to-green-700"></div>
 
     <!-- Header -->
     <div class="relative z-10 pt-8 px-8">
       <div class="flex justify-center">
-        <div class="text-center">
-          <!-- Logo -->
-          <div class="mb-4">
-            <Logo 
-              class="w-auto mx-auto" 
-              style="height: 3rem;"
-              fill-color="white"
-              :hide-text="false"
-            />
-          </div>
-          <!-- Tagline -->
-          <p class="text-white text-sm uppercase tracking-wider font-medium">
-            TRANSPORT & LOGISTICS
-          </p>
-        </div>
+       
       </div>
     </div>
 
@@ -36,20 +28,17 @@
     <div class="relative z-10 flex items-center justify-center min-h-[calc(100vh-8rem)] px-8">
       <div class="w-full max-w-md">
         <!-- Login Form Container -->
-        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-16 shadow-2xl border border-white/20">
           <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-800 mb-2">
-              Velkommen til WayStars booking system
+            <h1 class="text-base text-white mb-2">
+             
             </h1>
-            <p class="text-gray-600 text-sm">
-              Log ind for at få adgang til dit booking system
-            </p>
           </div>
 
-          <form @submit.prevent="handleLogin" class="space-y-6">
+          <form @submit.prevent="handleLogin" class="space-y-2">
             <!-- Username Field -->
             <div>
-              <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+              <label for="username" class="block text-sm font-medium text-gray-700 mb-2 sr-only">
                 Brugernavn
               </label>
               <input
@@ -57,14 +46,14 @@
                 v-model="loginForm.username"
                 type="text"
                 required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                placeholder="Indtast dit brugernavn"
+                class="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                :placeholder="bookingData?.formSettings?.usernamePlaceholder || 'Brugernavn'"
               />
             </div>
 
             <!-- Password Field -->
             <div>
-              <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+              <label for="password" class="block text-sm font-medium text-gray-700 mb-2 sr-only">
                 Adgangskode
               </label>
               <input
@@ -72,8 +61,8 @@
                 v-model="loginForm.password"
                 type="password"
                 required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                placeholder="Indtast din adgangskode"
+                class="w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 text-black"
+                :placeholder="bookingData?.formSettings?.passwordPlaceholder || 'Adgangskode'"
               />
             </div>
 
@@ -81,25 +70,25 @@
             <button
               type="submit"
               :disabled="isLoading"
-              class="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold uppercase tracking-wide hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="w-full bg-black text-white py-3 px-6 rounded-lg uppercase tracking-wide hover:bg-gray-800 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <span v-if="!isLoading">LOGIN</span>
+              <span v-if="!isLoading">{{ bookingData?.formSettings?.loginButtonText || 'LOGIN' }}</span>
               <span v-else class="flex items-center justify-center">
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                Logger ind...
+                {{ bookingData?.formSettings?.loadingText || 'Logger ind...' }}
               </span>
             </button>
           </form>
 
           <!-- Additional Links -->
-          <div class="mt-6 text-center">
+          <!-- <div class="mt-6 text-center">
             <a href="#" class="text-sm text-gray-600 hover:text-gray-800 transition-colors duration-200">
               Glemt adgangskode?
             </a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -108,12 +97,78 @@
 
 <script setup lang="ts">
 import Logo from '~/components/ui/Logo.vue'
+import { useSeoHead } from "~/composables/useSeoHead"
+
+// Type definitions
+interface BookingData {
+  _id?: string
+  title?: string
+  metaDescription?: string
+  welcomeTitle?: string
+  backgroundImage?: {
+    asset?: {
+      _id: string
+      url: string
+    }
+    alt?: string
+  }
+  backgroundOverlay?: {
+    opacity?: number
+    color?: string
+  }
+  formSettings?: {
+    usernamePlaceholder?: string
+    passwordPlaceholder?: string
+    loginButtonText?: string
+    loadingText?: string
+  }
+}
+
+// Fetch booking page data
+const bookingResponse = await $fetch<{ success: boolean; data: BookingData | null; error?: string }>('/api/booking')
+const bookingData = ref<BookingData | null>(bookingResponse.data || null)
 
 // SEO
-useSeoHead({
-  title: 'Booking System - WayStar Transport & Logistics',
-  description: 'Log ind til WayStars booking system for transport og logistik services.',
+const { getSeoHead } = useSeoHead()
+getSeoHead({
+  title: bookingData.value?.title || 'Booking System - WayStar Transport & Logistics',
+  description: bookingData.value?.metaDescription || 'Log ind til WayStars booking system for transport og logistik services.',
   noindex: true // Don't index login pages
+})
+
+// Computed styles for background
+const backgroundStyle = computed(() => {
+  if (!bookingData.value?.backgroundImage?.asset?.url) {
+    return {}
+  }
+  return {
+    backgroundImage: `url(${bookingData.value.backgroundImage.asset.url})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat'
+  }
+})
+
+const overlayStyle = computed(() => {
+  const overlay = bookingData.value?.backgroundOverlay
+  if (!overlay) {
+    return {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }
+  }
+  
+  const opacity = (overlay.opacity || 50) / 100
+  const color = overlay.color || '#000000'
+  
+  // Convert hex to rgba
+  const hex = color.replace('#', '')
+  const r = parseInt(hex.substr(0, 2), 16)
+  const g = parseInt(hex.substr(2, 2), 16)
+  const b = parseInt(hex.substr(4, 2), 16)
+  
+  return {
+    backgroundColor: `rgba(${r}, ${g}, ${b}, ${opacity})`
+  }
 })
 
 // Login form data

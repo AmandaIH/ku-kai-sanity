@@ -6,6 +6,7 @@ import { employee } from './employee'
 import { solutions } from './solutions'
 import { menu } from './menu'
 import { siteSettings } from './siteSettings'
+import { booking } from './booking'
 import { ctaButton, navigationLink } from './common'
 
 export const schemaTypes = [
@@ -17,6 +18,7 @@ export const schemaTypes = [
   solutions,
   menu,
   siteSettings,
+  booking,
   
   // Common Types
   ctaButton,
