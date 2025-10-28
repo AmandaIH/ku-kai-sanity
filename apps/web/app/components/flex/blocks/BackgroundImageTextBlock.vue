@@ -15,28 +15,25 @@
         <!-- Overlay only on background media -->
         <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
         
-        <!-- Content - positioned on image for both mobile and desktop -->
-        <div v-if="hasContent" class="relative z-10 w-full p-8 md:p-16">
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <!-- Mobile: full width, Desktop: columns 1-4 -->
-            <div class="md:col-span-4">
-              <div class="w-full md:max-w-none bg-white/10 backdrop-blur-md rounded-lg p-6 md:p-10 max-w-full">
-                <div class="flex flex-col justify-between h-full">
-                  <!-- Top Section: Eyebrow and Header -->
-                  <div class="flex flex-col">
-                    <!-- Eyebrow -->
-                    <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white tracking-wider" v-html="componentData.eyebrow"></p>
-                    
-                    <!-- Header -->
-                    <div v-if="componentData.header" class="mb-16 md:mb-16">
-                      <h3 class="text-white leading-none break-words" style="letter-spacing: -0.01em;">
-                        <span v-html="componentData.header"></span>
-                      </h3>
-                    </div>
+        <!-- Content - positioned at bottom -->
+        <div v-if="hasContent" class="absolute bottom-0 left-0 right-0 z-10 p-8 md:p-16">
+          <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
+            <!-- Text box - positioned at bottom -->
+            <div class="lg:col-span-5 lg:col-start-1 text-white z-20 flex justify-center lg:justify-start">
+              <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
+                <div class="flex flex-col">
+                  <!-- Eyebrow -->
+                  <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white/80 md:text-white tracking-wider" v-html="componentData.eyebrow"></p>
+                  
+                  <!-- Header -->
+                  <div v-if="componentData.header" class="mb-16 md:mb-16">
+                    <h3 class="text-white leading-none break-words" style="letter-spacing: -0.01em;">
+                      <span v-html="componentData.header"></span>
+                    </h3>
                   </div>
                   
-                  <!-- Bottom Section: Subheader, Body Text and Buttons -->
-                  <div class="flex flex-col mt-auto">
+                  <!-- Body Text and Buttons Container -->
+                  <div class="flex flex-col">
                     <!-- Subheader -->
                     <div v-if="componentData.subheader" class="mb-8">
                       <h6 class="text-white break-words text-bas leading-normal" v-html="componentData.subheader"></h6>
@@ -47,13 +44,16 @@
                     </div>
                     
                     <!-- Buttons -->
-                    <div v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-0">
-                      <Buttons :data="componentData.ctas" class="!justify-start !items-start md:!items-center !mt-0 !gap-4 flex-col md:flex-row"></Buttons>
+                    <div v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-8">
+                      <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            
+            <!-- Spacer columns 6-12 (empty) - hidden on mobile -->
+            <div class="hidden md:block md:col-span-7"></div>
           </div>
         </div>
       </div>
