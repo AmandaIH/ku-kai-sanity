@@ -69,7 +69,16 @@
               <!-- CTA Button -->
               <div class="mt-auto flex justify-center">
                 <NuxtLink :to="getItemUrl(item)" class="inline-block hover:opacity-80 transition-opacity">
-                  <Buttons :data="[{ linkTitle: 'Læs mere', variant: componentData.buttonStyle || 'primary', url: getItemUrl(item) }]" />
+                  <Buttons :data="[{ 
+                    linkTitle: 'Læs mere', 
+                    variant: componentData.buttonStyle || 'primary', 
+                    linkType: 'internal',
+                    internalLink: {
+                      slug: {
+                        current: item.slug?.current || item.slug
+                      }
+                    }
+                  }]" />
                 </NuxtLink>
               </div>
             </div>

@@ -52,6 +52,7 @@ export const commonFields = `
   content,
   seo,
   settings,
+  darkHeader,
   authorId,
   _createdAt,
   _updatedAt

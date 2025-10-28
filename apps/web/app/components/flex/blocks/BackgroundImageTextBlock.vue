@@ -16,7 +16,7 @@
         <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
         
         <!-- Content - positioned on image for both mobile and desktop -->
-        <div class="relative z-10 w-full p-8 md:p-16">
+        <div v-if="hasContent" class="relative z-10 w-full p-8 md:p-16">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
             <!-- Mobile: full width, Desktop: columns 1-4 -->
             <div class="md:col-span-4">
@@ -95,5 +95,16 @@ const heroType = computed(() => {
 
 const containerClasses = computed(() => {
   return componentData.value.size === 'half' ? 'min-h-[80svh] md:min-h-[70svh]' : 'min-h-[80vh] md:min-h-[70vh]';
+});
+
+// Check if there's any content to display
+const hasContent = computed(() => {
+  return !!(
+    componentData.value.eyebrow ||
+    componentData.value.header ||
+    componentData.value.subheader ||
+    componentData.value.paragraphText ||
+    (componentData.value.ctas && componentData.value.ctas.length > 0)
+  );
 });
 </script>

@@ -48,4 +48,13 @@
       @apply bg-black border-black text-white;
     }
   }
+
+  // Dark header button: #262D62 background, white text, hover: white background, #262D62 text
+  &.btn-dark-header {
+    @apply bg-[#262D62] border-[#262D62] text-white;
+    
+    &:hover {
+      @apply bg-white border-white text-[#262D62];
+    }
+  }
 }

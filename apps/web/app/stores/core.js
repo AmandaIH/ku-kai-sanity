@@ -34,6 +34,9 @@ export const useCoreStore = defineStore('CoreStore', {
         getHeaderTextColor(state) {
             return state.headerTextColor;
         },
+    getDarkHeader(state) {
+      return state.currentPage?.darkHeader || false;
+    },
         getFavicon: (state) => () => {
             return state.settings?.logos?.favicon || null;
         },

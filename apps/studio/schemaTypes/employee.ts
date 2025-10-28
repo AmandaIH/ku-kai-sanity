@@ -13,6 +13,10 @@ export const employee = {
     {
       name: 'contact',
       title: 'Contact Information',
+    },
+    {
+      name: 'settings',
+      title: 'Settings',
     }
   ],
   fields: [
@@ -55,6 +59,14 @@ export const employee = {
       type: 'string',
       group: 'contact',
       validation: (Rule: any) => Rule.email()
+    },
+    {
+      name: 'darkHeader',
+      title: 'Dark Header',
+      type: 'boolean',
+      description: 'Enable dark header styling (logo, nav links, and buttons will be #262D62)',
+      initialValue: false,
+      group: 'settings'
     }
   ],
   preview: {

@@ -13,7 +13,7 @@
     <!-- Single responsive layout -->
     <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
-      <div ref="textBoxRef" class="lg:col-span-5 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
+      <div v-if="hasContent" ref="textBoxRef" class="lg:col-span-5 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
           <div class="flex flex-col">
             <!-- Eyebrow -->
@@ -29,11 +29,11 @@
             <!-- Body Text and Buttons Container -->
             <div class="flex flex-col">
               <!-- Body Text -->
-              <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-8" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+              <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-0" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
               </div>
               
               <!-- Buttons -->
-              <div ref="buttonsRef" v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-0">
+              <div ref="buttonsRef" v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-8">
                 <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
               </div>
             </div>
@@ -97,6 +97,17 @@ const heroType = computed(() => {
 
 const containerClasses = computed(() => {
   return componentData.value.size === 'half' ? 'min-h-[50svh]' : 'min-h-svh';
+});
+
+// Check if there's any content to display
+const hasContent = computed(() => {
+  return !!(
+    componentData.value.eyebrow ||
+    componentData.value.header ||
+    componentData.value.subheader ||
+    componentData.value.paragraphText ||
+    (componentData.value.ctas && componentData.value.ctas.length > 0)
+  );
 });
 
 // Setup background image animation (only for image backgrounds)

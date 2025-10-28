@@ -96,6 +96,14 @@ export const portfolio = {
       type: 'object',
       fields: seo.fields,
       group: 'seo'
+    },
+    {
+      name: 'darkHeader',
+      title: 'Dark Header',
+      type: 'boolean',
+      description: 'Enable dark header styling (logo, nav links, and buttons will be #262D62)',
+      initialValue: false,
+      group: 'settings'
     }
   ],
   initialValue: async (props: any, context: any) => {

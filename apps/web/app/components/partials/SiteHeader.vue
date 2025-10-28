@@ -1,5 +1,8 @@
 <template>
-  <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent ' + (shouldUseWhiteText ? 'text-white' : 'text-black')]">
+  <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[
+    menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent',
+    darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black')
+  ]">
     <div class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between" :class="menuScrollActive ? 'py-1 md:py-2' : 'py-4 md:py-6'">
 
       <!-- Logo -->
@@ -11,7 +14,7 @@
         class="w-auto" 
         style="height: 3.5rem;"
         :class="[store.getShowMenu ? 'hidden sm:block' : '']"
-        :fill-color="shouldUseWhiteText ? 'white' : 'black'"
+        :fill-color="darkHeader ? '#262D62' : (shouldUseWhiteText ? 'white' : 'black')"
         :fill-opacity="0.8"
         :hide-text="false"
          ></Logo>
@@ -34,7 +37,7 @@
             :link="menuItem"
             class="nav-link font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
             :class="[
-              menuScrollActive ? 'text-[#181D2D]' : (shouldUseWhiteText ? 'text-white' : 'text-black'),
+              menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black')),
               isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
             ]"
           >
@@ -47,7 +50,10 @@
       <div class="hidden md:flex items-center justify-center z-[22]">
         <FormButton 
           :button="defaultHeaderFormButton"
-          :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
+          :additional-classes="[
+            menuScrollActive ? 'btn-scrolled' : '',
+            darkHeader ? 'btn-dark-header' : ''
+          ].filter(Boolean).join(' ')"
         />
       </div>
 
@@ -56,7 +62,10 @@
         <!-- Form button on mobile - positioned left of burger icon -->
         <FormButton 
           :button="defaultHeaderFormButton"
-          :additional-classes="menuScrollActive ? 'btn-scrolled' : ''"
+          :additional-classes="[
+            menuScrollActive ? 'btn-scrolled' : '',
+            darkHeader ? 'btn-dark-header' : ''
+          ].filter(Boolean).join(' ')"
         />
         
         <div class="flex items-center">
@@ -85,6 +94,9 @@ const props = defineProps({
 const store = useCoreStore();
 const route = useRoute();
 
+// Get dark header setting from store
+const darkHeader = computed(() => store.getDarkHeader);
+
 const mainMenu = computed(() => {
   const menu = store.getMenu('main-menu') || [];
   console.log('Main menu data:', menu);
@@ -95,7 +107,7 @@ const mainMenu = computed(() => {
 const defaultHeaderFormButton = computed(() => {
   return {
     linkTitle: 'Booking',
-    variant: 'primary',
+    variant: 'primary', // Keep primary but we'll handle styling via CSS
     formConfig: {
       formId: 'contact-form',
       formTitle: 'Indhent et tilbud',
