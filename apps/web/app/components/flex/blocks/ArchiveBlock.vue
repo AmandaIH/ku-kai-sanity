@@ -68,18 +68,16 @@
               
               <!-- CTA Button -->
               <div class="mt-auto flex justify-center">
-                <NuxtLink :to="getItemUrl(item)" class="inline-block hover:opacity-80 transition-opacity">
-                  <Buttons :data="[{ 
-                    linkTitle: 'Læs mere', 
-                    variant: componentData.buttonStyle || 'primary', 
-                    linkType: 'internal',
-                    internalLink: {
-                      slug: {
-                        current: item.slug?.current || item.slug
-                      }
+                <Buttons :data="[{ 
+                  linkTitle: 'Læs mere', 
+                  variant: componentData.buttonStyle || 'secondary2', 
+                  linkType: 'internal',
+                  internalLink: {
+                    slug: {
+                      current: item.slug?.current || item.slug
                     }
-                  }]" />
-                </NuxtLink>
+                  }
+                }]" />
               </div>
             </div>
           </div>
@@ -120,7 +118,7 @@ interface ArchiveBlockData {
   manualItems?: any[];
   itemsPerPage?: number;
   showPagination?: boolean;
-  buttonStyle?: 'primary' | 'secondary' | 'text';
+  buttonStyle?: 'primary' | 'secondary' | 'secondary2';
   layout?: 'grid' | 'list' | 'masonry';
   columns?: number;
   showFeaturedImage?: boolean;

@@ -15,46 +15,51 @@
 
   // Primary button: white background, black text, hover: #0A1172 background, white text
   &.btn-primary {
-    @apply bg-white border-white text-black;
+    @apply bg-white border-white text-black !important;
     
     &:hover {
-      @apply bg-[#0A1172] border-[#0A1172] text-white;
+      @apply bg-[#0A1172] border-[#0A1172] text-white !important;
     }
   }
 
   // Scrolled button: #0A1172 background, white text, hover: #EEECE7 background, black text
   &.btn-scrolled {
-    @apply bg-[#0A1172] border-[#0A1172] text-white;
+    @apply bg-[#0A1172] border-[#0A1172] text-white !important;
     
     &:hover {
-      @apply bg-[#EEECE7] border-[#EEECE7] text-black;
+      @apply bg-[#EEECE7] border-[#EEECE7] text-black !important;
     }
   }
 
   // Secondary button: transparent background, white border and text, hover: white background, black text
   &.btn-secondary {
-    @apply bg-transparent border-white text-white;
+    @apply bg-transparent border-white text-white !important;
     
     &:hover {
-      @apply bg-white border-white text-black;
+      @apply bg-white border-white text-black !important;
     }
   }
 
   // Secondary2 button: transparent background, black border and text, hover: black background, white text
   &.btn-secondary2 {
-    @apply bg-transparent border-black text-black;
+    @apply bg-transparent border-black text-black !important;
     
     &:hover {
-      @apply bg-black border-black text-white;
+      @apply bg-black border-black text-white !important;
     }
   }
 
   // Dark header button: #262D62 background, white text, hover: white background, #262D62 text
   &.btn-dark-header {
-    @apply bg-[#262D62] border-[#262D62] text-white;
+    @apply bg-[#262D62] border-[#262D62] text-white !important;
     
     &:hover {
-      @apply bg-white border-white text-[#262D62];
+      @apply bg-white border-white text-[#262D62] !important;
     }
   }
+}
+
+// Override flex-section a:hover for buttons
+.flex-section a.btn.btn-secondary2:hover {
+  @apply bg-black border-black text-white !important;
 }

@@ -91,12 +91,12 @@ export const archiveBlock = {
       description: 'Choose the style for the "Read More" buttons',
       options: {
         list: [
-          { title: 'Primary Button', value: 'primary' },
-          { title: 'Secondary Button', value: 'secondary' },
-          { title: 'Text Link', value: 'text' }
+          { title: 'Primary', value: 'primary' },
+          { title: 'Secondary', value: 'secondary' },
+          { title: 'Secondary 2', value: 'secondary2' }
         ]
       },
-      initialValue: 'primary'
+      initialValue: 'secondary2'
     },
     
     // Component settings
