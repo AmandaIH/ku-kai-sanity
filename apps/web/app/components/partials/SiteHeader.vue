@@ -24,6 +24,7 @@
         class="w-auto" 
         style="height: 1.9rem;"
         :class="[store.getShowMenu ? 'hidden sm:block' : '']"
+        :fill-color="'#111111'"
          ></SimpleLogo>
       </nuxt-link>
       </div>
@@ -46,27 +47,58 @@
         </div>
       </nav>
 
-      <!-- Desktop Form Button - Right Side -->
-      <div class="hidden md:flex items-center justify-center z-[22]">
-        <FormButton 
-          :button="defaultHeaderFormButton"
-          :additional-classes="[
+      <!-- Desktop Buttons - Right Side -->
+      <div class="hidden md:flex items-center justify-center gap-6 z-[22]">
+        <!-- Få tilbud - Text Link -->
+        <button 
+          class="uppercase font-medium cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+          :class="[
+            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
+          ]"
+          @click="openFormFallback"
+        >
+          Få tilbud
+        </button>
+        
+        <!-- Booking Button -->
+        <button 
+          class="flex gap-4 items-center btn"
+          :class="[
+            'btn-primary',
             menuScrollActive ? 'btn-scrolled' : '',
             darkHeader ? 'btn-dark-header' : ''
           ].filter(Boolean).join(' ')"
-        />
+          @click="navigateToBooking"
+        >
+          Booking
+        </button>
       </div>
 
       <!-- Mobile Burger Menu -->
       <div class="md:hidden flex items-center justify-center gap-4 z-[22]">
-        <!-- Form button on mobile - positioned left of burger icon -->
-        <FormButton 
-          :button="defaultHeaderFormButton"
-          :additional-classes="[
+        <!-- Få tilbud - Text Link on mobile -->
+        <button 
+          class="uppercase font-medium cursor-pointer text-sm relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+          :class="[
+            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
+          ]"
+          @click="openFormFallback"
+        >
+          Få tilbud
+        </button>
+        
+        <!-- Booking Button on mobile -->
+        <button 
+          class="flex gap-4 items-center btn"
+          :class="[
+            'btn-primary',
             menuScrollActive ? 'btn-scrolled' : '',
             darkHeader ? 'btn-dark-header' : ''
           ].filter(Boolean).join(' ')"
-        />
+          @click="navigateToBooking"
+        >
+          Booking
+        </button>
         
         <div class="flex items-center">
           <BurgerIcon />
@@ -116,7 +148,7 @@ const mainMenu = computed(() => {
 // Hardcoded header form button configuration
 const defaultHeaderFormButton = computed(() => {
   return {
-    linkTitle: 'Booking',
+    linkTitle: 'Få tilbud',
     variant: 'primary', // Keep primary but we'll handle styling via CSS
     formConfig: {
       formId: 'contact-form',
@@ -181,6 +213,11 @@ function handleScroll() {
 
 function toggleBurger() {
   isMenuOpen.value = !isMenuOpen.value;
+}
+
+// Navigate to booking page
+function navigateToBooking() {
+  navigateTo('/booking');
 }
 
 // Fallback function to open form when menu data isn't available

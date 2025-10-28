@@ -22,9 +22,9 @@
     }
   }
 
-  // Scrolled button: #0A1172 background, white text, hover: #EEECE7 background, black text
+  // Scrolled button: #111111 background, white text, hover: #EEECE7 background, black text
   &.btn-scrolled {
-    @apply bg-[#0A1172] border-[#0A1172] text-white !important;
+    @apply bg-[#111111] border-[#111111] text-white !important;
     
     &:hover {
       @apply bg-[#EEECE7] border-[#EEECE7] text-black !important;
@@ -56,6 +56,15 @@
     &:hover {
       @apply bg-white border-white text-[#262D62] !important;
     }
+  }
+}
+
+// More specific selector for scrolled buttons to override btn-primary
+.btn.btn-primary.btn-scrolled {
+  @apply bg-[#111111] border-[#111111] text-white !important;
+  
+  &:hover {
+    @apply bg-[#EEECE7] border-[#EEECE7] text-black !important;
   }
 }
 
