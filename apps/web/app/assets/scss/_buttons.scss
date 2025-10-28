@@ -49,14 +49,14 @@
     }
   }
 
-  // Dark header button: #262D62 background, white text, hover: white background, #262D62 text
-  &.btn-dark-header {
-    @apply bg-[#262D62] border-[#262D62] text-white !important;
-    
-    &:hover {
-      @apply bg-white border-white text-[#262D62] !important;
+    // Dark header button: #111111 background, white text, hover: white background, #111111 text
+    &.btn-dark-header {
+      @apply bg-[#111111] border-[#111111] text-white !important;
+      
+      &:hover {
+        @apply bg-white border-white text-[#111111] !important;
+      }
     }
-  }
 }
 
 // More specific selector for scrolled buttons to override btn-primary

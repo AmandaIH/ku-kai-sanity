@@ -2,11 +2,8 @@
   <div class="min-h-screen relative overflow-hidden">
     <!-- Background Image -->
     <div class="absolute inset-0">
-      <img 
-        src="/images/blurred-forrest.png" 
-        alt="Forest background"
-        class="w-full h-full object-cover"
-      />
+      <!-- Gradient background -->
+      <div class="w-full h-full bg-gradient-to-br from-green-900 via-green-800 to-green-700"></div>
       <!-- Overlay for better text readability -->
       <div class="absolute inset-0"></div>
     </div>
@@ -99,6 +96,7 @@ const loginForm = ref({
 })
 
 const isLoading = ref(false)
+
 
 // Handle login
 const handleLogin = async () => {

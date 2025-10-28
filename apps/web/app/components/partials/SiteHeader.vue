@@ -1,8 +1,8 @@
 <template>
-  <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[
-    menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent',
-    darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black')
-  ]">
+      <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[
+        menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent',
+        darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black')
+      ]">
     <div class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between" :class="menuScrollActive ? 'py-1 md:py-2' : 'py-4 md:py-6'">
 
       <!-- Logo -->
@@ -14,7 +14,7 @@
         class="w-auto" 
         style="height: 3.5rem;"
         :class="[store.getShowMenu ? 'hidden sm:block' : '']"
-        :fill-color="darkHeader ? '#262D62' : (shouldUseWhiteText ? 'white' : 'black')"
+        :fill-color="darkHeader ? '#111111' : (shouldUseWhiteText ? 'white' : 'black')"
         :fill-opacity="0.8"
         :hide-text="false"
          ></Logo>
@@ -37,10 +37,10 @@
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :class="[
-              menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black')),
-              isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
-            ]"
+        :class="[
+          menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black')),
+          isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
+        ]"
           >
             {{ menuItem.title }}
           </NavigationLink>
@@ -53,7 +53,7 @@
         <button 
           class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
           :class="[
-            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
+            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
           ]"
           @click="openFallbackForm"
         >
@@ -80,7 +80,7 @@
         <button 
           class="uppercase font-medium cursor-pointer text-sm relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
           :class="[
-            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#262D62]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
+            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
           ]"
           @click="openFallbackForm"
         >
