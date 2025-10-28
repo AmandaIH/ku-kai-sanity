@@ -24,6 +24,25 @@ import FormModal from '~/components/ui/FormModal.vue';
 
 const coreStore = useCoreStore();
 
+// Get the current route to fetch page data for header styling
+const route = useRoute();
+
+// Get the slug from the route params
+const slug = computed(() => {
+  const slugArray = route.params.slug
+  return Array.isArray(slugArray) ? slugArray.join('/') : slugArray
+})
+
+// Fetch page data to get darkHeader value for header styling
+const { page: pageData } = await useCheckmateSingle({
+  path: slug.value || '' // Pass empty string for frontpage to let composable handle it
+})
+
+// Set current page in store if data exists
+if (pageData.value) {
+  coreStore.setCurrentPage(pageData.value)
+}
+
 function handleOutsideClick(event) {
 
   if (coreStore.getShowMenu && window.innerWidth >= 640) {

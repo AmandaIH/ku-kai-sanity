@@ -45,9 +45,9 @@ export const useCoreStore = defineStore('CoreStore', {
         setHeaderTextColor(color){
             this.headerTextColor = color;
         },
-        setCurrentPage(pageData){
-            this.currentPage = pageData;
-        },
+    setCurrentPage(pageData){
+        this.currentPage = pageData;
+    },
         setMeta(metaData){
             this.meta = metaData;
         },

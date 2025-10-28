@@ -95,11 +95,21 @@ const store = useCoreStore();
 const route = useRoute();
 
 // Get dark header setting from store
-const darkHeader = computed(() => store.getDarkHeader);
+const darkHeader = computed(() => {
+  // During SSR, the store might not be populated yet, so we need to handle this gracefully
+  const currentPage = store.getCurrentPage;
+  return currentPage?.darkHeader || false;
+});
+
+// Watch for changes in the store to handle hydration
+watch(() => store.getCurrentPage, (newPage) => {
+  if (newPage) {
+    // Page data updated, component will reactively update
+  }
+}, { immediate: true });
 
 const mainMenu = computed(() => {
   const menu = store.getMenu('main-menu') || [];
-  console.log('Main menu data:', menu);
   return menu;
 });
 

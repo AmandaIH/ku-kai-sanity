@@ -72,9 +72,6 @@ const { page: pageData, pending, error } = await useCheckmateSingle({
 if (pageData.value) {
   const page = pageData.value
   
-  // Set current page in store
-  store.setCurrentPage(page)
-  
   // Set meta data in store for SEO
   store.setMeta(page)
   
