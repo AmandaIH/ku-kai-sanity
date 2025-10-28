@@ -186,6 +186,75 @@ export const accordionBlock = {
                   }
                 }
               ]
+            },
+            // Form Button
+            {
+              name: 'formButton',
+              title: 'Form Button',
+              type: 'object',
+              description: 'Button that opens a contact form',
+              fields: [
+                {
+                  name: 'linkTitle',
+                  title: 'Button Text',
+                  type: 'string',
+                  description: 'Text displayed on the button',
+                  validation: (Rule: any) => Rule.required()
+                },
+                {
+                  name: 'variant',
+                  title: 'Button Style',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Primary', value: 'primary' },
+                      { title: 'Secondary', value: 'secondary' },
+                      { title: 'Secondary 2', value: 'secondary2' }
+                    ]
+                  },
+                  initialValue: 'primary'
+                },
+                {
+                  name: 'formConfig',
+                  title: 'Form Configuration',
+                  type: 'object',
+                  fields: [
+                    {
+                      name: 'id',
+                      title: 'Form ID',
+                      type: 'string',
+                      description: 'Unique identifier for the form',
+                      initialValue: 'contact-form'
+                    },
+                    {
+                      name: 'title',
+                      title: 'Form Title',
+                      type: 'string',
+                      description: 'Title shown in the form modal',
+                      initialValue: 'Indhent et tilbud'
+                    },
+                    {
+                      name: 'description',
+                      title: 'Form Description',
+                      type: 'text',
+                      description: 'Description shown in the form modal',
+                      initialValue: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
+                    }
+                  ]
+                }
+              ],
+              preview: {
+                select: {
+                  title: 'linkTitle',
+                  variant: 'variant'
+                },
+                prepare({ title, variant }: any) {
+                  return {
+                    title: title || 'Form Button',
+                    subtitle: `Style: ${variant || 'primary'}`
+                  }
+                }
+              }
             }
           ],
           preview: {
