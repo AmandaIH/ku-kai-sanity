@@ -1,9 +1,9 @@
 <template>
-  <div class=" py-16">
+  <div :class="containerClasses">
     <!-- White Container -->
     <div class="px-8 md:px-16 py-8">
       <!-- White Background Container -->
-      <div class="bg-[#F8F6F5] rounded-lg shadow-sm px-8 py-16 md:p-16">
+      <div class="bg-[#F8F6F5] rounded-lg shadow-sm p-8 md:p-16">
         <!-- Header Section -->
         <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
           <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase">
@@ -73,14 +73,20 @@ const { getContainerClasses } = useCheckmateFlexSettings(componentData);
 // Container classes
 const containerClasses = computed(() => {
   const itemCount = componentData.value.linkItems?.length || 0;
-  let classes = getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  // Only apply width if explicitly set to 'contained', otherwise use full width
+  let classes = getContainerClasses('background', 'text', 'padding', 'margin');
   
-  // Add extra padding when there are exactly 4 items
-  if (itemCount === 4) {
-    classes += ' md:p-8 lg:p-16 xl:p-24';
+  // Only add width constraint if container is explicitly set to 'contained'
+  if (componentData.value.container === 'contained') {
+    classes.push(...getContainerClasses('width'));
   }
   
-  return classes;
+  // Add default padding if no custom padding is set
+  if (!componentData.value.customPadding) {
+    classes.push('py-16');
+  }
+  
+  return classes.join(' ');
 });
 
 // Dynamic grid classes based on number of items

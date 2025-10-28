@@ -1,5 +1,5 @@
 <template>
-  <div class="py-16">
+  <div :class="containerClasses">
     <div class="px-8 md:px-16 max-w-[1480px] mx-auto">
     <!-- RIGHT LAYOUT: Text aligned to the right side of the grid -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
@@ -177,7 +177,14 @@ onBeforeUnmount(() => {
 
 // Container classes
 const containerClasses = computed(() => {
-  return getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  let classes = getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  
+  // Add default padding if no custom padding is set
+  if (!componentSettings.value.customPadding) {
+    classes.push('py-16');
+  }
+  
+  return classes.join(' ');
 });
 
 // Get text alignment classes based on layout

@@ -1,5 +1,5 @@
 <template>
-  <div class="section-container">
+  <div class="section-container" :class="containerClasses">
     <div class="px-8 md:px-16 py-8 md:py-16 max-w-[1480px] mx-auto">
       <div class="default-grid !gap-y-0">
       <div class="col-span-full" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
@@ -138,7 +138,14 @@ onBeforeUnmount(() => {
  * Container classes
  */
 const containerClasses = computed(() => {
-  return getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  let classes = getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  
+  // Add default padding if no custom padding is set
+  if (!componentSettings.value.customPadding) {
+    classes.push('py-16');
+  }
+  
+  return classes.join(' ');
 });
 </script>
 

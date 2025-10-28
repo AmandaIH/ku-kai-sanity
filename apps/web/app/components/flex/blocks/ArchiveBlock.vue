@@ -1,5 +1,5 @@
 <template>
-  <div class="py-16">
+  <div :class="containerClasses">
     <!-- White Container -->
     <div class="px-8 md:px-16 py-8">
       <!-- White Background Container -->
@@ -420,6 +420,18 @@ watch(currentPage, () => {
 });
 
 // Watch for route changes (browser back/forward)
+// Container classes
+const containerClasses = computed(() => {
+  let classes = getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  
+  // Add default padding if no custom padding is set
+  if (!componentData.value.customPadding) {
+    classes.push('py-16');
+  }
+  
+  return classes.join(' ');
+});
+
 watch(() => route.query.page, (newPage) => {
   if (newPage) {
     const page = parseInt(newPage as string);

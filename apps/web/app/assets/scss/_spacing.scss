@@ -27,12 +27,20 @@ $class-list:(
 @each $key, $val in $class-list{
     @each $pkey in $padding-list{
         .cm-#{$pkey}-#{$key} {
-            @apply #{$pkey}-#{calc($val / 2)} md:#{$pkey}-#{$val};
+            @if $key == 'none' {
+                @apply #{$pkey}-0;
+            } @else {
+                @apply #{$pkey}-#{floor($val / 2)} md:#{$pkey}-#{$val};
+            }
         }
     }
     @each $mkey in $margin-list{
         .cm-#{$mkey}-#{$key} {
-            @apply #{$mkey}-#{calc($val / 2)} md:#{$mkey}-#{$val};
+            @if $key == 'none' {
+                @apply #{$mkey}-0;
+            } @else {
+                @apply #{$mkey}-#{floor($val / 2)} md:#{$mkey}-#{$val};
+            }
         }
     }
 }

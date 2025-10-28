@@ -1,5 +1,5 @@
 <template>
-  <div class="py-8 md:py-16 px-0 mx-0 w-full">
+  <div :class="containerClasses">
     <div class="grid grid-cols-12 gap-4 lg:gap-x-12 gap-y-8 md:!gap-y-16 px-0 mx-0 w-full">
 
 
@@ -168,7 +168,14 @@ const setupAnimations = () => {
  * Container classes computed property
  */
 const containerClasses = computed(() => {
-  return getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  let classes = getContainerClasses('background', 'text', 'padding', 'margin', 'width');
+  
+  // Add default padding if no custom padding is set
+  if (!componentSettings.value.customPadding) {
+    classes.push('py-8', 'md:py-16');
+  }
+  
+  return classes.join(' ');
 });
 
 
