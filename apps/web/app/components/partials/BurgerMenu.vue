@@ -10,9 +10,7 @@
     <!-- Header with logo -->
     <div class="absolute top-0 left-0 p-6 z-30">
       <!-- Logo -->
-      <nuxt-link to="/" @click="coreStore.toggleShowMenu()">
-        <Logo class="w-auto h-9" fill-color="white" :fill-opacity="0.8" />
-      </nuxt-link>
+   
     </div>
 
     <!-- Navigation content -->
