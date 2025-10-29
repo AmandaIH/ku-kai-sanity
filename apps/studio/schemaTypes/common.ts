@@ -4,7 +4,7 @@ import { defineField, defineType } from "sanity";
 export const referenceableDocumentTypes = [
   { type: 'page' },
   { type: 'article' },
-  { type: 'services' }
+  { type: 'solutions' }
 ];
 
 // Helper function to get document type labels for previews
@@ -12,7 +12,7 @@ export const getDocumentTypeLabel = (type: string) => {
   const typeLabels: Record<string, string> = {
     'page': 'Page',
     'article': 'Article',
-    'services': 'Service'
+    'solutions': 'Service'
   };
   return typeLabels[type] || type;
 };
