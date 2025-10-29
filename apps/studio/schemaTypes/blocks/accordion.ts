@@ -131,7 +131,7 @@ export const accordionBlock = {
                         { type: 'page' },
                         { type: 'article' },
                         { type: 'portfolio' },
-                        { type: 'solutions' }
+                        { type: 'services' }
                       ],
                       hidden: ({ parent }: any) => parent?.linkType !== 'internal'
                     },
