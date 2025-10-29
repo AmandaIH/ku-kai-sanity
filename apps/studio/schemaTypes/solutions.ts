@@ -5,7 +5,7 @@ import { seo } from './objects/seo'
 
 export const solutions = {
   name: 'solutions',
-  title: 'Solutions',
+  title: 'Services',
   type: 'document',
   groups: [
     {

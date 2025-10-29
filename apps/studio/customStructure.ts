@@ -41,33 +41,14 @@ export const structure = (S: StructureBuilder) => {
       
       S.listItem()
         .id('solutions')
-        .title('Solutions')
+        .title('Services')
         .child(
           S.documentTypeList('solutions')
-            .title('Solutions')
+            .title('Services')
             .filter(`_type == "solutions"`)
             .apiVersion('v2025-07-24')
         ),
 
-      S.listItem()
-        .id('portfolios')
-        .title('Portfolios')
-        .child(
-          S.documentTypeList('portfolio')
-            .title('Portfolios')
-            .filter(`_type == "portfolio"`)
-            .apiVersion('v2025-07-24')
-        ),
-      
-      S.listItem()
-        .id('employees')
-        .title('Employees')
-        .child(
-          S.documentTypeList('employee')
-            .title('Employees')
-            .filter(`_type == "employee"`)
-            .apiVersion('v2025-07-24')
-        ),
       
       S.listItem()
         .id('menus')
