@@ -150,4 +150,4 @@ This project is private and unlicensed.
 
 For more detailed information about each application, see the README files in their respective directories:
 - [Studio README](./apps/studio/README.md)
-- [Web README](./apps/web/README.md) 
+- [Web README](./apps/web/README.md) # Pipeline trigger
