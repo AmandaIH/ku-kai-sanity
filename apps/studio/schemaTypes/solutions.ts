@@ -38,7 +38,7 @@ export const solutions = {
         source: 'title',
         slugify: (input: string) => {
           const slugified = slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
-          return `solutions/${slugified}`;
+          return `services/${slugified}`;
         },
       },
       validation: (Rule: any) => Rule.required(),
