@@ -9,8 +9,7 @@
   <div class="fixed w-full h-svh right-0 top-0 z-[22] overflow-scroll burger-menu" :class="coreStore.getShowMenu ? '' : 'translate-x-full'">
     <!-- Header with logo -->
     <div class="absolute top-0 left-0 p-6 z-30">
-      <!-- Logo -->
-   
+      <!-- Logo is handled by the main header -->
     </div>
 
     <!-- Navigation content -->

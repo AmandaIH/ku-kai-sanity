@@ -13,7 +13,6 @@
         v-if="!menuScrollActive"
         class="w-auto" 
         style="height: 3.5rem;"
-        :class="[store.getShowMenu ? 'hidden sm:block' : '']"
         :fill-color="darkHeader ? '#111111' : (shouldUseWhiteText ? 'white' : 'black')"
         :fill-opacity="0.8"
         :hide-text="false"
@@ -23,7 +22,6 @@
         v-else
         class="w-auto" 
         style="height: 1.9rem;"
-        :class="[store.getShowMenu ? 'hidden sm:block' : '']"
         :fill-color="'#111111'"
          ></SimpleLogo>
       </nuxt-link>
