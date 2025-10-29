@@ -4,7 +4,7 @@ import { commonFields } from './common'
 import { seo } from './objects/seo'
 
 export const solutions = {
-  name: 'services',
+  name: 'solutions',
   title: 'Services',
   type: 'document',
   groups: [

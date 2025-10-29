@@ -43,9 +43,9 @@ export const structure = (S: StructureBuilder) => {
         .id('services')
         .title('Services')
         .child(
-          S.documentTypeList('services')
+          S.documentTypeList('solutions')
             .title('Services')
-            .filter(`_type == "services"`)
+            .filter(`_type == "solutions"`)
             .apiVersion('v2025-07-24')
         ),
 
