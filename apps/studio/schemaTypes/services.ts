@@ -35,8 +35,23 @@ export const solutions = {
       title: 'Slug',
       type: 'slug',
       options: {
-        source: 'title',
+        source: (doc: any) => {
+          const title = doc.title || 'untitled';
+          const language = doc.language || 'da';
+          
+          // Only prefix with language if it's not 'da' (main language)
+          if (language !== 'da') {
+            return `${language}-${title}`;
+          }
+          return title;
+        },
         slugify: (input: string) => {
+          // Handle language prefix separately
+          if (input.includes('-')) {
+            const [lang, ...rest] = input.split('-');
+            const slugifiedRest = slugify(rest.join('-'), { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
+            return `${lang}/services/${slugifiedRest}`;
+          }
           const slugified = slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
           return `services/${slugified}`;
         },
