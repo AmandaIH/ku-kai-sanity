@@ -51,6 +51,10 @@ export const article = {
       group: 'content'
     },
     {
+      ...commonFields.language,
+      group: 'content'
+    },
+    {
       name: 'featuredImage',
       title: 'Featured Image',
       type: 'image',
@@ -102,12 +106,14 @@ export const article = {
   preview: {
     select: {
       title: 'title',
-      slug: 'slug.current'
+      slug: 'slug.current',
+      language: 'language'
     },
-    prepare({ title, slug }: any) {
+    prepare({ title, slug, language }: any) {
+      const languageLabel = language === 'en' ? 'English' : 'Danish';
       return {
         title,
-        subtitle: slug ? `/${slug}` : ''
+        subtitle: `${languageLabel}${slug ? ` • /${slug}` : ''}`
       }
     }
   }

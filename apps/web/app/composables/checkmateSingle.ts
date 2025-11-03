@@ -1,4 +1,5 @@
 import { useCoreStore } from "~/stores/core";
+import { useI18n } from "#i18n";
 
 /**
  * Interface for SEO data structure
@@ -51,12 +52,14 @@ interface PageData {
     _type: string;
     current: string;
   };
+  language: string;
   metaDescription?: string;
   featuredImage?: any;
   content?: any;
   seo?: SeoData;
   _createdAt: string;
   _updatedAt: string;
+  _translations?: any[];
 }
 
 /**
@@ -70,7 +73,21 @@ interface FrontpageSettings {
     _type: string;
     current: string;
   };
+  language: string;
   seo?: SeoData;
+  _translations?: Array<{
+    value: {
+      _id: string;
+      _type: string;
+      title: string;
+      slug: {
+        _type: string;
+        current: string;
+      };
+      language: string;
+      seo?: SeoData;
+    };
+  }>;
 }
 
 /**
@@ -117,6 +134,7 @@ interface SiteSettings {
 interface ApiResponse {
   data: PageData;
   meta: {
+    language: string;
     limit?: number;
     offset?: number;
     total?: number;
@@ -128,6 +146,7 @@ interface ApiResponse {
  */
 interface CheckmateSingleOptions {
   path?: string;
+  language?: string;
 }
 
 /**
@@ -139,8 +158,14 @@ function detectDocumentType(path: string): { documentType: string; apiEndpoint: 
     return { documentType: 'page', apiEndpoint: '/api/documents/pages' };
   }
 
-  // Remove leading slash for detection
+  // Remove leading slash and language prefix for detection
   let cleanPath = path.startsWith('/') ? path.substring(1) : path;
+  
+  // Remove language prefix (en/, da/, etc.) to get clean path
+  const languagePrefixPattern = /^[a-z]{2}\//;
+  if (languagePrefixPattern.test(cleanPath)) {
+    cleanPath = cleanPath.replace(languagePrefixPattern, '');
+  }
 
   // Look for document type patterns: articles/, solutions/, etc.
   const documentTypeMatch = cleanPath.match(/^([a-z]+)\//);
@@ -193,6 +218,7 @@ function detectDocumentType(path: string): { documentType: string; apiEndpoint: 
  */
 export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
     const store = useCoreStore();
+    const { locale } = useI18n();
 
     // Set up reactive variables
     const page = ref<PageData | null>(null);
@@ -200,6 +226,7 @@ export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
 
     // Get the current path from route if not provided
     let path = options.path || useRoute().path;
+    const language = options.language || locale.value;
     
     // Auto-detect document type using convention-based detection
     const { documentType, apiEndpoint } = detectDocumentType(path);
@@ -212,13 +239,44 @@ export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
         const settings = store.getSettings as SiteSettings;
 
         if (settings?.frontpage?.slug?.current) {
-            path = settings.frontpage.slug.current;
+            // Check if we need to use a language-specific slug from translations
+            const frontpage = settings.frontpage;
+            let frontpageSlug = frontpage.slug.current;
+            
+            // If the current language doesn't match the frontpage language, 
+            // look for the translation with the correct slug
+            if (frontpage.language !== language && frontpage._translations) {
+                const translation = frontpage._translations.find(t => t.value.language === language);
+                if (translation?.value.slug?.current) {
+                    frontpageSlug = translation.value.slug.current;
+                }
+            }
+            
+            path = frontpageSlug;
         } else {
-            // Default to 'frontpage' if no frontpage is configured
-            path = 'frontpage';
+            // If no frontpage is configured, throw an error
+            throw new Error('No frontpage configured in site settings');
         }
     } else {
-        // Remove leading slash for Sanity compatibility
+        // For non-frontpage routes, we need to reconstruct the full path with language prefix
+        // because Nuxt i18n removes the language prefix from route.params.slug
+        // but Sanity stores the full path including the language prefix
+        
+        // Remove leading slash if present
+        const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+        
+        // Check if the path already contains a language prefix
+        const hasLanguagePrefix = /^[a-z]{2}\//.test(cleanPath);
+        
+        // Only add language prefix if it's not already present and not the default locale (Danish)
+        if (!hasLanguagePrefix && language !== 'da') {
+            path = `/${language}/${cleanPath}`;
+        } else {
+            // Use the clean path as is (already has language prefix or is default locale)
+            path = cleanPath;
+        }
+        
+        // Strip leading slash for Sanity compatibility
         path = path.startsWith('/') ? path.substring(1) : path;
     }
 
@@ -227,11 +285,11 @@ export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
     
     // Build query parameters
     const params = {
-        path: path
-        // No need to pass type - API will search across all document types automatically
+        path: path,
+        language: language
     };
     
-    const key = `${documentType}-${path.replace(/\//g, '-')}`;
+    const key = `${documentType}-${path.replace(/\//g, '-')}-${language}`;
     
     // Use Nuxt 4's improved data fetching with better deduplication
     const { data: responseData, pending, error, refresh } = await useAsyncData(

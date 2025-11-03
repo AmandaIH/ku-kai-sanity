@@ -1,4 +1,4 @@
-import { createSanityClient, commonFields, ctaReferences } from '../../../utils/sanity'
+import { createSanityClient, commonFields, ctaReferences, getTranslationsQuery } from '../../../utils/sanity'
 import { defineEventHandler, getQuery, createError } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -8,6 +8,7 @@ export default defineEventHandler(async (event) => {
       const offset = parseInt(query.offset as string) || 0
       const path = query.path as string
       const type = query.type as string || 'page' // Default to 'page' if no type specified
+      const language = query.language as string || 'da' // Default to Danish
 
       // Validate document type
       const validTypes = ['page', 'solutions', 'article', 'portfolio', 'all']
@@ -21,27 +22,35 @@ export default defineEventHandler(async (event) => {
       // If path is provided, lookup single document by slug across all types
       if (path) {
         // Strip leading slash from path
-        const cleanPath = path.startsWith('/') ? path.slice(1) : path
+        let cleanPath = path.startsWith('/') ? path.slice(1) : path
+        
+        // Remove language prefix from path (e.g., "en/frontpage2" -> "frontpage2")
+        // Sanity slugs don't include language prefixes
+        const languagePrefixPattern = /^[a-z]{2}\//;
+        if (languagePrefixPattern.test(cleanPath)) {
+          cleanPath = cleanPath.replace(languagePrefixPattern, '');
+        }
         
         const groqQuery = `
-          *[slug.current == $path && _type in ["page", "solutions", "article", "portfolio"]][0] {
+          *[slug.current == $path && _type in ["page", "solutions", "article", "portfolio"] && language == $language][0] {
             ${commonFields},
-            ${ctaReferences}
+            ${ctaReferences},
+            ${getTranslationsQuery('page')}
           }
         `
 
         const sanityClient = createSanityClient()
-        // Try both with and without leading slash
-        let document = await sanityClient.fetch(groqQuery, { path: cleanPath })
+        // Try with cleaned path (without language prefix)
+        let document = await sanityClient.fetch(groqQuery, { path: cleanPath, language })
         
         // If not found, try with leading slash
         if (!document) {
-          document = await sanityClient.fetch(groqQuery, { path: `/${cleanPath}` })
+          document = await sanityClient.fetch(groqQuery, { path: `/${cleanPath}`, language })
         }
         
-        // If still not found, try without leading slash but with the original path
-        if (!document && path !== cleanPath) {
-          document = await sanityClient.fetch(groqQuery, { path: path })
+        // If still not found and path has a prefix pattern, try the full path as stored
+        if (!document && languagePrefixPattern.test(path)) {
+          document = await sanityClient.fetch(groqQuery, { path: path.replace(/^\//, ''), language })
         }
 
         if (!document) {
@@ -54,25 +63,28 @@ export default defineEventHandler(async (event) => {
         return {
           data: document,
           meta: {
-            type: document._type
+            type: document._type,
+            language
           }
         }
       }
 
       // Base query for documents - search across all types if no specific type requested
       let groqQuery = `
-        *[_type in ["page", "solutions", "article", "portfolio"]] {
+        *[_type in ["page", "solutions", "article", "portfolio"] && language == $language] {
           ${commonFields},
-          ${ctaReferences}
+          ${ctaReferences},
+          ${getTranslationsQuery('page')}
         }
       `
 
       // If a specific type is requested, filter by that type
       if (type && type !== 'all') {
         groqQuery = `
-          *[_type == $type] {
+          *[_type == $type && language == $language] {
             ${commonFields},
-            ${ctaReferences}
+            ${ctaReferences},
+            ${getTranslationsQuery(type)}
           }
         `
       }
@@ -86,7 +98,7 @@ export default defineEventHandler(async (event) => {
       }
 
       const sanityClient = createSanityClient()
-      const documents = await sanityClient.fetch(groqQuery, type && type !== 'all' ? { type } : {})
+      const documents = await sanityClient.fetch(groqQuery, type && type !== 'all' ? { type, language } : { language })
 
       return {
         data: documents,
@@ -94,7 +106,8 @@ export default defineEventHandler(async (event) => {
           limit,
           offset,
           total: documents.length,
-          type
+          type,
+          language
         }
       }
     } catch (error: any) {

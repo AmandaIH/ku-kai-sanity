@@ -1,64 +1,63 @@
 import type { StructureBuilder } from 'sanity/structure'
+import { INTERNATIONALIZATION_CONFIG } from './config/internationalization'
 
 export const structure = (S: StructureBuilder) => {
   return S.list()
     .title('Content')
     .items([
-      // Site Settings
-      S.listItem()
-        .id('siteSettings')
-        .title('Site Settings')
-        .child(
-          S.documentTypeList('siteSettings')
-            .title('Site Settings')
-            .filter(`_type == "siteSettings"`)
-            .apiVersion('v2025-07-24')
-        ),
+      // Site Settings as shared singleton (no language filtering)
+      ...INTERNATIONALIZATION_CONFIG.singletonSchemaTypes.map((schemaType: string) => 
+        S.listItem()
+          .id(schemaType)
+          .title(getSchemaTitle(schemaType))
+          .child(
+            S.documentTypeList(schemaType)
+              .title(getSchemaTitle(schemaType))
+              .filter(`_type == "${schemaType}"`)
+              .apiVersion('v2025-07-24')
+          )
+      ),
       
       // Divider after singletons
-      S.divider(),
+      ...(INTERNATIONALIZATION_CONFIG.singletonSchemaTypes.length > 0 ? [S.divider()] : []),
       
-      // Document types
-      S.listItem()
-        .id('pages')
-        .title('Pages')
-        .child(
-          S.documentTypeList('page')
-            .title('Pages')
-            .filter(`_type == "page"`)
-            .apiVersion('v2025-07-24')
-        ),
-      
-      S.listItem()
-        .id('articles')
-        .title('Articles')
-        .child(
-          S.documentTypeList('article')
-            .title('Articles')
-            .filter(`_type == "article"`)
-            .apiVersion('v2025-07-24')
-        ),
-      
-      S.listItem()
-        .id('services')
-        .title('Services')
-        .child(
-          S.documentTypeList('solutions')
-            .title('Services')
-            .filter(`_type == "solutions"`)
-            .apiVersion('v2025-07-24')
-        ),
-
-      
-      S.listItem()
-        .id('menus')
-        .title('Menus')
-        .child(
-          S.documentTypeList('menu')
-            .title('Menus')
-            .filter(`_type == "menu"`)
-            .apiVersion('v2025-07-24')
-        ),
+      // Internationalized document types with language filtering
+      ...INTERNATIONALIZATION_CONFIG.regularDocumentTypes.map((schemaType: string) => 
+        S.listItem()
+          .id(schemaType)
+          .title(getSchemaTitle(schemaType))
+          .child(
+            S.list()
+              .title(getSchemaTitle(schemaType))
+              .items([
+                // All documents (only show if more than one language)
+                ...(INTERNATIONALIZATION_CONFIG.supportedLanguages.length > 1 ? [
+                  S.listItem()
+                    .id(`${schemaType}-all`)
+                    .title('All')
+                    .child(
+                      S.documentTypeList(schemaType)
+                        .title('All')
+                        .filter(`_type == "${schemaType}"`)
+                        .apiVersion('v2025-07-24')
+                    )
+                ] : []),
+                
+                // Language-specific lists
+                ...INTERNATIONALIZATION_CONFIG.supportedLanguages.map((lang: any) => 
+                  S.listItem()
+                    .id(`${schemaType}-${lang.id}`)
+                    .title(lang.title)
+                    .child(
+                      S.documentTypeList(schemaType)
+                        .title(lang.title)
+                        .filter(`_type == "${schemaType}" && language == "${lang.id}"`)
+                        .apiVersion('v2025-07-24')
+                    )
+                )
+              ])
+          )
+      ),
       
       // Divider before media
       S.divider(),
@@ -88,4 +87,20 @@ export const structure = (S: StructureBuilder) => {
             ])
         ),
     ])
+}
+
+/**
+ * Get a human-readable title for a schema type
+ */
+function getSchemaTitle(schemaType: string): string {
+  const titles: Record<string, string> = {
+    page: 'Pages',
+    article: 'Articles',
+    siteSettings: 'Site Settings',
+    menu: 'Menus',
+    portfolio: 'Portfolios',
+    solutions: 'Services'
+  }
+  
+  return titles[schemaType] || schemaType.charAt(0).toUpperCase() + schemaType.slice(1) + 's'
 } 

@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { INTERNATIONALIZATION_CONFIG } from '../config/internationalization';
 
 // Centralized list of document types that can be referenced in links
 export const referenceableDocumentTypes = [
@@ -407,6 +408,19 @@ export const createWysiwygField = (name: string, title: string) => ({
 })
 
 export const commonFields = {
+  language: defineField({
+    name: 'language',
+    title: 'Language',
+    type: 'string',
+    options: {
+      list: INTERNATIONALIZATION_CONFIG.supportedLanguages.map(lang => ({
+        title: lang.title,
+        value: lang.id
+      }))
+    },
+    initialValue: INTERNATIONALIZATION_CONFIG.defaultLanguage,
+    validation: (Rule: any) => Rule.required()
+  }),
 
   // Headers
   eyebrow: {

@@ -138,8 +138,26 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss', 
     '@nuxtjs/sitemap', 
     '@checkmatecph/flowmate-nuxt-integration',
+    '@nuxtjs/i18n',
     '@pinia/nuxt'
   ],
+
+  i18n: {
+    baseUrl: process.env.NUXT_PUBLIC_SITE_URL,
+    defaultLocale: 'da',
+    locales: [
+      { code: 'da', iso: 'da-DK', name: 'Dansk', dir: 'ltr', file: 'da.js' },
+      { code: 'en', iso: 'en-GB', name: 'English', dir: 'ltr', file: 'en.js' },
+    ],
+    langDir: 'lang',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: false,
+    skipSettingLocaleOnNavigate: false,
+    trailingSlash: false,
+    compilation: {
+      strictMessage: false,
+    },
+  },
 
 
 

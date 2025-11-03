@@ -27,6 +27,9 @@ export const menu = defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      ...commonFields.language
+    }),
+    defineField({
       name: 'menuItems',
       title: 'Menu Items',
       type: 'array',
@@ -39,10 +42,12 @@ export const menu = defineType({
     select: {
       name: 'title',
       slug: 'slug',
+      language: 'language',
       itemCount: 'menuItems'
     },
-    prepare({ name, itemCount }) {
+    prepare({ name, language, itemCount }) {
       const count = itemCount ? itemCount.length : 0;
+      const languageLabel = language === 'en' ? 'English' : 'Danish';
       
       // Count total items including children recursively
       const countAllItems = (items: any[]): number => {
@@ -57,7 +62,7 @@ export const menu = defineType({
       
       return {
         title: name,
-        subtitle: `${topLevelCount} top-level${totalCount > topLevelCount ? ` • ${totalCount} total` : ''}`
+        subtitle: `${languageLabel} • ${topLevelCount} top-level${totalCount > topLevelCount ? ` • ${totalCount} total` : ''}`
       }
     }
   }

@@ -39,7 +39,8 @@ import { computed } from 'vue'
 import { useCoreStore } from '~/stores/core'
 import { useSeoHead } from "~/composables/useSeoHead"
 import { usePageCacheHeaders } from "~/composables/pageCacheHeaders"
-import { useFlowmate } from "~/composables/flowmate";
+import { useFlowmate } from "~/composables/flowmate"
+import { useMultilingual } from "~/composables/useMultilingual"
 
 // Get route composable
 const route = useRoute()
@@ -47,6 +48,7 @@ const config = useRuntimeConfig()
 
 const store = useCoreStore()
 const { getSeoHead } = useSeoHead()
+const { setCurrentRouteTranslations } = useMultilingual()
 const { $readSession } = useNuxtApp()
 
 const settings = computed(() => store.settings)
@@ -74,6 +76,9 @@ if (pageData.value) {
   
   // Set meta data in store for SEO
   store.setMeta(page)
+  
+  // Set route translations for language switching
+  setCurrentRouteTranslations(page)
   
   // Handle header text color based on content
   if (page.content && page.content.length > 0) {

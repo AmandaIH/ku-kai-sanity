@@ -42,6 +42,9 @@
           >
             {{ menuItem.title }}
           </NavigationLink>
+
+          <LanguageSwitcher />
+
         </div>
       </nav>
 

@@ -42,6 +42,7 @@ export const commonFields = `
   _type,
   title,
   slug,
+  language,
   metaDescription,
   featuredImage,
   date,
@@ -112,6 +113,20 @@ export const ctaReferences = `
       _type,
       title,
       slug
+    }
+  }
+`
+
+// Function to get translations for a document
+export const getTranslationsQuery = (documentType: string) => `
+  "_translations": *[_type == "translation.metadata" && references(^._id)].translations[]{
+    value->{
+      _id,
+      _type,
+      title,
+      slug,
+      language,
+      seo
     }
   }
 `

@@ -1,4 +1,4 @@
-import { createSanityClient, commonFields, ctaReferences } from '../../../utils/sanity'
+import { createSanityClient, commonFields, ctaReferences, getTranslationsQuery } from '../../../utils/sanity'
 
 export default cachedEventHandler(
   async (event) => {
@@ -7,18 +7,30 @@ export default cachedEventHandler(
       const limit = parseInt(query.limit as string) || 10
       const offset = parseInt(query.offset as string) || 0
       const path = query.path as string
+      const language = query.language as string || 'da' // Default to Danish
 
       // If path is provided, lookup single solution by slug
       if (path) {
+        // Strip leading slash and remove language prefix from path
+        let cleanPath = path.startsWith('/') ? path.slice(1) : path
+        
+        // Remove language prefix from path (e.g., "en/service-slug" -> "service-slug")
+        // Sanity slugs don't include language prefixes
+        const languagePrefixPattern = /^[a-z]{2}\//;
+        if (languagePrefixPattern.test(cleanPath)) {
+          cleanPath = cleanPath.replace(languagePrefixPattern, '');
+        }
+        
         const groqQuery = `
-          *[_type == "solutions" && slug.current == $path][0] {
+          *[_type == "solutions" && slug.current == $path && language == $language][0] {
             ${commonFields},
-            ${ctaReferences}
+            ${ctaReferences},
+            ${getTranslationsQuery('solutions')}
           }
         `
 
         const sanityClient = createSanityClient()
-        const solution = await sanityClient.fetch(groqQuery, { path })
+        const solution = await sanityClient.fetch(groqQuery, { path: cleanPath, language })
 
         if (!solution) {
           throw createError({
@@ -29,15 +41,18 @@ export default cachedEventHandler(
 
         return {
           data: solution,
-          meta: {}
+          meta: {
+            language
+          }
         }
       }
 
-      // Base query for solutions
+      // Base query for solutions with language filter
       let groqQuery = `
-        *[_type == "solutions"] {
+        *[_type == "solutions" && language == $language] {
           ${commonFields},
-          ${ctaReferences}
+          ${ctaReferences},
+          ${getTranslationsQuery('solutions')}
         }
       `
 
@@ -45,14 +60,20 @@ export default cachedEventHandler(
       groqQuery += ` | order(_createdAt desc) [${offset}...${offset + limit}]`
 
       const sanityClient = createSanityClient()
-      const solutions = await sanityClient.fetch(groqQuery)
+      
+      // Fetch solutions and total count in parallel
+      const [solutions, totalCount] = await Promise.all([
+        sanityClient.fetch(groqQuery, { language }),
+        sanityClient.fetch(`count(*[_type == "solutions" && language == $language])`, { language })
+      ])
 
       return {
         data: solutions,
         meta: {
           limit,
           offset,
-          total: solutions.length
+          total: totalCount,
+          language
         }
       }
     } catch (error: any) {

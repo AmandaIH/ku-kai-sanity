@@ -1,4 +1,4 @@
-import { createSanityClient, commonFields, ctaReferences } from '../../../utils/sanity'
+import { createSanityClient, commonFields, ctaReferences, getTranslationsQuery } from '../../../utils/sanity'
 
 export default cachedEventHandler(
   async (event) => {
@@ -7,18 +7,30 @@ export default cachedEventHandler(
       const limit = parseInt(query.limit as string) || 10
       const offset = parseInt(query.offset as string) || 0
       const path = query.path as string
+      const language = query.language as string || 'da' // Default to Danish
 
       // If path is provided, lookup single portfolio by slug
       if (path) {
+        // Strip leading slash and remove language prefix from path
+        let cleanPath = path.startsWith('/') ? path.slice(1) : path
+        
+        // Remove language prefix from path (e.g., "en/portfolio-slug" -> "portfolio-slug")
+        // Sanity slugs don't include language prefixes
+        const languagePrefixPattern = /^[a-z]{2}\//;
+        if (languagePrefixPattern.test(cleanPath)) {
+          cleanPath = cleanPath.replace(languagePrefixPattern, '');
+        }
+        
         const groqQuery = `
-          *[_type == "portfolio" && slug.current == $path][0] {
+          *[_type == "portfolio" && slug.current == $path && language == $language][0] {
             ${commonFields},
-            ${ctaReferences}
+            ${ctaReferences},
+            ${getTranslationsQuery('portfolio')}
           }
         `
 
         const sanityClient = createSanityClient()
-        const portfolio = await sanityClient.fetch(groqQuery, { path })
+        const portfolio = await sanityClient.fetch(groqQuery, { path: cleanPath, language })
 
         if (!portfolio) {
           throw createError({
@@ -29,27 +41,30 @@ export default cachedEventHandler(
 
         return {
           data: portfolio,
-          meta: {}
+          meta: {
+            language
+          }
         }
       }
 
-      // Base query for portfolios
+      // Base query for portfolios with language filter
       let groqQuery = `
-        *[_type == "portfolio"] {
+        *[_type == "portfolio" && language == $language] {
           ${commonFields},
-          ${ctaReferences}
+          ${ctaReferences},
+          ${getTranslationsQuery('portfolio')}
         }
       `
 
       // Add ordering and pagination
-      groqQuery += ` | order(_createdAt desc) [${offset}...${offset + limit}]`
+      groqQuery += ` | order(coalesce(date, _createdAt) desc) [${offset}...${offset + limit}]`
 
       const sanityClient = createSanityClient()
       
       // Fetch portfolios and total count in parallel
       const [portfolios, totalCount] = await Promise.all([
-        sanityClient.fetch(groqQuery),
-        sanityClient.fetch(`count(*[_type == "portfolio"])`)
+        sanityClient.fetch(groqQuery, { language }),
+        sanityClient.fetch(`count(*[_type == "portfolio" && language == $language])`, { language })
       ])
 
       return {
@@ -57,7 +72,8 @@ export default cachedEventHandler(
         meta: {
           limit,
           offset,
-          total: totalCount
+          total: totalCount,
+          language
         }
       }
     } catch (error: any) {
