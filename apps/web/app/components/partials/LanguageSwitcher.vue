@@ -1,43 +1,47 @@
 <template>
   <nav 
-    v-if="isMultilingualEnabled" 
+    v-if="isMultilingualEnabled && alternateLocale" 
     class="language-switcher flex items-center gap-2" 
     aria-label="Language selection"
   >
     <NuxtLink
-      v-for="locale in availableLocales"
-      :key="locale.code"
-      :to="getLocalePath(locale.code)"
+      :key="alternateLocale.code"
+      :to="getLocalePath(alternateLocale.code)"
       :class="[
         'language-switcher__link',
         'flex items-center justify-center transition-all duration-200',
-        'w-7 h-7 border rounded-full box-border',
         'mb-0 m-0',
-        'hover:opacity-70 focus:outline-none',
-        {
-          'opacity-70': locale.code !== currentLocale
-        }
+        'hover:opacity-70 focus:outline-none'
       ]"
-      :style="locale.code === currentLocale ? { borderColor: 'currentColor' } : { borderColor: 'transparent' }"
-      :aria-current="locale.code === currentLocale ? 'page' : undefined"
-      :aria-label="`Switch to ${locale.name}`"
+      :aria-label="`Switch to ${alternateLocale.name}`"
       @click="handleLanguageSwitch"
     >
+      <div 
+        v-if="svgContent"
+        class="w-6 h-6 rounded-full overflow-hidden"
+        v-html="svgContent"
+      ></div>
       <img
-        :src="`/flags/${locale.code}.svg`"
-        :alt="`${locale.name} flag`"
+        v-else
+        :src="flagSrc"
+        :alt="`${alternateLocale.name} flag`"
         class="w-6 h-6 object-cover rounded-full block m-0 mb-0"
+        width="24"
+        height="24"
+        @error="handleImageError"
       />
     </NuxtLink>
   </nav>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useSwitchLocalePath } from '#i18n';
 import { useCoreStore } from '~/stores/core';
 
 const currentPage = computed(() => useCoreStore().currentPage);
+const svgContent = ref<string | null>(null);
+const flagSrc = computed(() => `/flags/${alternateLocale.value?.code}.svg`);
 
 /**
  * Interface for locale configuration
@@ -96,6 +100,14 @@ const isMultilingualEnabled = computed((): boolean => {
  */
 const currentLocale = computed((): string => {
   return locale.value;
+});
+
+/**
+ * Computed property to get the alternate locale (the one that is NOT currently active)
+ */
+const alternateLocale = computed((): Locale | null => {
+  const alternate = availableLocales.value.find(l => l.code !== currentLocale.value);
+  return alternate || null;
 });
 
 /**
@@ -166,7 +178,53 @@ const getLocalePath = (localeCode: string): string => {
 const handleLanguageSwitch = (event: Event): void => {
   // Add any additional logic here if needed
   // For example, analytics tracking, etc.
-  };
+};
+
+/**
+ * Load SVG content inline for Safari compatibility
+ */
+const loadSvgContent = async (localeCode: string) => {
+  if (!localeCode) return;
+  
+  try {
+    const response = await fetch(`/flags/${localeCode}.svg`);
+    if (response.ok) {
+      const svgText = await response.text();
+      // Wrap SVG in a container div for styling
+      svgContent.value = svgText;
+    } else {
+      svgContent.value = null;
+    }
+  } catch (error) {
+    console.warn('Failed to load SVG:', error);
+    svgContent.value = null;
+  }
+};
+
+/**
+ * Handle image error fallback
+ */
+const handleImageError = () => {
+  if (alternateLocale.value) {
+    loadSvgContent(alternateLocale.value.code);
+  }
+};
+
+// Watch for locale changes and load SVG
+watch(alternateLocale, (newLocale) => {
+  if (newLocale) {
+    loadSvgContent(newLocale.code);
+  } else {
+    svgContent.value = null;
+  }
+}, { immediate: true });
+
+// Load SVG on mount
+onMounted(() => {
+  if (alternateLocale.value) {
+    loadSvgContent(alternateLocale.value.code);
+  }
+});
 </script>
 
 <style scoped>
@@ -176,10 +234,27 @@ const handleLanguageSwitch = (event: Event): void => {
   vertical-align: middle !important;
 }
 
-.language-switcher__link img {
+.language-switcher__link img,
+.language-switcher__link > div {
   margin: 0 !important;
   margin-bottom: 0 !important;
   display: block;
+  /* Safari SVG fixes */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Ensure proper rendering in Safari */
+  object-fit: cover;
+  object-position: center;
+}
+
+.language-switcher__link > div :deep(svg) {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
 }
 </style>
 

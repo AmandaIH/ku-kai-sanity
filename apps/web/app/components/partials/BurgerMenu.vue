@@ -44,7 +44,7 @@
           class="uppercase font-medium text-sm text-white cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
           @click="navigateToLogin"
         >
-          Log ind
+          Få tilbud
         </button>
         
         <!-- Booking Button -->

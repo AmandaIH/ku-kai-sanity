@@ -7,9 +7,15 @@ export default defineNitroPlugin(async (nitroApp) => {
             response.headers = {};
         }
         
+        // Check if we're in development mode
+        const isDevelopment = process.env.NODE_ENV === 'development' || process.env.NITRO_DEV === 'true';
+        
+        // Completely skip CSP in development mode for Safari compatibility
+        if (isDevelopment) {
+            return; // Don't set any CSP headers in development
+        }
+        
         if (!response.headers['content-security-policy']) {
-            response.headers['content-security-policy'] = "upgrade-insecure-requests;";
-
             // Default CSP sources without relying on Pinia store
             const scrptSrc = [
                 'https://*.googletagmanager.com',
@@ -60,6 +66,7 @@ export default defineNitroPlugin(async (nitroApp) => {
                 'http://localhost:5173',
             ];
 
+            // Production CSP only (development is skipped above)
             response.headers['content-security-policy'] = "upgrade-insecure-requests;";
             // Note - unsafe-inline and unsafe-eval are needed for nuxt or gsap or something.
             response.headers['content-security-policy'] += "script-src 'self' 'unsafe-inline' 'unsafe-eval' "+scrptSrc.join(' ')+";";  // NOTE - unsafe-inline and unsafe-eval is required with greensock.

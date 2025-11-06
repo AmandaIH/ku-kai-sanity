@@ -21,8 +21,59 @@ export default defineNuxtConfig({
   // Safari development server fixes
   devServer: {
     https: false, // Disable HTTPS for localhost to fix Safari SSL issues
-    host: 'localhost',
+    host: 'localhost', // Keep localhost - we'll fix Safari another way
     port: 3000
+  },
+
+  // Safari CSS loading fixes
+  experimental: {
+    // Ensure CSS is properly loaded in Safari
+    payloadExtraction: false,
+  },
+
+  // Ensure proper CSS handling for Safari
+  vite: {
+    css: {
+      devSourcemap: true,
+    },
+    server: {
+      // Safari localhost fixes - explicitly use HTTP
+      strictPort: true,
+      hmr: {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3000,
+        clientPort: 3000
+      },
+      // Ensure proper headers for Safari
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+    },
+    // Ensure CSS is properly processed
+    build: {
+      cssCodeSplit: false, // Keep CSS in one file for Safari compatibility
+    },
+    // Vite plugin to fix HTTPS URLs in development
+    plugins: process.env.NODE_ENV === 'development' ? [
+      {
+        name: 'fix-https-urls',
+        transformIndexHtml(html: string) {
+          return html
+            .replace(/https:\/\/localhost:3000/g, 'http://localhost:3000')
+            .replace(/https:\/\/localhost/g, 'http://localhost');
+        },
+        transform(code: string, id: string) {
+          if (id.includes('localhost') && code.includes('https://localhost')) {
+            return code
+              .replace(/https:\/\/localhost:3000/g, 'http://localhost:3000')
+              .replace(/https:\/\/localhost/g, 'http://localhost');
+          }
+        }
+      }
+    ] : [],
   },
 
          // Content Security Policy for Safari compatibility
@@ -30,6 +81,8 @@ export default defineNuxtConfig({
 
 
          app: {
+           // Force HTTP base URL in development for Safari - use relative path, not absolute
+           baseURL: '/',
            // ============================================
            // PAGE TRANSITIONS - Choose your effect!
            // ============================================
@@ -131,6 +184,26 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false,
       routes: []
+    },
+    // Safari localhost fixes
+    devServer: {
+      watch: []
+    },
+    // Ensure proper headers for Safari
+    routeRules: {
+      '/**': {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        }
+      },
+      '/_nuxt/**': {
+        headers: {
+          'Content-Type': 'text/css; charset=utf-8',
+          'Cache-Control': 'no-cache',
+        }
+      }
     }
   },
 
@@ -143,7 +216,7 @@ export default defineNuxtConfig({
   ],
 
   i18n: {
-    baseUrl: process.env.NUXT_PUBLIC_SITE_URL,
+    baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NUXT_PUBLIC_SITE_URL,
     defaultLocale: 'da',
     locales: [
       { code: 'da', iso: 'da-DK', name: 'Dansk', dir: 'ltr', file: 'da.js' },
