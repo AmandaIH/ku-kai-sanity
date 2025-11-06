@@ -43,6 +43,36 @@ const currentPage = computed(() => useCoreStore().currentPage);
 const svgContent = ref<string | null>(null);
 const flagSrc = computed(() => `/flags/${alternateLocale.value?.code}.svg`);
 
+// Embedded SVG flags to avoid file serving issues in production
+const flagSvgs: Record<string, string> = {
+  da: `<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_794_2402)">
+<path d="M0 0H15.0029V15H0V0Z" fill="#C8102E"/>
+<path d="M4.21973 0H6.36133V15H4.21973V0Z" fill="white"/>
+<path d="M0 6.42749H15.0029V8.57202H0V6.42749Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_794_2402">
+<rect width="15" height="15" rx="7.5" fill="white"/>
+</clipPath>
+</defs>
+</svg>`,
+  en: `<svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_794_2394)">
+<path d="M0 0H15V15H0V0Z" fill="#012169"/>
+<path d="M15 0V1.875L9.43359 7.5L15 12.9785V15H13.0371L7.44141 9.49219L1.99219 15H0V13.0078L5.44922 7.5293L0 2.16797V0H1.81641L7.44141 5.50781L12.8906 0H15Z" fill="white"/>
+<path d="M5.39062 9.49219L5.71289 10.4883L1.23047 15H0V14.9121L5.39062 9.49219ZM9.02344 9.14062L10.6055 9.375L15 13.6816V15L9.02344 9.14062ZM15 0L9.375 5.74219L9.25781 4.45312L13.6523 0H15ZM0 0.0292969L5.6543 5.56641L3.92578 5.33203L0 1.43555V0.0292969Z" fill="#C8102E"/>
+<path d="M5.15625 0V15H9.84375V0H5.15625ZM0 5.15625V9.84375H15V5.15625H0Z" fill="white"/>
+<path d="M0 6.09375V8.90625H15V6.09375H0ZM6.09375 0V15H8.90625V0H6.09375Z" fill="#C8102E"/>
+</g>
+<defs>
+<clipPath id="clip0_794_2394">
+<rect width="15" height="15" rx="7.5" fill="white"/>
+</clipPath>
+</defs>
+</svg>`
+};
+
 /**
  * Interface for locale configuration
  */
@@ -182,12 +212,19 @@ const handleLanguageSwitch = (event: Event): void => {
 
 /**
  * Load SVG content inline for Safari compatibility
+ * Uses embedded SVGs as fallback to avoid file serving issues
  */
 const loadSvgContent = async (localeCode: string) => {
   if (!localeCode) return;
   
+  // First, try to use embedded SVG (most reliable)
+  if (flagSvgs[localeCode]) {
+    svgContent.value = flagSvgs[localeCode];
+    return;
+  }
+  
+  // Fallback: try to fetch from server
   try {
-    // Use explicit fetch options for Safari compatibility
     const response = await fetch(`/flags/${localeCode}.svg`, {
       method: 'GET',
       mode: 'cors', // Explicitly set CORS mode for Safari
@@ -209,11 +246,13 @@ const loadSvgContent = async (localeCode: string) => {
         svgContent.value = svgText;
       }
     } else {
-      svgContent.value = null;
+      // If fetch fails, use embedded SVG if available
+      svgContent.value = flagSvgs[localeCode] || null;
     }
   } catch (error) {
     console.warn('Failed to load SVG:', error);
-    svgContent.value = null;
+    // Use embedded SVG as fallback
+    svgContent.value = flagSvgs[localeCode] || null;
   }
 };
 
