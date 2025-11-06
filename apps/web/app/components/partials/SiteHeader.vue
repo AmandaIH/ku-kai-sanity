@@ -177,16 +177,9 @@ const scrollThreshold = 75;
 const isMenuOpen = ref(false);
 
 function handleScroll() {
-  // Safari-compatible scroll position detection
-  let currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
-
-  if(currentScroll < 0) {
-    currentScroll = 0;
-  }
-
+  const currentScroll = window.scrollY || window.pageYOffset || 0;
   menuScrollActive.value = currentScroll > scrollThreshold;
   lastScroll.value = currentScroll;
-  
 }
 
 function toggleBurger() {
@@ -213,8 +206,6 @@ const openFallbackForm = () => {
   }
 }
 
-
-
 watch(isMenuOpen, (newVal) => {
   if (newVal) {
     document.body.classList.add('overflow-hidden');
@@ -224,35 +215,15 @@ watch(isMenuOpen, (newVal) => {
 });
 
 onMounted(() => {
-  // Use requestAnimationFrame for Safari compatibility
-  let ticking = false;
-  
-  const scrollHandler = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        handleScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
-  
-  window.addEventListener('scroll', scrollHandler, { passive: true });
-  // Also listen to touchmove for Safari mobile momentum scrolling
-  window.addEventListener('touchmove', scrollHandler, { passive: true });
-  
-  // Initial check
-  handleScroll();
-  
-  // Store handler for cleanup
-  window._headerScrollHandler = scrollHandler;
+  if (process.client) {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+  }
 });
 
 onUnmounted(() => {
-  if (window._headerScrollHandler) {
-    window.removeEventListener('scroll', window._headerScrollHandler);
-    window.removeEventListener('touchmove', window._headerScrollHandler);
-    delete window._headerScrollHandler;
+  if (process.client) {
+    window.removeEventListener('scroll', handleScroll);
   }
 });
 </script>
