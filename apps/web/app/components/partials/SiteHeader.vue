@@ -43,13 +43,13 @@
             {{ menuItem.title }}
           </NavigationLink>
 
-          <LanguageSwitcher />
-
         </div>
       </nav>
 
       <!-- Desktop Buttons - Right Side -->
       <div class="hidden md:flex items-center justify-center gap-6 z-[22]">
+        <LanguageSwitcher />
+        
         <!-- Få tilbud - Text Link -->
         <button 
           class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
@@ -77,30 +77,6 @@
 
       <!-- Mobile Burger Menu -->
       <div class="md:hidden flex items-center justify-center gap-4 z-[22]">
-        <!-- Få tilbud - Text Link on mobile -->
-        <button 
-          class="uppercase font-medium cursor-pointer text-sm relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-          :class="[
-            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
-          ]"
-          @click="openFallbackForm"
-        >
-          Få tilbud
-        </button>
-        
-        <!-- Booking Button on mobile -->
-        <button 
-          class="flex gap-4 items-center btn"
-          :class="[
-            'btn-primary',
-            menuScrollActive ? 'btn-scrolled' : '',
-            darkHeader ? 'btn-dark-header' : ''
-          ].filter(Boolean).join(' ')"
-          @click="navigateToBooking"
-        >
-          Booking
-        </button>
-        
         <div class="flex items-center">
           <BurgerIcon />
           <BurgerMenu :main-menu="mainMenu" :is-scrolled="menuScrollActive" />

@@ -13,8 +13,8 @@
     </div>
 
     <!-- Navigation content -->
-    <div class="h-full flex items-center justify-start">
-      <nav v-if="mainMenu" class="pl-4">
+    <div class="h-full flex items-center justify-start pb-32">
+      <nav v-if="mainMenu" class="p-6">
         <ul class="flex flex-col">
           <li class="mb-0 relative group nav-item" v-for="link in mainMenu" :key="'burger-' + link.ID" >
             <nuxt-link 
@@ -28,6 +28,33 @@
           </li>
         </ul>
       </nav>    
+    </div>
+
+    <!-- Footer with Language Switcher and Buttons -->
+    <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between z-30">
+      <!-- Language Switcher - Left Bottom -->
+      <div class="flex items-center">
+        <LanguageSwitcher />
+      </div>
+
+      <!-- Log ind and Booking Buttons - Right Bottom -->
+      <div class="flex items-center gap-4">
+        <!-- Log ind Button -->
+        <button 
+          class="uppercase font-medium text-sm text-white cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+          @click="navigateToLogin"
+        >
+          Log ind
+        </button>
+        
+        <!-- Booking Button -->
+        <button 
+          class="flex gap-4 items-center btn btn-primary"
+          @click="navigateToBooking"
+        >
+          Booking
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +75,22 @@ const props = defineProps({
     default: false
   }
 })
+
+// Navigate to booking page
+function navigateToBooking() {
+  navigateTo('/booking');
+  if(coreStore.getShowMenu) {
+    coreStore.toggleShowMenu();
+  }
+}
+
+// Navigate to login page
+function navigateToLogin() {
+  navigateTo('/booking'); // Assuming login is on booking page, adjust if needed
+  if(coreStore.getShowMenu) {
+    coreStore.toggleShowMenu();
+  }
+}
 
 // Close menu when route changes
 const route = useRoute();

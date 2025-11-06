@@ -1,48 +1,41 @@
 <template>
   <nav 
     v-if="isMultilingualEnabled" 
-    class="language-switcher" 
+    class="language-switcher flex items-center gap-2" 
     aria-label="Language selection"
   >
-    <ul class="flex items-center">
-      <li 
-        v-for="(locale, index) in availableLocales" 
-        :key="locale.code"
-        class="language-switcher__item flex items-center mb-0"
-      >
-        <NuxtLink
-          :to="getLocalePath(locale.code)"
-          :class="[
-            'language-switcher__link',
-            'px-1 text-sm font-medium transition-opacity duration-200',
-            'hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-1',
-            {
-              'font-semibold': locale.code === currentLocale,
-              'opacity-70': locale.code !== currentLocale
-            }
-          ]"
-          :aria-current="locale.code === currentLocale ? 'page' : undefined"
-          :aria-label="`Switch to ${locale.name}`"
-          @click="handleLanguageSwitch"
-        >
-          {{ locale.code.toUpperCase() }}
-        </NuxtLink>
-        <!-- Separator between languages (except for the last one) -->
-        <span 
-          v-if="index < availableLocales.length - 1" 
-          class="text-current opacity-40 px-1"
-          aria-hidden="true"
-        >
-          /
-        </span>
-      </li>
-    </ul>
+    <NuxtLink
+      v-for="locale in availableLocales"
+      :key="locale.code"
+      :to="getLocalePath(locale.code)"
+      :class="[
+        'language-switcher__link',
+        'flex items-center justify-center transition-all duration-200',
+        'w-7 h-7 border rounded-full box-border',
+        'mb-0 m-0',
+        'hover:opacity-70 focus:outline-none',
+        {
+          'opacity-70': locale.code !== currentLocale
+        }
+      ]"
+      :style="locale.code === currentLocale ? { borderColor: 'currentColor' } : { borderColor: 'transparent' }"
+      :aria-current="locale.code === currentLocale ? 'page' : undefined"
+      :aria-label="`Switch to ${locale.name}`"
+      @click="handleLanguageSwitch"
+    >
+      <img
+        :src="`/flags/${locale.code}.svg`"
+        :alt="`${locale.name} flag`"
+        class="w-6 h-6 object-cover rounded-full block m-0 mb-0"
+      />
+    </NuxtLink>
   </nav>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useSwitchLocalePath } from '#i18n';
+import { useCoreStore } from '~/stores/core';
 
 const currentPage = computed(() => useCoreStore().currentPage);
 
@@ -173,6 +166,20 @@ const getLocalePath = (localeCode: string): string => {
 const handleLanguageSwitch = (event: Event): void => {
   // Add any additional logic here if needed
   // For example, analytics tracking, etc.
-};
+  };
 </script>
+
+<style scoped>
+.language-switcher__link {
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  vertical-align: middle !important;
+}
+
+.language-switcher__link img {
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  display: block;
+}
+</style>
 
