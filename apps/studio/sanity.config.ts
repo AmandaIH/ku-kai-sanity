@@ -11,7 +11,7 @@ import {INTERNATIONALIZATION_CONFIG} from './config/internationalization'
 
 export default defineConfig({
   name: 'default',
-  title: 'Five',
+  title: 'WayStar',
 
   projectId: process.env.SANITY_STUDIO_PROJECT_ID!,
   dataset: process.env.SANITY_STUDIO_DATASET!,
