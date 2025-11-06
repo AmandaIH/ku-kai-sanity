@@ -176,7 +176,11 @@ const menuScrollActive = ref(false);
 const scrollThreshold = 75;
 const isMenuOpen = ref(false);
 
+// Store scroll handler reference for cleanup
+let scrollHandler = null;
+
 function handleScroll() {
+  if (typeof window === 'undefined') return;
   const currentScroll = window.scrollY || window.pageYOffset || 0;
   menuScrollActive.value = currentScroll > scrollThreshold;
   lastScroll.value = currentScroll;
@@ -207,23 +211,35 @@ const openFallbackForm = () => {
 }
 
 watch(isMenuOpen, (newVal) => {
-  if (newVal) {
-    document.body.classList.add('overflow-hidden');
-  } else {
-    document.body.classList.remove('overflow-hidden');
+  if (process.client && typeof document !== 'undefined') {
+    if (newVal) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
   }
 });
 
 onMounted(() => {
-  if (process.client) {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
-  }
+  // Ensure we're on client and window is available
+  if (typeof window === 'undefined' || !process.client) return;
+  
+  // Create handler function
+  scrollHandler = handleScroll;
+  
+  // Use setTimeout to ensure DOM is fully ready in production
+  setTimeout(() => {
+    if (typeof window !== 'undefined' && scrollHandler) {
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      scrollHandler(); // Initial check
+    }
+  }, 0);
 });
 
 onUnmounted(() => {
-  if (process.client) {
-    window.removeEventListener('scroll', handleScroll);
+  if (typeof window !== 'undefined' && scrollHandler) {
+    window.removeEventListener('scroll', scrollHandler);
+    scrollHandler = null;
   }
 });
 </script>
