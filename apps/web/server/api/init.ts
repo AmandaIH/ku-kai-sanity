@@ -32,6 +32,11 @@ export default defineEventHandler(async (event) => {
                 city,
                 phone,
                 email
+              },
+              location3 {
+                companyName,
+                phone,
+                email
               }
             },
             socialMediaChannels,

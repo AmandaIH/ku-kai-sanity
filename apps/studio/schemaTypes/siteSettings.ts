@@ -166,6 +166,32 @@ export const siteSettings = {
             },
           ]
         },
+        {
+          name: 'location3',
+          title: 'Location 3',
+          type: 'object',
+          description: 'Third company location',
+          fields: [
+            {
+              name: 'companyName',
+              title: 'Company Name',
+              type: 'string',
+              description: 'Company name for this location',
+            },
+            {
+              name: 'phone',
+              title: 'Phone',
+              type: 'string',
+              description: 'Phone number for this location',
+            },
+            {
+              name: 'email',
+              title: 'Email',
+              type: 'string',
+              description: 'Email address for this location',
+            },
+          ]
+        },
       ]
     },
     {

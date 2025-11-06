@@ -120,6 +120,11 @@ interface SiteSettings {
       phone?: string;
       email?: string;
     };
+    location3?: {
+      companyName?: string;
+      phone?: string;
+      email?: string;
+    };
   };
   socialMediaChannels?: {
     linkedin?: string;
@@ -169,7 +174,7 @@ function detectDocumentType(path: string): { documentType: string; apiEndpoint: 
 
   // Look for document type patterns: articles/, solutions/, etc.
   const documentTypeMatch = cleanPath.match(/^([a-z]+)\//);
-  if (documentTypeMatch) {
+  if (documentTypeMatch && documentTypeMatch[1]) {
     const pathType = documentTypeMatch[1];
     
     // Map path prefixes to document types
