@@ -187,11 +187,27 @@ const loadSvgContent = async (localeCode: string) => {
   if (!localeCode) return;
   
   try {
-    const response = await fetch(`/flags/${localeCode}.svg`);
+    // Use explicit fetch options for Safari compatibility
+    const response = await fetch(`/flags/${localeCode}.svg`, {
+      method: 'GET',
+      mode: 'cors', // Explicitly set CORS mode for Safari
+      cache: 'default',
+      headers: {
+        'Accept': 'image/svg+xml,image/*,*/*',
+      },
+    });
+    
     if (response.ok) {
-      const svgText = await response.text();
-      // Wrap SVG in a container div for styling
-      svgContent.value = svgText;
+      // Check if content type is correct (Safari is strict about this)
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('svg')) {
+        const svgText = await response.text();
+        svgContent.value = svgText;
+      } else {
+        // Fallback: try to read anyway if content-type check fails
+        const svgText = await response.text();
+        svgContent.value = svgText;
+      }
     } else {
       svgContent.value = null;
     }

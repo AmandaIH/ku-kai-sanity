@@ -203,6 +203,15 @@ export default defineNuxtConfig({
           'Content-Type': 'text/css; charset=utf-8',
           'Cache-Control': 'no-cache',
         }
+      },
+      '/flags/**': {
+        headers: {
+          'Content-Type': 'image/svg+xml; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        }
       }
     }
   },
