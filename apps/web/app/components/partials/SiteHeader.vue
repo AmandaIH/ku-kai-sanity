@@ -182,7 +182,13 @@ let scrollHandler = null;
 function handleScroll() {
   if (typeof window === 'undefined') return;
   const currentScroll = window.scrollY || window.pageYOffset || 0;
-  menuScrollActive.value = currentScroll > scrollThreshold;
+  const shouldBeActive = currentScroll > scrollThreshold;
+  
+  // Only update if changed to avoid unnecessary reactivity
+  if (menuScrollActive.value !== shouldBeActive) {
+    menuScrollActive.value = shouldBeActive;
+    console.log('[Header] Scroll state changed:', shouldBeActive, 'scroll:', currentScroll);
+  }
   lastScroll.value = currentScroll;
 }
 
@@ -232,6 +238,9 @@ onMounted(() => {
     if (typeof window !== 'undefined' && scrollHandler) {
       window.addEventListener('scroll', scrollHandler, { passive: true });
       scrollHandler(); // Initial check
+      
+      // Debug: verify handler is attached
+      console.log('[Header] Scroll handler attached, initial scroll:', window.scrollY);
     }
   }, 0);
 });
