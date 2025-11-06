@@ -11,12 +11,18 @@ export default defineNitroPlugin(async (nitroApp) => {
             const url = context.event.node.req.url;
             
             // Ensure CSS files have correct MIME type for Safari
-            if (url.endsWith('.css') || url.includes('/_nuxt/') && url.includes('.css')) {
+            // Only match actual CSS files, not JavaScript files in _nuxt directory
+            if (url.endsWith('.css') && !url.endsWith('.js')) {
                 response.headers['Content-Type'] = 'text/css; charset=utf-8';
                 // Safari-specific headers
                 response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
                 response.headers['Pragma'] = 'no-cache';
                 response.headers['Expires'] = '0';
+            }
+            
+            // Ensure JavaScript files have correct MIME type
+            if (url.endsWith('.js') || url.endsWith('.mjs')) {
+                response.headers['Content-Type'] = 'application/javascript; charset=utf-8';
             }
             
             // Ensure SVG files have correct MIME type and CORS headers for Safari

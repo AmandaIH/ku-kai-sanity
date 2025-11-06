@@ -198,10 +198,20 @@ export default defineNuxtConfig({
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         }
       },
-      '/_nuxt/**': {
+      '/_nuxt/**/*.css': {
         headers: {
           'Content-Type': 'text/css; charset=utf-8',
           'Cache-Control': 'no-cache',
+        }
+      },
+      '/_nuxt/**/*.js': {
+        headers: {
+          'Content-Type': 'application/javascript; charset=utf-8',
+        }
+      },
+      '/_nuxt/**/*.mjs': {
+        headers: {
+          'Content-Type': 'application/javascript; charset=utf-8',
         }
       },
       '/flags/**': {
