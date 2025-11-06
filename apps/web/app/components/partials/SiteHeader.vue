@@ -87,6 +87,7 @@
 </template>
 
 <script setup>
+import { watch, computed, ref, onMounted, onUnmounted } from 'vue';
 import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
@@ -177,14 +178,8 @@ const scrollThreshold = 75;
 const isMenuOpen = ref(false);
 
 function handleScroll() {
-  if (!process.client) return;
-  
-  // Safari-compatible scroll position detection - try multiple methods
-  let currentScroll = window.scrollY || 
-                      window.pageYOffset || 
-                      document.documentElement.scrollTop || 
-                      document.body.scrollTop || 
-                      0;
+  // Safari-compatible scroll position detection
+  let currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
 
   if(currentScroll < 0) {
     currentScroll = 0;
@@ -192,6 +187,7 @@ function handleScroll() {
 
   menuScrollActive.value = currentScroll > scrollThreshold;
   lastScroll.value = currentScroll;
+  
 }
 
 function toggleBurger() {
@@ -229,8 +225,6 @@ watch(isMenuOpen, (newVal) => {
 });
 
 onMounted(() => {
-  if (!process.client) return;
-  
   // Use requestAnimationFrame for Safari compatibility
   let ticking = false;
   
@@ -244,93 +238,22 @@ onMounted(() => {
     }
   };
   
-  // Multiple scroll detection methods for Safari compatibility
-  const checkScroll = () => {
-    // Try multiple methods to get scroll position
-    const scrollY = window.scrollY || window.pageYOffset || 
-                    document.documentElement.scrollTop || 
-                    document.body.scrollTop || 0;
-    
-    menuScrollActive.value = scrollY > scrollThreshold;
-    lastScroll.value = scrollY;
-  };
-  
-  // Enhanced scroll handler that uses multiple detection methods
-  const enhancedScrollHandler = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        checkScroll();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  };
-  
-  // Add multiple event listeners for better Safari support
-  window.addEventListener('scroll', enhancedScrollHandler, { passive: true });
-  document.addEventListener('scroll', enhancedScrollHandler, { passive: true });
+  window.addEventListener('scroll', scrollHandler, { passive: true });
   // Also listen to touchmove for Safari mobile momentum scrolling
-  window.addEventListener('touchmove', enhancedScrollHandler, { passive: true });
+  window.addEventListener('touchmove', scrollHandler, { passive: true });
   
-  // Use Intersection Observer as a fallback for Safari
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === document.documentElement || entry.target === document.body) {
-            checkScroll();
-          }
-        });
-      },
-      { threshold: 0 }
-    );
-    
-    // Observe the document element
-    observer.observe(document.documentElement);
-    
-    // Store observer for cleanup
-    window._headerScrollObserver = observer;
-  }
+  // Initial check
+  handleScroll();
   
-  // Initial check with delay to ensure DOM is ready
-  setTimeout(() => {
-    checkScroll();
-  }, 0);
-  
-  // Also check on next frame
-  requestAnimationFrame(() => {
-    checkScroll();
-  });
-  
-  // Periodic fallback check for Safari (runs every 100ms as backup)
-  // This ensures scroll detection works even if events don't fire
-  const fallbackInterval = setInterval(() => {
-    checkScroll();
-  }, 100);
-  
-  // Store handler and interval for cleanup
-  window._headerScrollHandler = enhancedScrollHandler;
-  window._headerScrollInterval = fallbackInterval;
+  // Store handler for cleanup
+  window._headerScrollHandler = scrollHandler;
 });
 
 onUnmounted(() => {
-  if (!process.client) return;
-  
   if (window._headerScrollHandler) {
     window.removeEventListener('scroll', window._headerScrollHandler);
-    document.removeEventListener('scroll', window._headerScrollHandler);
     window.removeEventListener('touchmove', window._headerScrollHandler);
     delete window._headerScrollHandler;
-  }
-  
-  if (window._headerScrollObserver) {
-    window._headerScrollObserver.disconnect();
-    delete window._headerScrollObserver;
-  }
-  
-  if (window._headerScrollInterval) {
-    clearInterval(window._headerScrollInterval);
-    delete window._headerScrollInterval;
   }
 });
 </script>
