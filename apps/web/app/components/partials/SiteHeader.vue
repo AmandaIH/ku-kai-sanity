@@ -87,7 +87,6 @@
 </template>
 
 <script setup>
-import { watch, computed, ref, onMounted, onUnmounted } from 'vue';
 import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
