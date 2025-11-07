@@ -145,8 +145,78 @@ export const useMultilingual = () => {
     setI18nParams(translations);
   };
 
+  /**
+   * Gets the frontpage route for the current locale
+   * 
+   * @returns {string} The frontpage route path (slug from the translation matching current locale)
+   * 
+   * @example
+   * ```typescript
+   * const { getCurrentFrontpage } = useMultilingual();
+   * 
+   * // Get frontpage route for current locale
+   * const frontpageRoute = getCurrentFrontpage(); // Returns "/forside" for Danish, "/frontpage" for English, etc.
+   * ```
+   */
+  const getCurrentFrontpage = (): string => {
+    const settings = store.settings as any;
+    
+    // Check if frontpage data exists
+    if (!settings?.frontpage) {
+      return '/';
+    }
+    
+    // Helper function to format slug for routing
+    const formatSlug = (slug: string): string => {
+      if (!slug) return '/';
+      
+      // Keep the slug as-is from API, just ensure it starts with "/"
+      let formattedSlug = slug;
+      if (!formattedSlug.startsWith('/')) {
+        formattedSlug = `/${formattedSlug}`;
+      }
+      
+      // Handle root path
+      if (formattedSlug === '/' || formattedSlug === '') {
+        return '/';
+      }
+      
+      return formattedSlug;
+    };
+    
+    // Check if the original frontpage matches the current locale
+    const frontpageLanguage = settings.frontpage.language;
+    const frontpageSlug = settings.frontpage.slug?.current;
+    
+    if (frontpageLanguage === locale.value && frontpageSlug) {
+      return formatSlug(frontpageSlug);
+    }
+    
+    if (!settings.frontpage._translations || !Array.isArray(settings.frontpage._translations)) {
+      return '/';
+    }
+
+    // Find the translation for the current locale
+    const currentTranslation = settings.frontpage._translations.find((t: SanityTranslation) => 
+      t.value?.language === locale.value
+    );
+
+    if (currentTranslation) {
+      // Get the slug from the translation
+      const slug = currentTranslation.value?.slug?.current;
+      
+      if (slug) {
+        return formatSlug(slug);
+      }
+    }
+
+    // Fallback to root if no translation found for current locale
+    return '/';
+  };
+
   return {
     setCurrentRouteTranslations,
+    getCurrentFrontpage,
   };
 };
 

@@ -7,7 +7,7 @@
 
       <!-- Logo -->
       <div class="z-[26] flex-shrink-0">
-      <nuxt-link to="/">
+      <nuxt-link :to="frontpageRoute">
         <!-- Regular logo when not scrolled -->
         <Logo 
         v-if="!menuScrollActive"
@@ -95,6 +95,7 @@ import Logo from '~/components/ui/Logo.vue';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
 import FormButton from '~/components/ui/FormButton.vue';
+import { useMultilingual } from '~/composables/useMultilingual';
 
 const props = defineProps({
   textIsWhite: {
@@ -106,6 +107,10 @@ const props = defineProps({
 const store = useCoreStore();
 const route = useRoute();
 const { locale, locales } = useI18n();
+const { getCurrentFrontpage } = useMultilingual();
+
+// Get the frontpage route for the current locale
+const frontpageRoute = computed(() => getCurrentFrontpage());
 
 // Get dark header setting from store
 const darkHeader = computed(() => {
