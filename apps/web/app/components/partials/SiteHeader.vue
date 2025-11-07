@@ -31,7 +31,10 @@
       <nav class="hidden md:flex items-center justify-center flex-1 z-[22]">
         <div class="flex items-center gap-8">
           <NavigationLink 
-            v-for="menuItem in mainMenu.filter(item => item.linkType !== 'form' && item.url !== '/' && item.url !== '/index' && item.url !== '/frontpage')" 
+            v-for="menuItem in mainMenu.filter(item => {
+              const linkType = item.linkType || (item.isExternal === true ? 'external' : item.isExternal === false ? 'internal' : 'form')
+              return linkType !== 'form' && item.url !== '/' && item.url !== '/index' && item.url !== '/frontpage'
+            })" 
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
@@ -102,6 +105,7 @@ const props = defineProps({
 
 const store = useCoreStore();
 const route = useRoute();
+const { locale, locales } = useI18n();
 
 // Get dark header setting from store
 const darkHeader = computed(() => {
@@ -118,8 +122,7 @@ watch(() => store.getCurrentPage, (newPage) => {
 }, { immediate: true });
 
 const mainMenu = computed(() => {
-  const menu = store.getMenu('main-menu') || [];
-  return menu;
+  return store.getMenu('main-menu', locale.value) || [];
 });
 
 // Hardcoded header form button configuration

@@ -1,10 +1,23 @@
 import { createSanityClient } from '../../utils/sanity'
-import { defineEventHandler, getQuery, createError } from 'h3'
+import { INTERNATIONALIZATION_CONFIG } from '../../../../studio/config/internationalization'
 
-export default defineEventHandler(async (event) => {
+export default cachedEventHandler(
+  async (event) => {
     try {
       const query = getQuery(event)
-      const menuSlug = query.slug as string
+      const language = query.language as string
+      const menuSlug = query.slug as string // e.g., "main-menu-en"
+
+      // If language is specified, validate it
+      if (language) {
+        const supportedLanguage = INTERNATIONALIZATION_CONFIG.getLanguageById(language)
+        if (!supportedLanguage) {
+          throw createError({
+            statusCode: 400,
+            statusMessage: `Unsupported language: ${language}. Supported languages: ${INTERNATIONALIZATION_CONFIG.supportedLanguages.map(l => l.id).join(', ')}`
+          })
+        }
+      }
 
       // Validate menuSlug format if provided
       if (menuSlug && typeof menuSlug !== 'string') {
@@ -15,7 +28,11 @@ export default defineEventHandler(async (event) => {
       }
 
       // Build dynamic GROQ query with conditional filters
-      const filterClause = menuSlug ? ` && slug.current == $menuSlug` : ''
+      const filters = []
+      if (menuSlug) filters.push('slug.current == $menuSlug')
+      if (language && !menuSlug) filters.push('language == $language')
+      
+      const filterClause = filters.length > 0 ? ` && ${filters.join(' && ')}` : ''
       const limitClause = menuSlug ? '[0]' : ''
       
       const groqQuery = `
@@ -23,13 +40,15 @@ export default defineEventHandler(async (event) => {
           _id,
           title,
           slug,
+          language,
           menuItems[]{
             ...,
             internalLink->{
               _id,
               _type,
               title,
-              slug
+              slug,
+              language
             },
             children[]{
               ...,
@@ -37,7 +56,8 @@ export default defineEventHandler(async (event) => {
                 _id,
                 _type,
                 title,
-                slug
+                slug,
+                language
               },
               children[]{
                 ...,
@@ -45,7 +65,8 @@ export default defineEventHandler(async (event) => {
                   _id,
                   _type,
                   title,
-                  slug
+                  slug,
+                  language
                 }
               }
             }
@@ -54,7 +75,7 @@ export default defineEventHandler(async (event) => {
       `
 
       const sanityClient = createSanityClient()
-      const result = await sanityClient.fetch(groqQuery, { menuSlug })
+      const result = await sanityClient.fetch(groqQuery, { menuSlug, language })
 
       // Transform the Sanity menu data to match the expected structure
       const transformMenu = (menu: any) => {
@@ -70,12 +91,6 @@ export default defineEventHandler(async (event) => {
           isExternal: boolean
           openInNewTab: boolean
           children: MenuItem[]
-          linkType: string
-          formConfig?: {
-            formId: string
-            formTitle?: string
-            formDescription?: string
-          }
         }
         
         // Recursive function to transform menu items
@@ -84,7 +99,6 @@ export default defineEventHandler(async (event) => {
           const internalLink = item.internalLink
           const externalUrl = item.externalUrl
           const externalTitle = item.externalTitle
-          const formConfig = item.formConfig
           
           let url = ''
           let title = ''
@@ -102,12 +116,6 @@ export default defineEventHandler(async (event) => {
             id = internalLink._id
             type = internalLink._type
             url = internalLink.slug?.current ? `/${internalLink.slug.current}` : '/'
-          } else if (linkType === 'form' && formConfig) {
-            // Form link
-            title = formConfig.formTitle || 'Open Form'
-            id = formConfig.formId
-            type = 'form'
-            url = '' // Form links don't have URLs
           } else {
             // Skip items with incomplete configuration
             return null
@@ -132,9 +140,7 @@ export default defineEventHandler(async (event) => {
             reference: internalLink || null,
             isExternal: linkType === 'external',
             openInNewTab: !!item.openInNewTab,
-            children: children,
-            linkType: linkType,
-            formConfig: linkType === 'form' ? formConfig : undefined
+            children: children
           }
         }
         
@@ -164,6 +170,7 @@ export default defineEventHandler(async (event) => {
           meta: {
             menuSlug,
             menuTitle: result.title,
+            language: result.language,
             count: result.menuItems?.length || 0,
             isSingleMenu: true
           }
@@ -181,6 +188,7 @@ export default defineEventHandler(async (event) => {
         return {
           data: menusBySlug,
           meta: {
+            language: language || 'all',
             menuCount: Object.keys(menusBySlug).length,
             isSingleMenu: false
           }
@@ -216,7 +224,10 @@ export default defineEventHandler(async (event) => {
     maxAge: 600, // Cache for 10 minutes (longer cache since menus don't change often)
     getKey: (event) => {
       const query = getQuery(event)
+      const language = query.language || 'all'
       const menuSlug = query.slug || 'all'
-      return `menus-${menuSlug}`
-    }
-}) 
+      return `menus-${language}-${menuSlug}`
+    },
+    shouldBypassCache: () => process.env.NODE_ENV !== 'production'
+  }
+) 

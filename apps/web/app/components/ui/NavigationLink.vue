@@ -2,7 +2,7 @@
   <div>
     <!-- Internal Link -->
     <NuxtLink 
-      v-if="link.linkType === 'internal' && hasValidPath" 
+      v-if="computedLinkType === 'internal' && hasValidPath" 
       :to="linkPath"
       :class="linkClasses"
       @click="handleClick"
@@ -12,7 +12,7 @@
     
     <!-- External Link -->
     <a 
-      v-else-if="link.linkType === 'external' && hasValidPath" 
+      v-else-if="computedLinkType === 'external' && hasValidPath" 
       :href="linkPath"
       :target="link.openInNewTab ? '_blank' : ''"
       :class="linkClasses"
@@ -23,7 +23,7 @@
     
     <!-- Form Trigger -->
     <button 
-      v-else-if="link.linkType === 'form'" 
+      v-else-if="computedLinkType === 'form'" 
       :class="linkClasses"
       @click="openForm"
     >
@@ -42,7 +42,8 @@
 
 <script setup lang="ts">
 interface NavigationLink {
-  linkType: 'internal' | 'external' | 'form'
+  linkType?: 'internal' | 'external' | 'form'
+  isExternal?: boolean
   url?: string
   openInNewTab?: boolean
   formConfig?: {
@@ -60,6 +61,29 @@ const props = defineProps<{
 const emit = defineEmits<{
   click: [event: Event]
 }>()
+
+// Compute linkType from isExternal if linkType is not provided
+const computedLinkType = computed(() => {
+  // If linkType is explicitly provided, use it
+  if (props.link.linkType) {
+    return props.link.linkType
+  }
+  
+  // Otherwise, derive from isExternal
+  if (props.link.isExternal === true) {
+    return 'external'
+  } else if (props.link.isExternal === false) {
+    return 'internal'
+  }
+  
+  // Check if it's a form link
+  if (props.link.formConfig?.formId) {
+    return 'form'
+  }
+  
+  // Default to internal if we have a URL
+  return props.link.url ? 'internal' : 'form'
+})
 
 const linkPath = computed(() => {
   // Use the url directly from the menu API

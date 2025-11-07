@@ -23,19 +23,10 @@ export const menu = defineType({
           const title = doc.title || 'untitled';
           const language = doc.language || 'da';
           
-          // Only prefix with language if it's not 'da' (main language)
-          if (language !== 'da') {
-            return `${language}-${title}`;
-          }
-          return title;
+          // Always append language suffix
+          return `${title}-${language}`;
         },
         slugify: (input: string) => {
-          // Handle language prefix separately
-          if (input.includes('-')) {
-            const [lang, ...rest] = input.split('-');
-            const slugifiedRest = slugify(rest.join('-'), { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
-            return `${lang}/${slugifiedRest}`;
-          }
           return slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
         },
       },

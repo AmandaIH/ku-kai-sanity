@@ -1,3 +1,5 @@
+@use "sass:math";
+
 .cm-contained {
     @apply container;
 }
@@ -30,7 +32,7 @@ $class-list:(
             @if $key == 'none' {
                 @apply #{$pkey}-0;
             } @else {
-                @apply #{$pkey}-#{floor($val / 2)} md:#{$pkey}-#{$val};
+                @apply #{$pkey}-#{math.floor(math.div($val, 2))} md:#{$pkey}-#{$val};
             }
         }
     }
@@ -39,7 +41,7 @@ $class-list:(
             @if $key == 'none' {
                 @apply #{$mkey}-0;
             } @else {
-                @apply #{$mkey}-#{floor($val / 2)} md:#{$mkey}-#{$val};
+                @apply #{$mkey}-#{math.floor(math.div($val, 2))} md:#{$mkey}-#{$val};
             }
         }
     }

@@ -16,8 +16,16 @@ export const useCoreStore = defineStore('CoreStore', {
         getShowMenu(state) {
             return state.showMenu;
         },
-        getMenu: (state) => (menuSlug) => {
-            return state.menues[menuSlug] || [];
+        getMenu: (state) => (menuSlug, lang) => {
+            // Construct full slug with language if not provided
+            const fullSlug = menuSlug.includes('-da') || menuSlug.includes('-en') 
+                ? menuSlug 
+                : `${menuSlug}-${lang}`;
+            
+            if (lang && state.menues[lang] && state.menues[lang][fullSlug]) {
+                return state.menues[lang][fullSlug];
+            }
+            return state.menues[fullSlug] || [];
         },
         getCurrentPage(state) {
             return state.currentPage;
@@ -34,9 +42,6 @@ export const useCoreStore = defineStore('CoreStore', {
         getHeaderTextColor(state) {
             return state.headerTextColor;
         },
-    getDarkHeader(state) {
-      return state.currentPage?.darkHeader || false;
-    },
         getFavicon: (state) => () => {
             return state.settings?.logos?.favicon || null;
         },
@@ -45,9 +50,9 @@ export const useCoreStore = defineStore('CoreStore', {
         setHeaderTextColor(color){
             this.headerTextColor = color;
         },
-    setCurrentPage(pageData){
-        this.currentPage = pageData;
-    },
+        setCurrentPage(pageData){
+            this.currentPage = pageData;
+        },
         setMeta(metaData){
             this.meta = metaData;
         },
@@ -74,16 +79,23 @@ export const useCoreStore = defineStore('CoreStore', {
                 this.settings = data.value.data;
             }
         },
-        async fetchMenus(){
+        async fetchMenus(language = 'da'){
             const { data, pending, error, refresh } = await useFetch('/api/menus/', {
-                query: {}
+                query: {
+                    language: language,
+                }
             });
 
             // IF success
             if (data && data.value && data.value.data) {
+                // Store menus by language
+                if (!this.menues[language]) {
+                    this.menues[language] = {};
+                }
+                
                 // Store each menu by its slug
                 Object.entries(data.value.data).forEach(([menuSlug, menuItems]) => {
-                    this.menues[menuSlug] = menuItems;
+                    this.menues[language][menuSlug] = menuItems;
                 });
             }
         }
