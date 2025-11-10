@@ -115,7 +115,20 @@ export default cachedEventHandler(
             title = internalLink.title
             id = internalLink._id
             type = internalLink._type
-            url = internalLink.slug?.current ? `/${internalLink.slug.current}` : '/'
+            
+            // Construct URL with proper language prefix
+            // Default locale (da) has no prefix, other locales (en) need prefix
+            const pageLanguage = internalLink.language || language || 'da'
+            const slug = internalLink.slug?.current || ''
+            
+            if (!slug || slug === '/' || slug === '') {
+              // Frontpage - no prefix for default locale, prefix for others
+              url = pageLanguage === 'da' ? '/' : `/${pageLanguage}/`
+            } else {
+              // Regular page - add language prefix for non-default locales
+              const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug
+              url = pageLanguage === 'da' ? `/${cleanSlug}` : `/${pageLanguage}/${cleanSlug}`
+            }
           } else {
             // Skip items with incomplete configuration
             return null
@@ -137,6 +150,7 @@ export default cachedEventHandler(
             title: title,
             url: url,
             _type: type,
+            linkType: linkType, // Add linkType for filtering
             reference: internalLink || null,
             isExternal: linkType === 'external',
             openInNewTab: !!item.openInNewTab,

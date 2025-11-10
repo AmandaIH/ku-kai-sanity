@@ -14,7 +14,6 @@
         class="w-auto" 
         style="height: 3.5rem;"
         :fill-color="darkHeader ? '#111111' : (shouldUseWhiteText ? 'white' : 'black')"
-        :fill-opacity="0.8"
         :hide-text="false"
          ></Logo>
         <!-- Simple logo when scrolled -->
