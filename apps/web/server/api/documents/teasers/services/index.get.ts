@@ -14,8 +14,9 @@ export default cachedEventHandler(
           language,
           title,
           short_description,
-          featuredImage
-        } | order(_createdAt desc)
+          featuredImage,
+          order
+        } | order(coalesce(order, 999999) asc, _createdAt desc)
       `
 
       const sanityClient = createSanityClient()

@@ -87,6 +87,14 @@ export const materiel = {
       group: 'content'
     },
     {
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      description: 'Controls the order in dynamic sliders. Lower numbers appear first. Leave empty to appear at the end (sorted by creation date).',
+      group: 'content',
+      validation: (Rule: any) => Rule.min(0).integer()
+    },
+    {
       name: 'content',
       title: 'Content',
       type: 'array',

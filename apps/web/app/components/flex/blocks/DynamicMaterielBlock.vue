@@ -106,6 +106,7 @@
       return [];
     }
   
+    // API already returns items sorted by order field, so we just use all items
     return materielData.value.data.map((item) => {
       // Build CTA button from slug
       const ctaButton = item.slug ? {
