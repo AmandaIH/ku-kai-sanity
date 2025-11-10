@@ -70,6 +70,23 @@ export const materiel = {
       ...commonFields.language,
       group: 'content'
     },
+    defineField({
+      name: 'service',
+      title: 'Service',
+      type: 'reference',
+      to: [{ type: 'solutions' }],
+      options: {
+        filter: ({ document }: any) => {
+          const language = document?.language || 'da';
+          return {
+            filter: `language == $language`,
+            params: { language }
+          };
+        }
+      },
+      validation: (Rule: any) => Rule.required(),
+      group: 'content'
+    }),
     {
       name: 'featuredImage',
       title: 'Featured Image',
