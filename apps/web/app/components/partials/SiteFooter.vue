@@ -133,6 +133,7 @@ import {useCoreStore} from "~/stores/core";
 import SmallLogo from '~/components/ui/SmallLogo.vue';
 
 const coreStore = useCoreStore();
+const { locale } = useI18n();
 
 const companyInfo = computed(() => {
   return coreStore.getSettings?.companyInfo;
@@ -141,12 +142,13 @@ const companyInfo = computed(() => {
 const socialMediaChannels = computed(() => {
   return coreStore.getSettings?.socialMediaChannels || {};
 })
+
 const footerMenu = computed(() => {
-  return coreStore.getMenu('footer-menu');
+  return coreStore.getMenu('footer-menu', locale.value) || [];
 });
 
 const footerMenu2 = computed(() => {
-  return coreStore.getMenu('footer-menu-2');
+  return coreStore.getMenu('footer-menu-2', locale.value) || [];
 });
 
 // Open footer form
