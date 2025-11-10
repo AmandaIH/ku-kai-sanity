@@ -1,9 +1,8 @@
 <template>
-      <header class="site-header fixed top-0 w-full z-50 duration-300 transition-all" :class="[
-        menuScrollActive ? 'bg-[#FFFFFF] text-[#181D2D]' : 'bg-transparent',
+      <header ref="headerRef" class="site-header fixed top-0 w-full z-50" :class="[
         darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black')
       ]">
-    <div class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between" :class="menuScrollActive ? 'py-1 md:py-2' : 'py-4 md:py-6'">
+    <div ref="headerInnerRef" class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between">
 
       <!-- Logo -->
       <div class="z-[26] flex-shrink-0">
@@ -95,6 +94,7 @@ import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
 import FormButton from '~/components/ui/FormButton.vue';
 import { useMultilingual } from '~/composables/useMultilingual';
+import { gsap } from 'gsap';
 
 const props = defineProps({
   textIsWhite: {
@@ -183,6 +183,11 @@ const menuScrollActive = ref(false);
 const scrollThreshold = 75;
 const isMenuOpen = ref(false);
 
+// Refs for GSAP animation
+const headerRef = ref(null);
+const headerInnerRef = ref(null);
+let headerAnimation = null;
+
 // Store scroll handler reference for cleanup
 let scrollHandler = null;
 
@@ -194,6 +199,43 @@ function handleScroll() {
   // Only update if changed to avoid unnecessary reactivity
   if (menuScrollActive.value !== shouldBeActive) {
     menuScrollActive.value = shouldBeActive;
+    
+    // Animate header with GSAP for smooth transition
+    if (process.client && headerRef.value && headerInnerRef.value) {
+      if (headerAnimation) {
+        headerAnimation.kill();
+      }
+      
+      if (shouldBeActive) {
+        // Scrolled state: white background, smaller padding
+        headerAnimation = gsap.to(headerRef.value, {
+          backgroundColor: '#FFFFFF',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+        
+        gsap.to(headerInnerRef.value, {
+          paddingTop: window.innerWidth >= 768 ? '0.5rem' : '0.25rem',
+          paddingBottom: window.innerWidth >= 768 ? '0.5rem' : '0.25rem',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      } else {
+        // Top state: transparent background, larger padding
+        headerAnimation = gsap.to(headerRef.value, {
+          backgroundColor: 'transparent',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+        
+        gsap.to(headerInnerRef.value, {
+          paddingTop: window.innerWidth >= 768 ? '1.5rem' : '1rem',
+          paddingBottom: window.innerWidth >= 768 ? '1.5rem' : '1rem',
+          duration: 0.4,
+          ease: 'power2.out'
+        });
+      }
+    }
   }
   lastScroll.value = currentScroll;
 }
@@ -236,6 +278,23 @@ onMounted(() => {
   // Ensure we're on client and window is available
   if (typeof window === 'undefined' || !process.client) return;
   
+  // Initialize header styles
+  if (headerRef.value) {
+    gsap.set(headerRef.value, {
+      backgroundColor: menuScrollActive.value ? '#FFFFFF' : 'transparent'
+    });
+  }
+  
+  if (headerInnerRef.value) {
+    const padding = menuScrollActive.value 
+      ? (window.innerWidth >= 768 ? '0.5rem' : '0.25rem')
+      : (window.innerWidth >= 768 ? '1.5rem' : '1rem');
+    gsap.set(headerInnerRef.value, {
+      paddingTop: padding,
+      paddingBottom: padding
+    });
+  }
+  
   // Create handler function
   scrollHandler = handleScroll;
   
@@ -253,6 +312,12 @@ onUnmounted(() => {
   if (typeof window !== 'undefined' && scrollHandler) {
     window.removeEventListener('scroll', scrollHandler);
     scrollHandler = null;
+  }
+  
+  // Clean up GSAP animations
+  if (headerAnimation) {
+    headerAnimation.kill();
+    headerAnimation = null;
   }
 });
 </script>
