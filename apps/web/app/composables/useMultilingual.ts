@@ -74,11 +74,22 @@ export const useMultilingual = () => {
       return;
     }
 
+    // Filter out any null/undefined translation entries to prevent errors
+    const validTranslations = page._translations.filter((t: any) => 
+      t && t.value && t.value.language
+    );
+
+    // If no valid translations exist, return early
+    if (validTranslations.length === 0) {
+      return;
+    }
+
     const translations: RouteTranslationParams = {};
 
     locales.value.forEach((locale) => {
       // Find the translation for this locale
-      const translation = page._translations.find((t: SanityTranslation) => 
+      // Use the filtered valid translations array
+      const translation = validTranslations.find((t: SanityTranslation) => 
         t.value.language === locale.code
       );
 

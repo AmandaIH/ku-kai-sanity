@@ -142,30 +142,48 @@ const alternateLocale = computed((): Locale | null => {
 
 /**
  * Computed property to get available locales
+ * Only returns locales that have actual translations for the current page
  */
-// const availableLocales = computed((): Locale[] => {
-//   return (locales.value as unknown as Locale[]) || [];
-// });
 const availableLocales = computed((): Locale[] => {
   const all = (locales.value as unknown as Locale[]) || [];
   
-  if (!currentPage.value || !(currentPage.value as any)._translations) {
+  // If no current page, return all locales (fallback behavior)
+  if (!currentPage.value) {
     return all;
   }
   
-  const translations = (currentPage.value as any)._translations?.map((t: any) => t.value.language) || [];
-  return all.filter(l => translations.includes(l.code));
+  // Check if translations exist and is a non-empty array
+  const translations = (currentPage.value as any)._translations;
+  if (!translations || !Array.isArray(translations) || translations.length === 0) {
+    // If no translations, only return the current locale
+    // This ensures alternateLocale will be null and the switcher will hide
+    return all.filter(l => l.code === currentLocale.value);
+  }
+  
+  // Get language codes from translations
+  const translationLanguages = translations
+    .map((t: any) => t.value?.language)
+    .filter((lang: string) => lang); // Filter out any undefined/null values
+  
+  // Always include the current locale (the current page itself is available in that locale)
+  // Then add any other locales that have translations
+  const availableLanguageCodes = new Set([currentLocale.value, ...translationLanguages]);
+  
+  // Only return locales that have translations (including current locale)
+  return all.filter(l => availableLanguageCodes.has(l.code));
 });
 
 /**
  * Safely get locale path with error handling
+ * Only returns a path if a translation exists for the requested locale
  * 
  * @param localeCode - The locale code to switch to
- * @returns The path for the locale switch
+ * @returns The path for the locale switch, or homepage if no translation exists
  */
 const getLocalePath = (localeCode: string): string => {
+  // First, check if a translation exists for this locale
   const alt = (currentPage.value as any)?._translations?.find(
-    (t: any) => t.value.language === localeCode
+    (t: any) => t.value?.language === localeCode
   );
 
   if (alt?.value?.slug?.current) {
@@ -182,21 +200,12 @@ const getLocalePath = (localeCode: string): string => {
     }
   }
 
-  // Fallback to default locale path
-  try {
-    const path = switchLocalePath(localeCode as 'da' | 'en');
-    // Ensure we return a string, not an object
-    if (typeof path === 'string') {
-      return path;
-    }
-    // If it's an object, try to get the path property or fallback to current route
-    if (path && typeof path === 'object' && 'path' in path) {
-      return (path as any).path || '/';
-    }
+  // If no translation exists, redirect to homepage for that locale
+  // This prevents broken links when switching to a language without a translation
+  if (localeCode === defaultLocale) {
     return '/';
-  } catch (error) {
-    console.warn('Error getting locale path:', error);
-    return '/';
+  } else {
+    return `/${localeCode}/`;
   }
 };
 
