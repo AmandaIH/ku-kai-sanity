@@ -33,10 +33,10 @@
             </div>
           </div>
   
-          <!-- Service Items Grid -->
-          <div v-else-if="services.length > 0" :class="[gridClasses, 'mt-24']">
+          <!-- Materiel Items Grid -->
+          <div v-else-if="materielItems.length > 0" :class="[gridClasses, 'mt-24']">
           <div 
-            v-for="(item, index) in services" 
+            v-for="(item, index) in materielItems" 
             :key="item._id || index"
             class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
           >
@@ -71,7 +71,7 @@
   
           <!-- Empty State -->
           <div v-else class="text-center py-8">
-            <p>No services found</p>
+            <p>No materiel found</p>
           </div>
         </div>
       </div>
@@ -93,37 +93,37 @@
   const { getContainerClasses } = useCheckmateFlexSettings(componentData);
   const { locale } = useI18n();
   
-  // Fetch services from API
-  const { data: servicesData, pending } = await useFetch('/api/documents/teasers/services/', {
+  // Fetch materiel from API
+  const { data: materielData, pending } = await useFetch('/api/documents/teasers/materiel/', {
     query: {
       language: locale.value || 'da'
     }
   });
   
   // Transform API response to match component structure
-  const services = computed(() => {
-    if (!servicesData.value?.data || !Array.isArray(servicesData.value.data)) {
+  const materielItems = computed(() => {
+    if (!materielData.value?.data || !Array.isArray(materielData.value.data)) {
       return [];
     }
   
-    return servicesData.value.data.map((service) => {
+    return materielData.value.data.map((item) => {
       // Build CTA button from slug
-      const ctaButton = service.slug ? {
+      const ctaButton = item.slug ? {
         linkTitle: componentData.value.buttonText || 'Læs mere',
         variant: componentData.value.buttonStyle || 'secondary2',
         linkType: 'internal',
         internalLink: {
           slug: {
-            current: service.slug
+            current: item.slug
           }
         }
       } : null;
   
       return {
-        _id: service._id,
-        header: service.title,
-        description: service.short_description,
-        image: service.featuredImage,
+        _id: item._id,
+        header: item.title,
+        description: item.short_description,
+        image: item.featuredImage,
         ctaButton
       };
     });
@@ -149,7 +149,7 @@ const containerClasses = computed(() => {
 
 // Dynamic grid classes based on number of items
 const gridClasses = computed(() => {
-  const itemCount = services.value.length;
+  const itemCount = materielItems.value.length;
   
   // Base classes - single column on mobile, responsive on md+
   let classes = 'grid grid-cols-1 gap-16 mt-16';
@@ -174,4 +174,4 @@ const gridClasses = computed(() => {
   return classes;
 });
   </script>
-  
+

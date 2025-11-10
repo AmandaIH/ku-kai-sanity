@@ -3,9 +3,9 @@ import slugify from 'slugify';
 import { commonFields } from './common'
 import { seo } from './objects/seo'
 
-export const page = {
-  name: 'page',
-  title: 'Page',
+export const materiel = {
+  name: 'materiel',
+  title: 'Materiel',
   type: 'document',
   groups: [
     {
@@ -50,9 +50,10 @@ export const page = {
           if (input.includes('-')) {
             const [lang, ...rest] = input.split('-');
             const slugifiedRest = slugify(rest.join('-'), { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
-            return `${lang}/${slugifiedRest}`;
+            return `${lang}/materiel/${slugifiedRest}`;
           }
-          return slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
+          const slugified = slugify(input, { lower: true, strict: true, remove: /[*+~.()'"!:@]/g });
+          return `materiel/${slugified}`;
         },
       },
       validation: (Rule: any) => Rule.required(),
@@ -79,15 +80,21 @@ export const page = {
       group: 'content'
     },
     {
+      name: 'short_description',
+      title: 'Short Description',
+      type: 'text',
+      description: 'Brief description for teaser/preview displays',
+      group: 'content'
+    },
+    {
       name: 'content',
       title: 'Content',
       type: 'array',
-      description: 'Add content blocks to build your page',
+      description: 'Add content blocks to build your materiel page',
       of: [
         { type: 'heroBlock' },
         { type: 'heroTextBlock' },
         { type: 'backgroundImageTextBlock' },
-        { type: 'imageBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
         { type: 'archiveBlock' },
@@ -97,7 +104,6 @@ export const page = {
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
         { type: 'serviceSliderBlock' },
-        { type: 'dynamicServicesBlock' },
         { type: 'dynamicMaterielBlock' }
       ],
       group: 'content'
@@ -138,4 +144,4 @@ export const page = {
       }
     }
   }
-} 
+}

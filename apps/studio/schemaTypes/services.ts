@@ -96,7 +96,9 @@ export const solutions = {
         { type: 'textAndVideoBlock' },
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
-        { type: 'serviceSliderBlock' }
+        { type: 'serviceSliderBlock' },
+        { type: 'dynamicServicesBlock' },
+        { type: 'dynamicMaterielBlock' }
       ],
       group: 'content'
     },

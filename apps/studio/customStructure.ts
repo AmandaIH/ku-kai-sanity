@@ -99,7 +99,8 @@ function getSchemaTitle(schemaType: string): string {
     siteSettings: 'Site Settings',
     menu: 'Menus',
     portfolio: 'Portfolios',
-    solutions: 'Services'
+    solutions: 'Services',
+    materiel: 'Materiel'
   }
   
   return titles[schemaType] || schemaType.charAt(0).toUpperCase() + schemaType.slice(1) + 's'

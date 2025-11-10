@@ -4,6 +4,7 @@ import { article } from './article'
 import { portfolio } from './portfolio'
 import { employee } from './employee'
 import { solutions } from './services'
+import { materiel } from './materiel'
 import { menu } from './menu'
 import { siteSettings } from './siteSettings'
 import { ctaButton, navigationLink } from './common'
@@ -15,6 +16,7 @@ export const schemaTypes = [
   portfolio,
   employee,
   solutions,
+  materiel,
   menu,
   siteSettings,
   
@@ -35,5 +37,7 @@ export const schemaTypes = [
   blocks.textAndVideoBlock,
   blocks.sliderBlock,
   blocks.numbersBlock,
-  blocks.serviceSliderBlock
+  blocks.serviceSliderBlock,
+  blocks.dynamicServicesBlock,
+  blocks.dynamicMaterielBlock
 ]

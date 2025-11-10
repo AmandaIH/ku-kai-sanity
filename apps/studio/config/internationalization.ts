@@ -7,7 +7,7 @@ export const INTERNATIONALIZATION_CONFIG = {
   ],
   
   // Schema types that support internationalization
-  schemaTypes: ['page', 'article', 'menu', 'portfolio', 'solutions'],
+  schemaTypes: ['page', 'article', 'menu', 'portfolio', 'solutions', 'materiel'],
   
   // Schema types that are singletons (only one instance per language)
   singletonSchemaTypes: ['siteSettings'],
@@ -33,6 +33,6 @@ export const INTERNATIONALIZATION_CONFIG = {
 
 // Type exports for TypeScript
 export type SupportedLanguage = { id: 'da' | 'en'; title: string }
-export type SchemaType = 'page' | 'article' | 'menu' | 'portfolio' | 'solutions'
+export type SchemaType = 'page' | 'article' | 'menu' | 'portfolio' | 'solutions' | 'materiel'
 export type SingletonSchemaType = 'siteSettings'
 
