@@ -68,22 +68,31 @@ const videoSource = computed(() => {
     return null;
   }
   
-  // If src is already a URL string, return it directly for Safari compatibility
+  // If src is already a URL string, return it directly
   if (typeof props.src === 'string') {
     return props.src;
   }
   
-  // Force direct Sanity URLs for Safari compatibility
-  if (props.src && typeof props.src === 'object' && props.src._type === 'file') {
-    // Get the direct Sanity URL instead of CDN proxy
-    const assetRef = props.src.asset._ref;
-    const assetId = assetRef.replace('file-', '').replace('-mp4', '');
-    return `https://cdn.sanity.io/files/gdm79zyf/production/${assetId}.mp4?q=100`;
-  }
-  
-  // If src is a Sanity file object, convert it to URL
-  if (props.src && typeof props.src === 'object' && props.src._type === 'file') {
-    return getFileUrl(props.src);
+  // If src is a Sanity file object, convert it to URL using the composable
+  if (props.src && typeof props.src === 'object' && props.src._type === 'file' && props.src.asset) {
+    const proxyUrl = getFileUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
+    
+    // Make it absolute for Safari compatibility and to avoid hydration mismatch
+    if (proxyUrl) {
+      if (proxyUrl.startsWith('/cdn')) {
+        // Relative proxy URL - make it absolute
+        const config = useRuntimeConfig();
+        const origin = process.client 
+          ? window.location.origin 
+          : (config.public.siteUrl || 'http://localhost:3000');
+        return `${origin}${proxyUrl}`;
+      } else if (proxyUrl.startsWith('http')) {
+        // Already absolute (fallback from composable)
+        return proxyUrl;
+      }
+    }
+    
+    return proxyUrl;
   }
   
   return null;

@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <video ref="video" :class="props.classes" :key="videoSource" :poster="posterSource" :autoplay="props.autoplay" :muted="props.muted" :loop="props.loop" :controls="props.controls" playsinline>
+    <video ref="video" :class="props.classes" :key="videoSource || undefined" :poster="posterSource || undefined" :autoplay="props.autoplay" :muted="props.muted" :loop="props.loop" :controls="props.controls" playsinline>
       <slot>
         <source v-if="videoSource" :src="videoSource" type="video/mp4">
       </slot>
@@ -23,10 +23,12 @@
 </template>
 
 <script setup lang="ts">
-import {useCheckmateImageProxy} from "~/composables/checkmateImageProxy";
+import {useSanityFile} from "~/composables/useSanityFile";
+import {useSanityImage} from "~/composables/useSanityImage";
+
 const props = defineProps({
   src: {
-    type: String,
+    type: [String, Object],
     default: null
   },
   poster: {
@@ -59,20 +61,44 @@ const props = defineProps({
   },
 });
 
+// Initialize composables
+const { getFileUrl } = useSanityFile();
+const { getImageUrl } = useSanityImage();
+
 const videoSource = computed(() => {
   if (!props.src) {
     return null;
   }
-  const {url} = useCheckmateImageProxy(props.src);
-  return url;
+  
+  // If src is already a URL string, return it directly
+  if (typeof props.src === 'string') {
+    return props.src;
+  }
+  
+  // If src is a Sanity file object, convert it to URL using the composable
+  if (props.src && typeof props.src === 'object' && props.src._type === 'file' && props.src.asset) {
+    return getFileUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
+  }
+  
+  return null;
 });
 
 const posterSource = computed(() => {
   if (!props.poster) {
     return null;
   }
-  const {url} = useCheckmateImageProxy(props.poster);
-  return url;
+  
+  // If poster is already a URL string, return it directly
+  if (typeof props.poster === 'string') {
+    return props.poster;
+  }
+  
+  // If poster is a Sanity image object, convert it to URL using the composable
+  if (props.poster && typeof props.poster === 'object' && props.poster._type === 'image' && props.poster.asset) {
+    return getImageUrl(props.poster as { _type: 'image'; asset: { _ref: string; _type: 'reference' }; hotspot?: any; crop?: any; alt?: string; caption?: string }, { width: 1920 });
+  }
+  
+  return null;
 });
 
 const videoIsPaused = ref(false);

@@ -108,14 +108,9 @@ onMounted(() => {
       document.body.style.opacity = '1';
     });
     
-    // Check if CSS is loaded in Safari and log diagnostic info
+    // Check if CSS is loaded in Safari and fix if needed
     const checkStyles = () => {
-      // Log all stylesheet links
       const links = document.querySelectorAll('link[rel="stylesheet"]');
-      console.log('Safari Debug: Found', links.length, 'stylesheet links');
-      links.forEach((link, index) => {
-        console.log('Stylesheet ' + (index + 1) + ':', link.href, 'loaded:', link.sheet !== null);
-      });
       
       // Check if Tailwind classes work
       const testEl = document.createElement('div');
@@ -129,12 +124,8 @@ onMounted(() => {
       
       document.body.removeChild(testEl);
       
-      console.log('Safari Debug: Tailwind flex class works:', isFlex);
-      console.log('Safari Debug: Computed display value:', styles.display);
-      
       if (!isFlex && navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
         // Styles not loaded, force reload
-        console.warn('Safari: CSS not detected, attempting to reload stylesheets');
         links.forEach((link) => {
           if (link.href && !link.href.includes('fonts.googleapis.com')) {
             const href = link.href;
@@ -144,18 +135,6 @@ onMounted(() => {
             }, 100);
           }
         });
-        
-        // Also try injecting a test style to verify CSS works at all
-        const testStyle = document.createElement('style');
-        testStyle.textContent = 'body { background-color: red !important; }';
-        document.head.appendChild(testStyle);
-        setTimeout(() => {
-          const bodyBg = window.getComputedStyle(document.body).backgroundColor;
-          if (bodyBg === 'rgb(255, 0, 0)') {
-            console.log('Safari Debug: Inline styles work, but external CSS does not');
-          }
-          document.head.removeChild(testStyle);
-        }, 100);
       }
     };
     

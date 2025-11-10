@@ -5,7 +5,7 @@
         :classes="'w-full h-full object-cover'" :lazy="(index || 0) > 0"></cm-picture>
     </div>
     
-    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full absolute inset-0 z-0 h-full w-full object-cover'"></hero-cm-video>
+    <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="['w-full h-full absolute inset-0 z-0 object-cover fixed', 'md:object-cover', 'object-center', 'md:object-center', 'transform-gpu', 'will-change-transform', 'mobile-video-optimized'].join(' ')"></hero-cm-video>
     
     <!-- Overlay only on background media -->
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
