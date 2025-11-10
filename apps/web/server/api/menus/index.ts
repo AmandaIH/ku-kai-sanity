@@ -87,6 +87,7 @@ export default cachedEventHandler(
           title: string
           url: string
           _type: string
+          linkType?: string
           reference: any
           isExternal: boolean
           openInNewTab: boolean
@@ -116,8 +117,7 @@ export default cachedEventHandler(
             id = internalLink._id
             type = internalLink._type
             
-            // Construct URL with proper language prefix
-            // Default locale (da) has no prefix, other locales (en) need prefix
+            // Construct URL - slugs already include language prefix (e.g., "en/services")
             const pageLanguage = internalLink.language || language || 'da'
             const slug = internalLink.slug?.current || ''
             
@@ -125,9 +125,18 @@ export default cachedEventHandler(
               // Frontpage - no prefix for default locale, prefix for others
               url = pageLanguage === 'da' ? '/' : `/${pageLanguage}/`
             } else {
-              // Regular page - add language prefix for non-default locales
-              const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug
-              url = pageLanguage === 'da' ? `/${cleanSlug}` : `/${pageLanguage}/${cleanSlug}`
+              // Check if slug already contains a language prefix
+              const languagePrefixPattern = /^[a-z]{2}\//
+              const hasLanguagePrefix = languagePrefixPattern.test(slug)
+              
+              if (hasLanguagePrefix) {
+                // Slug already has language prefix (e.g., "en/services"), use as-is
+                url = slug.startsWith('/') ? slug : `/${slug}`
+              } else {
+                // Slug doesn't have language prefix, add it for non-default locales
+                const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug
+                url = pageLanguage === 'da' ? `/${cleanSlug}` : `/${pageLanguage}/${cleanSlug}`
+              }
             }
           } else {
             // Skip items with incomplete configuration
