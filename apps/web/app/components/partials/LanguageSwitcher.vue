@@ -215,6 +215,7 @@ const getLocalePath = (localeCode: string): string => {
  * @param event - The click event
  */
 const handleLanguageSwitch = (event: Event): void => {
+  // Menus will be automatically fetched when locale changes via the watcher in app.vue
   // Add any additional logic here if needed
   // For example, analytics tracking, etc.
 };

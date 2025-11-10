@@ -67,6 +67,16 @@ if (initData.value) {
 // This properly stores menus by language: store.menues[language][menuSlug]
 await store.fetchMenus(locale.value);
 
+// Watch for locale changes and refetch menus when language is switched
+// This ensures menus are always available when switching languages
+watch(locale, async (newLocale, oldLocale) => {
+  if (newLocale && newLocale !== oldLocale) {
+    // Always fetch menus for the new locale to ensure they're available
+    // The store's fetchMenus will update the cache, so this is safe to call
+    await store.fetchMenus(newLocale);
+  }
+}, { immediate: false });
+
 // Force Safari to load CSS properly
 if (process.client) {
   useHead({
