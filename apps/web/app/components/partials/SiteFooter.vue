@@ -81,7 +81,7 @@
         </div>
 
         <!-- Column 4: Footer Menu (Desktop only) -->
-        <div v-if="footerMenu" class="hidden md:flex flex-col justify-start items-start md:ml-8 text-left m-0 p-0 footer-col md:-mt-1">
+        <div v-if="footerMenu" class="hidden md:flex flex-col justify-center items-center md:ml-16 text-left m-0 p-0 footer-col md:-mt-1">
           <template v-for="(item, index) in footerMenu" :key="index">
             <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text" :href="item.url" target="_blank" rel="noopener noreferrer">
               <span v-html="item.title"></span>
