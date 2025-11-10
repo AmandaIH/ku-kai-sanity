@@ -53,21 +53,19 @@ import { useCoreStore } from '~/stores/core';
 
 // Initialize core store data when app starts
 const store = useCoreStore();
+const { locale } = useI18n();
 
 // Use Nuxt's proper data fetching patterns for SSR compatibility
 const { data: initData } = await useLazyFetch('/api/init/');
-const { data: menuData } = await useLazyFetch('/api/menus/');
 
 // Set data in store when available
 if (initData.value) {
   store.settings = initData.value.data;
 }
 
-if (menuData.value && menuData.value.data) {
-  Object.entries(menuData.value.data).forEach(([menuSlug, menuItems]) => {
-    store.menues[menuSlug] = menuItems;
-  });
-}
+// Fetch menus for the current locale using the store's fetchMenus action
+// This properly stores menus by language: store.menues[language][menuSlug]
+await store.fetchMenus(locale.value);
 
 // Force Safari to load CSS properly
 if (process.client) {
