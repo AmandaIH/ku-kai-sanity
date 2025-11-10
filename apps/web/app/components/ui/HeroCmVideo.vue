@@ -82,9 +82,31 @@ const videoSource = computed(() => {
       if (proxyUrl.startsWith('/cdn')) {
         // Relative proxy URL - make it absolute
         const config = useRuntimeConfig();
-        const origin = process.client 
-          ? window.location.origin 
-          : (config.public.siteUrl || 'http://localhost:3000');
+        let origin: string;
+        
+        if (process.client) {
+          // Client-side: use current window origin
+          origin = window.location.origin;
+        } else {
+          // Server-side: try to get from request URL or use config
+          try {
+            const requestURL = useRequestURL();
+            origin = requestURL.origin;
+          } catch {
+            // Fallback to config or construct from headers if available
+            const headers = useRequestHeaders();
+            const host = headers.host || headers['x-forwarded-host'] || headers[':authority'];
+            const protocol = headers['x-forwarded-proto'] || (process.env.NODE_ENV === 'production' ? 'https' : 'http');
+            
+            if (host) {
+              origin = `${protocol}://${host}`;
+            } else {
+              // Last resort: use config or default
+              origin = config.public.siteUrl || 'http://localhost:3000';
+            }
+          }
+        }
+        
         return `${origin}${proxyUrl}`;
       } else if (proxyUrl.startsWith('http')) {
         // Already absolute (fallback from composable)
