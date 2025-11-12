@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       const language = query.language as string || 'da' // Default to Danish
 
       // Validate document type
-      const validTypes = ['page', 'solutions', 'article', 'portfolio', 'all']
+      const validTypes = ['page', 'solutions', 'materiel', 'article', 'portfolio', 'all']
       if (type && !validTypes.includes(type)) {
         throw createError({
           statusCode: 400,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
         }
         
         const groqQuery = `
-          *[slug.current == $path && _type in ["page", "solutions", "article", "portfolio"] && language == $language][0] {
+          *[slug.current == $path && _type in ["page", "solutions", "materiel", "article", "portfolio"] && language == $language][0] {
             ${commonFields},
             ${ctaReferences},
             ${getTranslationsQuery('page')}
@@ -71,7 +71,7 @@ export default defineEventHandler(async (event) => {
 
       // Base query for documents - search across all types if no specific type requested
       let groqQuery = `
-        *[_type in ["page", "solutions", "article", "portfolio"] && language == $language] {
+        *[_type in ["page", "solutions", "materiel", "article", "portfolio"] && language == $language] {
           ${commonFields},
           ${ctaReferences},
           ${getTranslationsQuery('page')}
