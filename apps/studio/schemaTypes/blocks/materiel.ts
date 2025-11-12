@@ -1,4 +1,5 @@
 import { contentFields, settingsFields } from '../common'
+import { defineField } from 'sanity';
 
 export const dynamicMaterielBlock = {
   name: 'dynamicMaterielBlock',
@@ -20,6 +21,24 @@ export const dynamicMaterielBlock = {
     // Headers
     ...contentFields.headers,
     
+    defineField({
+      name: 'service',
+      title: 'Service',
+      type: 'reference',
+      to: [{ type: 'solutions' }],
+      options: {
+        filter: ({ document }: any) => {
+          const language = document?.language || 'da';
+          return {
+            filter: `language == $language`,
+            params: { language }
+          };
+        }
+      },
+      validation: (Rule: any) => Rule.required(),
+      group: 'content'
+    }),
+
     // Button Configuration
     {
       name: 'buttonText',
