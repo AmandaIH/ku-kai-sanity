@@ -120,6 +120,7 @@ export const materiel = {
         { type: 'heroBlock' },
         { type: 'heroTextBlock' },
         { type: 'backgroundImageTextBlock' },
+        { type: 'imageBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
         { type: 'archiveBlock' },
@@ -129,6 +130,7 @@ export const materiel = {
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
         { type: 'serviceSliderBlock' },
+        { type: 'dynamicServicesBlock' },
         { type: 'dynamicMaterielBlock' }
       ],
       group: 'content'

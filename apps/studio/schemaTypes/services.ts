@@ -103,6 +103,7 @@ export const solutions = {
         { type: 'heroBlock' },
         { type: 'heroTextBlock' },
         { type: 'backgroundImageTextBlock' },
+        { type: 'imageBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
         { type: 'archiveBlock' },

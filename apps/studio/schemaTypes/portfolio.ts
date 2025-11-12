@@ -98,14 +98,21 @@ export const portfolio = {
       type: 'array',
       description: 'Add content blocks to build your page',
       of: [
+        { type: 'heroBlock' },
+        { type: 'heroTextBlock' },
+        { type: 'backgroundImageTextBlock' },
+        { type: 'imageBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
+        { type: 'archiveBlock' },
         { type: 'employeesBlock' },
         { type: 'textAndImageBlock' },
         { type: 'textAndVideoBlock' },
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
-        { type: 'serviceSliderBlock' }
+        { type: 'serviceSliderBlock' },
+        { type: 'dynamicServicesBlock' },
+        { type: 'dynamicMaterielBlock' }
       ],
       group: 'content'
     },
