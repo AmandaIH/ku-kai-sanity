@@ -80,6 +80,13 @@ export const solutions = {
       group: 'content'
     },
     {
+      name: 'short_description',
+      title: 'Short Description',
+      type: 'text',
+      description: 'Brief description for teaser/preview displays',
+      group: 'content'
+    },
+    {
       name: 'order',
       title: 'Display Order',
       type: 'number',
