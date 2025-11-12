@@ -67,7 +67,7 @@
               </div>
             </div>
           </div>
-          </div>
+        </div>
   
           <!-- Empty State -->
           <div v-else class="text-center py-8">
@@ -96,7 +96,8 @@
   // Fetch materiel from API
   const { data: materielData, pending } = await useFetch('/api/documents/teasers/materiel/', {
     query: {
-      language: locale.value || 'da'
+      language: locale.value || 'da',
+      ...(componentData.value.service?._ref && { service: componentData.value.service._ref })
     }
   });
   

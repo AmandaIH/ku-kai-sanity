@@ -5,10 +5,21 @@ export default cachedEventHandler(
     try {
       const query = getQuery(event)
       const language = (query.language as string) || 'da' // Default to Danish
+      const serviceId = query.service as string | undefined
 
-      // Query for all materiel with only the requested fields
+      // Build filter conditions
+      let filterConditions = `_type == "materiel" && language == $language`
+      const queryParams: Record<string, string> = { language }
+
+      // Add service filter if serviceId is provided
+      if (serviceId) {
+        filterConditions += ` && service._ref == $serviceId`
+        queryParams.serviceId = serviceId
+      }
+
+      // Query for materiel with only the requested fields
       const groqQuery = `
-        *[_type == "materiel" && language == $language] {
+        *[${filterConditions}] {
           _id,
           "slug": slug.current,
           language,
@@ -20,12 +31,13 @@ export default cachedEventHandler(
       `
 
       const sanityClient = createSanityClient()
-      const materiel = await sanityClient.fetch(groqQuery, { language })
+      const materiel = await sanityClient.fetch(groqQuery, queryParams)
 
       return {
         data: materiel,
         meta: {
           language,
+          serviceId: serviceId || null,
           total: materiel.length
         }
       }
