@@ -11,7 +11,7 @@
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
 
     <!-- Single responsive layout -->
-    <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pb-16">
+    <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pt-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
       <div v-if="hasContent" ref="textBoxRef" class="lg:col-span-5 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
