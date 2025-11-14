@@ -21,8 +21,8 @@
           <p class="text-sm uppercase footer-first-text">{{ companyInfo.location1.companyName || 'Location 1' }}</p>
           <div class="mt-2">
             <div class="space-y-0.5">
-              <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-xl block mb-0">{{ companyInfo.location1.phone }}</a>
-              <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block mb-0">{{ companyInfo.location1.email }}</a>
+              <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.phone }}</a>
+              <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.email }}</a>
             </div>
             <div class="space-y-0.5 mt-2 md:mt-6">
               <p v-if="companyInfo.location1.address" class="text-lg md:text-base mb-0">{{ companyInfo.location1.address }}</p>
@@ -39,8 +39,8 @@
             <p class="text-sm uppercase footer-first-text">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
             <div class="mt-2">
               <div class="space-y-0.5">
-                <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-xl block mb-0">{{ companyInfo.location2.phone }}</a>
-                <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block mb-0">{{ companyInfo.location2.email }}</a>
+                <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.phone }}</a>
+                <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.email }}</a>
               </div>
               <div class="space-y-0.5 mt-2 md:mt-6">
                 <p v-if="companyInfo.location2.address" class="text-lg md:text-base mb-0">{{ companyInfo.location2.address }}</p>
@@ -54,8 +54,8 @@
             <p class="mb-4 text-sm uppercase">{{ companyInfo.location3.companyName || 'Location 3' }}</p>
             <div>
               <div class="space-y-0.5">
-                <a v-if="companyInfo.location3.phone" :href="'tel:' + companyInfo.location3.phone" class="text-xl block mb-0">{{ companyInfo.location3.phone }}</a>
-                <a v-if="companyInfo.location3.email" :href="'mailto:' + companyInfo.location3.email" class="text-xl block mb-0">{{ companyInfo.location3.email }}</a>
+                <a v-if="companyInfo.location3.phone" :href="'tel:' + companyInfo.location3.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.phone }}</a>
+                <a v-if="companyInfo.location3.email" :href="'mailto:' + companyInfo.location3.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.email }}</a>
               </div>
             </div>
           </div>
@@ -64,10 +64,10 @@
           <div v-if="footerMenu" class="flex flex-col md:hidden">
             <div class="flex flex-col gap-2">
               <div v-for="item in footerMenu">
-                <a v-if="item.openInNewTab" class="text-lg" :href="item.url" target="_blank" rel="noopener noreferrer">
+                <a v-if="item.openInNewTab" class="text-lg relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
                   <span v-html="item.title"></span>
                 </a>
-                <nuxt-link v-else class="text-lg" :to="item.url">
+                <nuxt-link v-else class="text-lg relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
                   <span v-html="item.title"></span>
                 </nuxt-link>
               </div>
@@ -83,17 +83,17 @@
         <!-- Column 4: Footer Menu (Desktop only) -->
         <div v-if="footerMenu" class="hidden md:flex flex-col justify-center items-center md:ml-16 text-left m-0 p-0 footer-col md:-mt-1">
           <template v-for="(item, index) in footerMenu" :key="index">
-            <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text" :href="item.url" target="_blank" rel="noopener noreferrer">
+            <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
               <span v-html="item.title"></span>
             </a>
-            <nuxt-link v-else-if="index === 0" class="text-base footer-first-text" :to="item.url">
+            <nuxt-link v-else-if="index === 0" class="text-base footer-first-text relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
               <span v-html="item.title"></span>
             </nuxt-link>
             <div v-else class="mt-2">
-              <a v-if="item.openInNewTab" class="text-base" :href="item.url" target="_blank" rel="noopener noreferrer">
+              <a v-if="item.openInNewTab" class="text-base relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
                 <span v-html="item.title"></span>
               </a>
-              <nuxt-link v-else class="text-base" :to="item.url">
+              <nuxt-link v-else class="text-base relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
                 <span v-html="item.title"></span>
               </nuxt-link>
             </div>
@@ -105,27 +105,27 @@
           <!-- Footer Menu 2 (Desktop only) -->
           <template v-if="footerMenu2 && footerMenu2.length > 0">
             <template v-for="(item, index) in footerMenu2" :key="index">
-              <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text hidden md:block" :href="item.url" target="_blank" rel="noopener noreferrer">
+              <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text hidden md:block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
                 <span v-html="item.title"></span>
               </a>
-              <nuxt-link v-else-if="index === 0" class="text-base footer-first-text hidden md:block" :to="item.url">
+              <nuxt-link v-else-if="index === 0" class="text-base footer-first-text hidden md:block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
                 <span v-html="item.title"></span>
               </nuxt-link>
               <div v-else class="hidden md:block mt-2">
-                <a v-if="item.openInNewTab" class="text-base" :href="item.url" target="_blank" rel="noopener noreferrer">
+                <a v-if="item.openInNewTab" class="text-base relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
                   <span v-html="item.title"></span>
                 </a>
-                <nuxt-link v-else class="text-base" :to="item.url">
+                <nuxt-link v-else class="text-base relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
                   <span v-html="item.title"></span>
                 </nuxt-link>
               </div>
             </template>
           </template>
           <!-- Social Media -->
-          <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-lg md:text-base text-white footer-first-text" v-if="socialMediaChannels.instagram && (!footerMenu2 || footerMenu2.length === 0)">
+          <a :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-lg md:text-base text-white footer-first-text relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" v-if="socialMediaChannels.instagram && (!footerMenu2 || footerMenu2.length === 0)">
             Instagram
           </a>
-          <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-lg md:text-base text-white mt-2" v-if="socialMediaChannels.linkedin">
+          <a :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-lg md:text-base text-white mt-2 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" v-if="socialMediaChannels.linkedin">
             LinkedIn
           </a>
         </div>
