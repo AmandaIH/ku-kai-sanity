@@ -11,9 +11,9 @@
     <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
 
     <!-- Single responsive layout -->
-    <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 min-h-screen w-full px-8 lg:px-16 pt-16 pb-16">
+    <div class="flex flex-col sm:grid sm:grid-cols-12 gap-6 sm:gap-8 min-h-screen w-full px-8 sm:px-16 pt-16 pb-16">
       <!-- Text box - same layout for mobile and desktop -->
-      <div v-if="hasContent" ref="textBoxRef" class="lg:col-span-5 lg:col-start-1 text-white z-20 flex items-end justify-center lg:justify-start mt-auto lg:mt-0">
+      <div v-if="hasContent" ref="textBoxRef" class="sm:col-span-7 md:col-span-5 lg:col-span-4 xl:col-span-3 sm:col-start-1 md:col-start-1 lg:col-start-1 xl:col-start-1 text-white z-20 flex items-end justify-center sm:justify-start mt-auto sm:mt-0">
         <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
           <div class="flex flex-col">
             <!-- Eyebrow -->
@@ -21,7 +21,7 @@
             
             <!-- Header -->
             <div ref="headerRef" v-if="componentData.header" class="mb-32">
-              <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(2.25rem, 4vw, 8rem);">
+              <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(3.25rem, 4vw, 5rem);">
                 <span v-html="componentData.header"></span>
               </h1>
             </div>
@@ -133,19 +133,22 @@ const setupBackgroundImageAnimation = async () => {
 
     console.log('Setting up background image animation on:', imgElement);
 
-    // Create infinite scale animation for background image
+    // Set initial scale to ensure image starts at normal size
+    gsap.set(imgElement, { scale: 1.0 });
+
+    // Create infinite scale animation for background image (subtle zoom effect)
     backgroundImageAnimation.value = gsap.to(imgElement, {
-      scale: 1.3,
-      duration: 30, // 30 seconds to reach scale 1.3 (half of 60s cycle)
+      scale: 1.1, // Reduced from 1.3 to 1.1 for more subtle effect
+      duration: 30, // 30 seconds to reach scale 1.1 (half of 60s cycle)
       ease: "none",
       yoyo: true, // Automatically reverse the animation
       repeat: -1 // Infinite repeat
     });
 
-    console.log('Background image animation created:', backgroundImageAnimation.value);
+   
 
   } catch (error) {
-    console.error('Error setting up background image animation:', error);
+  
   }
 };
 
@@ -156,7 +159,7 @@ const setupAnimations = () => {
   try {
     // Check if GSAP is available
     if (typeof gsap === 'undefined') {
-      console.warn('GSAP is not available, skipping animations');
+    
       return;
     }
 
@@ -171,8 +174,8 @@ const setupAnimations = () => {
     // Set initial state for text box (slide up from bottom, but keep opacity visible)
     gsap.set(textBoxRef.value, { 
       opacity: 1, // Keep opacity at 1 so the box is always visible
-      y: 100,
-      scale: 0.95
+      y: 0, // Start at correct position
+      scale: 1 // Start at correct scale
     });
 
     // Set initial state for text elements (hidden)
