@@ -20,8 +20,14 @@ export const backgroundImageTextBlock = {
     // Headers
     ...contentFields.headers,
     
-    // Body Text
-    contentFields.bodyText('paragraphText', 'Paragraph Text'),
+    // Paragraph Text
+    {
+      name: 'paragraphText',
+      title: 'Paragraph Text',
+      type: 'text',
+      group: 'content',
+      description: 'Add descriptive paragraph text to display below the subheader'
+    },
     
     // CTAs
     { ...contentFields.ctas, group: 'content' },

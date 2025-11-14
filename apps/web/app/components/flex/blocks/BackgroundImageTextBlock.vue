@@ -16,7 +16,7 @@
         <div class="inset-0 absolute bg-black z-[1]" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
         
         <!-- Content - positioned at bottom -->
-        <div v-if="hasContent" class="absolute bottom-0 left-0 right-0 z-10 p-8 md:p-16">
+        <div v-if="hasContent" class="relative bottom-0 left-0 right-0 z-10 p-8 md:p-16">
           <div class="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8">
             <!-- Text box - positioned at bottom -->
             <div class="lg:col-span-5 lg:col-start-1 text-white z-20 flex justify-center lg:justify-start">
