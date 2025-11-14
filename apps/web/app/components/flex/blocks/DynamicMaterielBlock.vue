@@ -57,7 +57,7 @@
               </h5>
               
               <!-- Description -->
-              <p v-if="item.description" class="mb-1">
+              <p v-if="item.description" class="mb-1 max-w-xs mx-auto">
                 {{ item.description }}
               </p>
               

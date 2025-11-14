@@ -38,7 +38,7 @@
           <div 
             v-for="(item, index) in services" 
             :key="item._id || index"
-            class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
+            class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-8"
           >
             <!-- Image -->
             <div v-if="item.image" class="w-full mb-4 rounded-lg overflow-hidden">
@@ -161,7 +161,7 @@ const gridClasses = computed(() => {
   }
   
   if (itemCount >= 3) {
-    classes += ' lg:grid-cols-3';
+    classes += ' lg:grid-cols-2';
   }
   
   if (itemCount >= 4) {
