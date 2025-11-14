@@ -92,6 +92,7 @@
   const componentData = computed(() => props.data);
   const { getContainerClasses } = useCheckmateFlexSettings(componentData);
   const { locale } = useI18n();
+  const route = useRoute();
   
   // Fetch services from API
   const { data: servicesData, pending } = await useFetch('/api/documents/teasers/services/', {
@@ -100,34 +101,87 @@
     }
   });
   
+  // Get current page path for filtering
+  const getCurrentPagePath = () => {
+    // Try to get slug from route params first
+    let path = null;
+    
+    if (route.params.slug) {
+      const slugArray = route.params.slug;
+      path = Array.isArray(slugArray) ? slugArray.join('/') : slugArray;
+    } else if (route.path) {
+      // Fallback to route.path if params.slug is not available
+      path = route.path;
+    }
+    
+    if (!path) return null;
+    
+    // Remove language prefix if present (e.g., "en/containertransport" -> "containertransport")
+    const languagePrefixPattern = /^[a-z]{2}\//;
+    let cleanPath = languagePrefixPattern.test(path) ? path.replace(languagePrefixPattern, '') : path;
+    
+    // Remove leading slash if present
+    cleanPath = cleanPath.startsWith('/') ? cleanPath.slice(1) : cleanPath;
+    
+    return cleanPath;
+  };
+  
   // Transform API response to match component structure
   const services = computed(() => {
     if (!servicesData.value?.data || !Array.isArray(servicesData.value.data)) {
       return [];
     }
   
+    const currentPath = getCurrentPagePath();
+    
     // API already returns items sorted by order field, so we just use all items
-    return servicesData.value.data.map((service) => {
-      // Build CTA button from slug
-      const ctaButton = service.slug ? {
-        linkTitle: componentData.value.buttonText || 'Læs mere',
-        variant: componentData.value.buttonStyle || 'secondary2',
-        linkType: 'internal',
-        internalLink: {
-          slug: {
-            current: service.slug
+    return servicesData.value.data
+      .filter((service) => {
+        // Filter out the current service if we're on its page
+        if (!service.slug || !currentPath) return true;
+        
+        // Service slugs are stored as "services/containertransport" format
+        // Current path could be "containertransport" or "services/containertransport"
+        const serviceSlug = service.slug;
+        const serviceSlugWithoutPrefix = serviceSlug.replace(/^services\//, '');
+        
+        // Normalize paths for comparison (remove trailing slashes)
+        const normalizedCurrentPath = currentPath.replace(/\/+$/, '');
+        const normalizedServiceSlug = serviceSlug.replace(/\/+$/, '');
+        const normalizedServiceSlugWithoutPrefix = serviceSlugWithoutPrefix.replace(/\/+$/, '');
+        
+        // Check if current path matches the service slug (with or without "services/" prefix)
+        // Handle both exact matches and path segments
+        const isMatch = 
+          normalizedCurrentPath === normalizedServiceSlug ||
+          normalizedCurrentPath === normalizedServiceSlugWithoutPrefix ||
+          normalizedCurrentPath.endsWith(`/${normalizedServiceSlug}`) ||
+          normalizedCurrentPath.endsWith(`/${normalizedServiceSlugWithoutPrefix}`) ||
+          normalizedServiceSlugWithoutPrefix === normalizedCurrentPath.split('/').pop();
+        
+        return !isMatch;
+      })
+      .map((service) => {
+        // Build CTA button from slug
+        const ctaButton = service.slug ? {
+          linkTitle: componentData.value.buttonText || 'Læs mere',
+          variant: componentData.value.buttonStyle || 'secondary2',
+          linkType: 'internal',
+          internalLink: {
+            slug: {
+              current: service.slug
+            }
           }
-        }
-      } : null;
+        } : null;
   
-      return {
-        _id: service._id,
-        header: service.title,
-        description: service.short_description,
-        image: service.featuredImage,
-        ctaButton
-      };
-    });
+        return {
+          _id: service._id,
+          header: service.title,
+          description: service.short_description,
+          image: service.featuredImage,
+          ctaButton
+        };
+      });
   });
   
 // Container classes
@@ -155,17 +209,17 @@ const gridClasses = computed(() => {
   // Base classes - single column on mobile, responsive on md+
   let classes = 'grid grid-cols-1 gap-16 mt-16';
   
-  // Add responsive classes based on item count for md and up
+  // Add responsive classes based on item count
+  // Pattern: 4 → 2 → 1 (or 3 → 2 → 1 if only 3 items)
   if (itemCount >= 2) {
-    classes += ' md:grid-cols-2';
+    classes += ' md:grid-cols-2 lg:grid-cols-2';
   }
   
-  if (itemCount >= 3) {
-    classes += ' lg:grid-cols-2';
-  }
-  
+  // At xl: 4 columns if 4+ items, or 3 columns if exactly 3 items
   if (itemCount >= 4) {
     classes += ' xl:grid-cols-4';
+  } else if (itemCount === 3) {
+    classes += ' xl:grid-cols-3';
   }
   
   if (itemCount >= 5) {
