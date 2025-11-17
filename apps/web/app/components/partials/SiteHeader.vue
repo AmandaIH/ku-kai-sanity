@@ -51,29 +51,36 @@
       <div class="hidden md:flex items-center justify-center gap-6 z-[22]">
         <LanguageSwitcher />
         
-        <!-- Få tilbud - Text Link -->
-        <button 
-          class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-          :class="[
-            menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
-          ]"
-          @click="openFallbackForm"
-        >
-          Få tilbud
-        </button>
-        
-        <!-- Booking Button -->
-        <button 
-          class="flex gap-4 items-center btn"
-          :class="[
-            'btn-primary',
-            menuScrollActive ? 'btn-scrolled' : '',
-            darkHeader ? 'btn-dark-header' : ''
-          ].filter(Boolean).join(' ')"
-          @click="navigateToBooking"
-        >
-          Booking
-        </button>
+        <!-- Menu Items from main-menu-2 -->
+        <template v-for="(menuItem, index) in mainMenu2">
+          <!-- Text Link Style (all items except last) -->
+          <NavigationLink 
+            v-if="index !== mainMenu2.length - 1"
+            :key="`menu-item-text-${menuItem.ID}-${index}`"
+            :link="menuItem"
+            class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+            :class="[
+              menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
+            ]"
+          >
+            {{ menuItem.title }}
+          </NavigationLink>
+          
+          <!-- Button Style (last item) -->
+          <NavigationLink 
+            v-else
+            :key="`menu-item-btn-${menuItem.ID}-${index}`"
+            :link="menuItem"
+            class="flex gap-4 items-center btn"
+            :class="[
+              'btn-primary',
+              menuScrollActive ? 'btn-scrolled' : '',
+              darkHeader ? 'btn-dark-header' : ''
+            ].filter(Boolean).join(' ')"
+          >
+            {{ menuItem.title }}
+          </NavigationLink>
+        </template>
       </div>
 
       <!-- Mobile Burger Menu -->
@@ -92,7 +99,6 @@ import { useCoreStore } from '~/stores/core';
 import Logo from '~/components/ui/Logo.vue';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
-import FormButton from '~/components/ui/FormButton.vue';
 import { useMultilingual } from '~/composables/useMultilingual';
 import { gsap } from 'gsap';
 
@@ -129,17 +135,8 @@ const mainMenu = computed(() => {
   return store.getMenu('main-menu', locale.value) || [];
 });
 
-// Hardcoded header form button configuration
-const defaultHeaderFormButton = computed(() => {
-  return {
-    linkTitle: 'Få tilbud',
-    variant: 'primary', // Keep primary but we'll handle styling via CSS
-    formConfig: {
-      formId: 'contact-form',
-      formTitle: 'Indhent et tilbud',
-      formDescription: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
-    }
-  };
+const mainMenu2 = computed(() => {
+  return store.getMenu('main-menu-2', locale.value) || [];
 });
 
 // Check if we're on the front page
@@ -244,25 +241,6 @@ function toggleBurger() {
   isMenuOpen.value = !isMenuOpen.value;
 }
 
-// Navigate to booking page
-function navigateToBooking() {
-  navigateTo('/booking');
-}
-
-// Fallback function to open form when menu data isn't available
-const openFallbackForm = () => {
-  const formData = {
-    id: 'contact-form',
-    title: 'Indhent et tilbud',
-    description: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
-  }
-  
-  if (process.client) {
-    window.dispatchEvent(new CustomEvent('openForm', { 
-      detail: formData 
-    }))
-  }
-}
 
 watch(isMenuOpen, (newVal) => {
   if (process.client && typeof document !== 'undefined') {
