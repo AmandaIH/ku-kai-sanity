@@ -1,12 +1,16 @@
 <template>
   <form 
     @submit.prevent="handleSubmit" 
-    class="space-y-6"
+    class="space-y-8"
     novalidate
     aria-label="Tilbudsforespørgsel formular"
   >
-    <!-- Row 1: Kontaktperson, email, telefonnummer -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Kontaktinformation -->
+    <div class="space-y-6 pb-8">
+      <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
+        Kontaktinformation
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="kontaktperson" class="form-label">
           Kontaktperson
@@ -76,9 +80,14 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <!-- Row 2: transport, container størrelse, transporttype -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Transportdetaljer -->
+    <div class="space-y-6 pb-8">
+      <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
+        Transportdetaljer
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="transport" class="form-label">
           Transportretning
@@ -162,10 +171,9 @@
           {{ errors.transporttype }}
         </div>
       </div>
-    </div>
-
-    <!-- Row 3: antal containere, rederi, live/drop -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="antal" class="form-label">
           Antal containere
@@ -234,9 +242,14 @@
         </div>
       </div>
     </div>
+    </div>
 
-    <!-- Row 4: afhentningssted, levering, indleveringssted -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Adresseinformation -->
+    <div class="space-y-6 pb-8">
+      <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
+        Adresseinformation
+      </h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="afhentning" class="form-label">
           Afhentningssted (adresse + postnr/by)
@@ -298,6 +311,7 @@
           autocomplete="street-address"
         />
       </div>
+    </div>
     </div>
 
     <!-- Bemærkninger -->
