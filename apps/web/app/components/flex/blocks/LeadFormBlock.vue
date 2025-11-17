@@ -1,6 +1,6 @@
 <template>
   <div class="section-container" :class="containerClasses">
-    <div class="px-8 md:px-16 py-32 max-w-[1480px] mx-auto">
+    <div class="px-8 md:px-16 pt-40 pb-32 max-w-[1480px] mx-auto">
       <div class="default-grid !gap-y-0">
         <div class="col-span-full" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
           <div class="flex flex-col py-6 border-opacity-10">
@@ -13,7 +13,7 @@
                 <span v-html="componentData.header"></span>
               </h2>
             </div>
-            <h6 ref="subheaderRef" v-if="componentData.subheader" v-html="componentData.subheader"></h6>
+            <h3 class="text-lg mt-8 mb-16" ref="subheaderRef" v-if="componentData.subheader" v-html="componentData.subheader"></h3>
           </div>
         </div>
 
