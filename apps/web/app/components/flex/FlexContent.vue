@@ -24,6 +24,7 @@
       <DynamicServicesBlock v-if="item._type === 'dynamicServicesBlock'" :data="item" :index="index" />
       <DynamicMaterielBlock v-if="item._type === 'dynamicMaterielBlock'" :data="item" :index="index" />
       <EmployeeBlock v-if="item._type === 'employeesBlock'" :data="item" :index="index" />
+      <LeadFormBlock v-if="item._type === 'leadFormBlock'" :data="item" :index="index" />
     </FlexSection>
   </div>
 </template>
