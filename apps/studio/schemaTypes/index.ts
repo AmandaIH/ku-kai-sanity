@@ -39,5 +39,6 @@ export const schemaTypes = [
   blocks.numbersBlock,
   blocks.serviceSliderBlock,
   blocks.dynamicServicesBlock,
-  blocks.dynamicMaterielBlock
+  blocks.dynamicMaterielBlock,
+  blocks.leadFormBlock
 ]

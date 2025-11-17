@@ -98,7 +98,8 @@ export const page = {
         { type: 'numbersBlock' },
         { type: 'serviceSliderBlock' },
         { type: 'dynamicServicesBlock' },
-        { type: 'dynamicMaterielBlock' }
+        { type: 'dynamicMaterielBlock' },
+        { type: 'leadFormBlock' }
       ],
       group: 'content'
     },
