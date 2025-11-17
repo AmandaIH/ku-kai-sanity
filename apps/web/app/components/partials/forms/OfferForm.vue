@@ -3,18 +3,18 @@
     @submit.prevent="handleSubmit" 
     class="space-y-8"
     novalidate
-    aria-label="Tilbudsforespørgsel formular"
+    :aria-label="$t('form.ariaLabel')"
   >
     <!-- Kontaktinformation -->
     <div class="space-y-6 pb-8">
       <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
-        Kontaktinformation
+        {{ $t('form.sections.contactInfo') }}
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="kontaktperson" class="form-label">
-          Kontaktperson
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.contactPerson') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="text" 
@@ -36,8 +36,8 @@
 
       <div class="form-group">
         <label for="email" class="form-label">
-          E-mail
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.email') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="email" 
@@ -59,16 +59,14 @@
 
       <div class="form-group">
         <label for="telefon" class="form-label">
-          Telefonnummer
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.phone') }}
         </label>
         <input 
           type="tel" 
           id="telefon"
           name="telefon" 
           v-model="formData.telefon"
-          required
-          aria-required="true"
+          aria-required="false"
           :aria-invalid="errors.telefon ? 'true' : 'false'"
           :aria-describedby="errors.telefon ? 'error-telefon' : undefined"
           class="form-input"
@@ -85,13 +83,13 @@
     <!-- Transportdetaljer -->
     <div class="space-y-6 pb-8">
       <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
-        Transportdetaljer
+        {{ $t('form.sections.transportDetails') }}
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="transport" class="form-label">
-          Transportretning
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.transportDirection') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <div class="select-wrap relative">
           <select 
@@ -105,7 +103,7 @@
             class="form-input form-select"
             :class="{ 'form-input-error': errors.transport }"
           >
-            <option value="" disabled selected>Vælg transportretning</option>
+            <option value="" disabled selected>{{ $t('form.placeholders.selectTransport') }}</option>
             <option v-for="option in transportOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
@@ -118,8 +116,8 @@
 
       <div class="form-group">
         <label for="container" class="form-label">
-          Container størrelse/type
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.containerSize') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <div class="select-wrap relative">
           <select 
@@ -133,7 +131,7 @@
             class="form-input form-select"
             :class="{ 'form-input-error': errors.container }"
           >
-            <option value="" disabled selected>Vælg container størrelse/type</option>
+            <option value="" disabled selected>{{ $t('form.placeholders.selectContainer') }}</option>
             <option v-for="option in containerOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
@@ -146,8 +144,8 @@
 
       <div class="form-group">
         <label for="transporttype" class="form-label">
-          Transporttype
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.transportType') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <div class="select-wrap relative">
           <select 
@@ -161,7 +159,7 @@
             class="form-input form-select"
             :class="{ 'form-input-error': errors.transporttype }"
           >
-            <option value="" disabled selected>Vælg transporttype</option>
+            <option value="" disabled selected>{{ $t('form.placeholders.selectTransportType') }}</option>
             <option v-for="option in transportTypeOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
@@ -176,8 +174,8 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="antal" class="form-label">
-          Antal containere
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.containerCount') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="number" 
@@ -199,8 +197,8 @@
 
       <div class="form-group">
         <label for="rederi" class="form-label">
-          Rederi
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.shippingLine') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <div class="select-wrap relative">
           <select 
@@ -214,7 +212,7 @@
             class="form-input form-select"
             :class="{ 'form-input-error': errors.rederi }"
           >
-            <option value="" disabled selected>Vælg rederi</option>
+            <option value="" disabled selected>{{ $t('form.placeholders.selectShippingLine') }}</option>
             <option v-for="rederi in rederiOptions" :key="rederi" :value="rederi">
               {{ rederi }}
             </option>
@@ -226,7 +224,7 @@
       </div>
 
       <div class="form-group">
-        <label for="livedrop" class="form-label">Live eller Drop</label>
+        <label for="livedrop" class="form-label">{{ $t('form.fields.liveOrDrop') }}</label>
         <div class="select-wrap relative">
           <select 
             id="livedrop"
@@ -234,7 +232,7 @@
             v-model="formData.livedrop"
             class="form-input form-select"
           >
-            <option value="" disabled selected>Vælg live eller drop</option>
+            <option value="" disabled selected>{{ $t('form.placeholders.selectLiveDrop') }}</option>
             <option v-for="option in liveDropOptions" :key="option.value" :value="option.value">
               {{ option.label }}
             </option>
@@ -247,20 +245,20 @@
     <!-- Adresseinformation -->
     <div class="space-y-6 pb-8">
       <h3 class="text-lg font-medium text-black border-b border-black/10 pb-2">
-        Adresseinformation
+        {{ $t('form.sections.addressInfo') }}
       </h3>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div class="form-group">
         <label for="afhentning" class="form-label">
-          Afhentningssted (adresse + postnr/by)
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.pickupLocation') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="text" 
           id="afhentning"
           name="afhentning" 
           v-model="formData.afhentning"
-          placeholder="F.eks. Industrivej 23, 7000 Fredericia" 
+          :placeholder="$t('form.placeholders.pickupExample')" 
           required
           aria-required="true"
           :aria-invalid="errors.afhentning ? 'true' : 'false'"
@@ -276,15 +274,15 @@
 
       <div class="form-group">
         <label for="levering" class="form-label">
-          Leveringssted (adresse + postnr/by)
-          <span class="text-red-600" aria-label="påkrævet felt">*</span>
+          {{ $t('form.fields.deliveryLocation') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="text" 
           id="levering"
           name="levering" 
           v-model="formData.levering"
-          placeholder="F.eks. Havnevej 10, 8000 Aarhus C" 
+          :placeholder="$t('form.placeholders.deliveryExample')" 
           required
           aria-required="true"
           :aria-invalid="errors.levering ? 'true' : 'false'"
@@ -300,16 +298,25 @@
 
       <div class="form-group">
         <label for="indlevering" class="form-label">
-          Indleveringssted (hvis forskelligt fra afhentning)
+          {{ $t('form.fields.returnLocation') }}
+          <span class="text-red-600" :aria-label="$t('form.required')">*</span>
         </label>
         <input 
           type="text" 
           id="indlevering"
           name="indlevering" 
           v-model="formData.indlevering"
+          required
+          aria-required="true"
+          :aria-invalid="errors.indlevering ? 'true' : 'false'"
+          :aria-describedby="errors.indlevering ? 'error-indlevering' : undefined"
           class="form-input"
+          :class="{ 'form-input-error': errors.indlevering }"
           autocomplete="street-address"
         />
+        <div v-if="errors.indlevering" id="error-indlevering" class="form-error" role="alert">
+          {{ errors.indlevering }}
+        </div>
       </div>
     </div>
     </div>
@@ -317,19 +324,19 @@
     <!-- Bemærkninger -->
     <div class="form-group">
       <label for="bemærkninger" class="form-label">
-        Bemærkninger / specielle ønsker
+        {{ $t('form.fields.notes') }}
       </label>
       <textarea 
         id="bemærkninger"
         name="bemærkninger" 
         v-model="formData.bemærkninger"
-        placeholder="F.eks. farligt gods (ADR), tidskrav, overvægt, osv." 
+        :placeholder="$t('form.placeholders.notesExample')" 
         rows="4"
         class="form-input form-textarea"
         aria-describedby="bemærkninger-help"
       ></textarea>
       <div id="bemærkninger-help" class="text-sm text-black/60 mt-1">
-        Valgfrit felt til yderligere information
+        {{ $t('form.fields.notesHelp') }}
       </div>
     </div>
 
@@ -348,13 +355,13 @@
         />
         <label for="privacy-consent" class="text-sm leading-relaxed cursor-pointer flex-1">
           <span class="font-medium">
-            Jeg accepterer behandling af mine personoplysninger
-            <span class="text-red-600" aria-label="påkrævet felt">*</span>
+            {{ $t('form.privacy.consent') }}
+            <span class="text-red-600" :aria-label="$t('form.required')">*</span>
           </span>
           <span id="privacy-info" class="block mt-1 text-black/70">
-            Ved at indsende denne formular accepterer jeg, at mine personoplysninger behandles i henhold til 
+            {{ $t('form.privacy.description') }} 
             <a href="/privatlivspolitik" target="_blank" class="!text-black underline hover:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 text-sm rounded">
-              privatlivspolitikken
+              {{ $t('form.privacy.policy') }}
             </a>.
           </span>
         </label>
@@ -372,21 +379,25 @@
       :aria-busy="isSubmitting"
     >
       <span v-if="!isSubmitting" class="flex items-center gap-4">
-        Send forespørgsel
+        {{ $t('form.submit.button') }}
       </span>
       <span v-else class="flex items-center gap-4">
         <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        Sender...
+        {{ $t('form.submit.sending') }}
       </span>
     </button>
   </form>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
+// @ts-ignore - vue-i18n types may not be fully resolved but works at runtime
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 // Form data
 const formData = reactive({
@@ -406,38 +417,38 @@ const formData = reactive({
   privacyConsent: false
 })
 
-// Form options
-const transportOptions = [
-  { value: 'Import', label: 'Import', id: 'import' },
-  { value: 'Eksport', label: 'Eksport', id: 'eksport' },
-  { value: 'One-Way', label: 'One-Way', id: 'oneway' }
-]
+// Form options with translations
+const transportOptions = computed(() => [
+  { value: 'Import', label: t('form.options.transport.import'), id: 'import' },
+  { value: 'Eksport', label: t('form.options.transport.export'), id: 'eksport' },
+  { value: 'One-Way', label: t('form.options.transport.oneWay'), id: 'oneway' }
+])
 
-const containerOptions = [
-  { value: "20' DC", label: "20' DC", id: 'c20dc' },
-  { value: "20' HC", label: "20' HC", id: 'c20hc' },
-  { value: "40' DC", label: "40' DC", id: 'c40dc' },
-  { value: "40' HC", label: "40' HC", id: 'c40hc' },
-  { value: "40 Reefer", label: "40' Reefer", id: 'reefer' },
-  { value: 'Andet', label: 'Andet', id: 'andet' }
-]
+const containerOptions = computed(() => [
+  { value: "20' DC", label: t('form.options.container.dc20'), id: 'c20dc' },
+  { value: "20' HC", label: t('form.options.container.hc20'), id: 'c20hc' },
+  { value: "40' DC", label: t('form.options.container.dc40'), id: 'c40dc' },
+  { value: "40' HC", label: t('form.options.container.hc40'), id: 'c40hc' },
+  { value: "40 Reefer", label: t('form.options.container.reefer40'), id: 'reefer' },
+  { value: 'Andet', label: t('form.options.container.other'), id: 'andet' }
+])
 
-const transportTypeOptions = [
-  { value: 'Chassis', label: 'Chassis', id: 'chassis' },
-  { value: 'Sidelaster', label: 'Sidelaster', id: 'sidelaster' },
-  { value: 'Genset', label: 'Genset', id: 'genset' },
-  { value: 'TIP Chassis', label: 'TIP Chassis', id: 'tip' }
-]
+const transportTypeOptions = computed(() => [
+  { value: 'Chassis', label: t('form.options.transportType.chassis'), id: 'chassis' },
+  { value: 'Sidelaster', label: t('form.options.transportType.sideloader'), id: 'sidelaster' },
+  { value: 'Genset', label: t('form.options.transportType.genset'), id: 'genset' },
+  { value: 'TIP Chassis', label: t('form.options.transportType.tipChassis'), id: 'tip' }
+])
 
 const rederiOptions = [
   'MSC', 'Mærsk', 'Hapag', 'ONE', 'OOCL', 'Yang Ming',
   'Evergreen', 'CMA CGM', 'Cosco', 'Shippers Own', 'Andet'
 ]
 
-const liveDropOptions = [
-  { value: 'Live', label: 'Live', id: 'live' },
-  { value: 'Drop', label: 'Drop', id: 'drop' }
-]
+const liveDropOptions = computed(() => [
+  { value: 'Live', label: t('form.options.liveDrop.live'), id: 'live' },
+  { value: 'Drop', label: t('form.options.liveDrop.drop'), id: 'drop' }
+])
 
 // Validation errors
 const errors = reactive({
@@ -451,6 +462,7 @@ const errors = reactive({
   rederi: '',
   afhentning: '',
   levering: '',
+  indlevering: '',
   privacyConsent: ''
 })
 
@@ -467,63 +479,66 @@ const validateForm = (): boolean => {
 
   // Validate required fields
   if (!formData.kontaktperson.trim()) {
-    errors.kontaktperson = 'Kontaktperson er påkrævet'
+    errors.kontaktperson = t('form.errors.contactPersonRequired')
     isValid = false
   }
 
-  if (!formData.telefon.trim()) {
-    errors.telefon = 'Telefonnummer er påkrævet'
-    isValid = false
-  } else if (!/^[\d\s\-\+\(\)]+$/.test(formData.telefon)) {
-    errors.telefon = 'Indtast et gyldigt telefonnummer'
+  // Phone is optional, but if provided, validate format
+  if (formData.telefon.trim() && !/^[\d\s\-\+\(\)]+$/.test(formData.telefon)) {
+    errors.telefon = t('form.errors.phoneInvalid')
     isValid = false
   }
 
   if (!formData.email.trim()) {
-    errors.email = 'E-mail er påkrævet'
+    errors.email = t('form.errors.emailRequired')
     isValid = false
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-    errors.email = 'Indtast en gyldig e-mail adresse'
+    errors.email = t('form.errors.emailInvalid')
     isValid = false
   }
 
   if (!formData.transport) {
-    errors.transport = 'Vælg transportretning'
+    errors.transport = t('form.errors.transportRequired')
     isValid = false
   }
 
   if (!formData.container) {
-    errors.container = 'Vælg container størrelse/type'
+    errors.container = t('form.errors.containerRequired')
     isValid = false
   }
 
   if (!formData.transporttype) {
-    errors.transporttype = 'Vælg transporttype'
+    errors.transporttype = t('form.errors.transportTypeRequired')
     isValid = false
   }
 
   if (!formData.antal || formData.antal < 1) {
-    errors.antal = 'Antal containere skal være mindst 1'
+    errors.antal = t('form.errors.containerCountRequired')
     isValid = false
   }
 
   if (!formData.rederi) {
-    errors.rederi = 'Vælg rederi'
+    errors.rederi = t('form.errors.shippingLineRequired')
     isValid = false
   }
 
   if (!formData.afhentning.trim()) {
-    errors.afhentning = 'Afhentningssted er påkrævet'
+    errors.afhentning = t('form.errors.pickupRequired')
     isValid = false
   }
 
   if (!formData.levering.trim()) {
-    errors.levering = 'Leveringssted er påkrævet'
+    errors.levering = t('form.errors.deliveryRequired')
+    isValid = false
+  }
+
+  if (!formData.indlevering.trim()) {
+    errors.indlevering = t('form.errors.returnRequired')
     isValid = false
   }
 
   if (!formData.privacyConsent) {
-    errors.privacyConsent = 'Du skal acceptere behandling af personoplysninger'
+    errors.privacyConsent = t('form.errors.privacyRequired')
     isValid = false
   }
 
@@ -578,10 +593,10 @@ const handleSubmit = async () => {
     //   privacyConsent: false
     // })
     
-    alert('Tak for din forespørgsel! Vi vender tilbage inden for 24 timer.')
+    alert(t('form.success'))
   } catch (error) {
     console.error('Form submission error:', error)
-    alert('Der opstod en fejl. Prøv venligst igen.')
+    alert(t('form.error'))
   } finally {
     isSubmitting.value = false
   }
