@@ -4,12 +4,12 @@
     <div class="flex flex-col items-center justify-center py-8 md:py-16 px-8 md:pt-24">
       <p class="text-sm uppercase mb-8">Klar til at komme i mål?</p>
       <h2 class="text-2xl md:text-3xl font-medium mb-8 text-center">Lad os finde den bedste løsning sammen</h2>
-      <button 
-        @click="openFooterForm"
+      <nuxt-link 
+        :to="offerFormPath"
         class="btn btn-primary"
       >
         Indhent tilbud i dag
-      </button>
+      </nuxt-link>
     </div>
 
     <!-- Main Footer Content -->
@@ -185,6 +185,16 @@ import SmallLogo from '~/components/ui/SmallLogo.vue';
 const coreStore = useCoreStore();
 const { locale } = useI18n();
 
+// Construct locale-aware path for the offer form page
+const offerFormPath = computed(() => {
+  // For Danish (default locale), use /faa-tilbud
+  // For other locales, use /{locale}/faa-tilbud
+  if (locale.value === 'da') {
+    return '/faa-tilbud';
+  }
+  return `/${locale.value}/faa-tilbud`;
+});
+
 const companyInfo = computed(() => {
   return coreStore.getSettings?.companyInfo;
 })
@@ -271,20 +281,6 @@ const footerMenu2Mobile = computed(() => {
   return footerMenu2.value;
 });
 
-// Open footer form
-const openFooterForm = () => {
-  const formData = {
-    id: 'contact-form',
-    title: 'Indhent et tilbud',
-    description: 'Udfyld felterne nedenfor, så vi kan give dig et tilbud hurtigt.'
-  };
-  
-  if (process.client) {
-    window.dispatchEvent(new CustomEvent('openForm', { 
-      detail: formData 
-    }));
-  }
-};
 
 </script>
 
