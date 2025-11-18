@@ -5,11 +5,11 @@
         <!-- White Background Container -->
         <div class="bg-[#F8F6F5] rounded-lg shadow-sm p-8 md:p-16">
           <!-- Header Section -->
-          <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
+          <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center ">
             <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase">
               {{ componentData.eyebrow }}
             </p>
-            <h2 v-if="componentData.header" class="text-3xl font-bold mb-4">
+            <h2 v-if="componentData.header" class="text-3xl font-bold mb-0 md:mb-12">
               {{ componentData.header }}
             </h2>
             <h3 v-if="componentData.subheader" class="md:mb-8">
@@ -18,7 +18,7 @@
           </div>
   
           <!-- Loading State -->
-          <div v-if="pending" :class="[gridClasses, 'mt-24']">
+          <div v-if="pending" :class="[gridClasses, 'mt-4']">
             <div v-for="i in 3" :key="i" class="animate-pulse">
               <div class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0">
                 <!-- Image skeleton -->
@@ -34,7 +34,7 @@
           </div>
   
           <!-- Service Items Grid -->
-          <div v-else-if="services.length > 0" :class="[gridClasses, 'mt-24']">
+          <div v-else-if="services.length > 0" :class="[gridClasses]">
           <div 
             v-for="(item, index) in services" 
             :key="item._id || index"
@@ -207,7 +207,7 @@ const gridClasses = computed(() => {
   const itemCount = services.value.length;
   
   // Base classes - single column on mobile, responsive on md+
-  let classes = 'grid grid-cols-1 gap-16 mt-16';
+  let classes = 'grid grid-cols-1 gap-4';
   
   // Add responsive classes based on item count
   // Pattern: 4 → 2 → 1 (or 3 → 2 → 1 if only 3 items)

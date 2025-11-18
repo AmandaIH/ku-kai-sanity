@@ -1,8 +1,8 @@
 <template>
   <footer class="text-white" style="background-color: #111111;">
     <!-- Footer CTA Section -->
-    <div class="flex flex-col items-center justify-center py-8 md:py-16 px-8 md:pt-24">
-      <p class="text-sm uppercase mb-8">Klar til at komme i mål?</p>
+    <div v-if="!isOfferFormPage" class="flex flex-col items-center justify-center py-8 md:py-16 px-8 md:pt-24">
+      <p class="text-sm uppercase mb-8 mt-8">Klar til at komme i mål?</p>
       <h2 class="text-2xl md:text-3xl font-medium mb-8 text-center">Lad os finde den bedste løsning sammen</h2>
       <nuxt-link 
         :to="offerFormPath"
@@ -14,7 +14,7 @@
 
     <!-- Main Footer Content -->
     <div class="px-8 md:px-20 pt-12 md:pt-8 py-8 md:pb-16">
-      <div class="border-t border-white/10 pt-8 md:pt-24">
+      <div :class="['pt-8 md:pt-24', { 'border-t border-white/10': !isOfferFormPage }]">
         <div class="grid grid-cols-2 md:grid-cols-5 gap-8 min-h-[400px] md:min-h-0 items-start content-start">
         <!-- Column 1: Location 1 -->
         <div v-if="companyInfo?.location1" class="flex flex-col justify-start text-left m-0 p-0 footer-col">
@@ -184,6 +184,7 @@ import SmallLogo from '~/components/ui/SmallLogo.vue';
 
 const coreStore = useCoreStore();
 const { locale } = useI18n();
+const route = useRoute();
 
 // Construct locale-aware path for the offer form page
 const offerFormPath = computed(() => {
@@ -193,6 +194,13 @@ const offerFormPath = computed(() => {
     return '/faa-tilbud';
   }
   return `/${locale.value}/faa-tilbud`;
+});
+
+// Check if we're on the offer form page
+const isOfferFormPage = computed(() => {
+  const path = route.path;
+  // Check for /faa-tilbud or /{locale}/faa-tilbud
+  return path === '/faa-tilbud' || path === `/${locale.value}/faa-tilbud` || path.endsWith('/faa-tilbud');
 });
 
 const companyInfo = computed(() => {

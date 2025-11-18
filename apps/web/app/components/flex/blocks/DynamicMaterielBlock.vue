@@ -18,7 +18,7 @@
           </div>
   
           <!-- Loading State -->
-          <div v-if="pending" :class="[gridClasses, 'mt-24']">
+          <div v-if="pending" :class="[gridClasses, 'mt-16']">
             <div v-for="i in 3" :key="i" class="animate-pulse">
               <div class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0">
                 <!-- Image skeleton -->
@@ -34,7 +34,7 @@
           </div>
   
           <!-- Materiel Items Grid -->
-          <div v-else-if="materielItems.length > 0" :class="[gridClasses, 'mt-24']">
+          <div v-else-if="materielItems.length > 0" :class="[gridClasses]">
           <div 
             v-for="(item, index) in materielItems" 
             :key="item._id || index"
@@ -212,7 +212,7 @@ const gridClasses = computed(() => {
   const itemCount = materielItems.value.length;
   
   // Base classes - single column on mobile, responsive on md+
-  let classes = 'grid grid-cols-1 gap-8 md:gap-12 lg:gap-16 mt-16';
+  let classes = 'grid grid-cols-1 gap-4 md:gap-12 lg:gap-16';
   
   // Add responsive classes based on item count for md and up
   if (itemCount >= 2) {

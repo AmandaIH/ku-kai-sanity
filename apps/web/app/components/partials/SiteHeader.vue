@@ -212,8 +212,8 @@ function handleScroll() {
         });
         
         gsap.to(headerInnerRef.value, {
-          paddingTop: window.innerWidth >= 768 ? '0.5rem' : '0.25rem',
-          paddingBottom: window.innerWidth >= 768 ? '0.5rem' : '0.25rem',
+          paddingTop: window.innerWidth >= 768 ? '0.5rem' : '0.5rem',
+          paddingBottom: window.innerWidth >= 768 ? '0.5rem' : '0.5rem',
           duration: 0.4,
           ease: 'power2.out'
         });
