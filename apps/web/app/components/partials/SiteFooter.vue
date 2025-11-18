@@ -18,17 +18,17 @@
         <div class="grid grid-cols-2 md:grid-cols-5 gap-8 min-h-[400px] md:min-h-0 items-start content-start">
         <!-- Column 1: Location 1 -->
         <div v-if="companyInfo?.location1" class="flex flex-col justify-start text-left m-0 p-0 footer-col">
-          <p class="text-sm uppercase footer-first-text">{{ companyInfo.location1.companyName || 'Location 1' }}</p>
+          <p class="text-xs md:text-sm uppercase footer-first-text">{{ companyInfo.location1.companyName || 'Location 1' }}</p>
           <div class="mt-2">
             <div class="space-y-0.5">
-              <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.phone }}</a>
-              <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.email }}</a>
+              <a v-if="companyInfo.location1.phone" :href="'tel:' + companyInfo.location1.phone" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.phone }}</a>
+              <a v-if="companyInfo.location1.email" :href="'mailto:' + companyInfo.location1.email" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location1.email }}</a>
             </div>
             <div class="space-y-0.5 mt-2 md:mt-6">
-              <p v-if="companyInfo.location1.address" class="text-lg md:text-base mb-0">{{ companyInfo.location1.address }}</p>
-              <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-lg md:text-base">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
+              <p v-if="companyInfo.location1.address" class="text-base mb-0">{{ companyInfo.location1.address }}</p>
+              <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-base">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
             </div>
-            <p v-if="companyInfo.companyCvr" class="text-lg md:text-base mb-0 mt-4 md:mt-6">CVR: {{ companyInfo.companyCvr }}</p>
+            <p v-if="companyInfo.companyCvr" class="text-base mb-0 mt-4 md:mt-6">CVR: {{ companyInfo.companyCvr }}</p>
           </div>
         </div>
 
@@ -36,11 +36,11 @@
         <div v-if="companyInfo?.location2 || companyInfo?.location3" class="flex flex-col justify-start text-left m-0 p-0 footer-col">
           <!-- Location 2 -->
           <div v-if="companyInfo?.location2" class="mb-6 md:mb-1 m-0 p-0 mt-0 pt-0">
-            <p class="text-sm uppercase footer-first-text">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
+            <p class="text-xs md:text-sm uppercase footer-first-text">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
             <div class="mt-2">
               <div class="space-y-0.5">
-                <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.phone }}</a>
-                <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.email }}</a>
+                <a v-if="companyInfo.location2.phone" :href="'tel:' + companyInfo.location2.phone" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.phone }}</a>
+                <a v-if="companyInfo.location2.email" :href="'mailto:' + companyInfo.location2.email" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location2.email }}</a>
               </div>
               <div class="space-y-0.5 mt-2 md:mt-6">
                 <p v-if="companyInfo.location2.address" class="text-lg md:text-base mb-0">{{ companyInfo.location2.address }}</p>
@@ -51,11 +51,11 @@
           
           <!-- Location 3 -->
           <div v-if="companyInfo?.location3" class="mb-16 md:mb-0 md:mt-0">
-            <p class="mb-2 text-sm uppercase">{{ companyInfo.location3.companyName || 'Location 3' }}</p>
+            <p class="mb-2 text-xs md:text-sm uppercase">{{ companyInfo.location3.companyName || 'Location 3' }}</p>
             <div>
               <div class="space-y-0.5">
-                <a v-if="companyInfo.location3.phone" :href="'tel:' + companyInfo.location3.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.phone }}</a>
-                <a v-if="companyInfo.location3.email" :href="'mailto:' + companyInfo.location3.email" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.email }}</a>
+                <a v-if="companyInfo.location3.phone" :href="'tel:' + companyInfo.location3.phone" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.phone }}</a>
+                <a v-if="companyInfo.location3.email" :href="'mailto:' + companyInfo.location3.email" class="text-md md:text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.email }}</a>
               </div>
             </div>
           </div>
