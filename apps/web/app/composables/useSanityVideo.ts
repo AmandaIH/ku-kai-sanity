@@ -34,6 +34,7 @@ export const useSanityVideo = () => {
    */
   const getVideoUrl = (video: SanityVideoObject): string => {
     if (!video || !video.asset) {
+      console.warn('useSanityVideo: Missing video or asset', { video });
       return '';
     }
 
@@ -79,9 +80,18 @@ export const useSanityVideo = () => {
       // Extract the path after the domain (e.g., /files/<projectId>/<dataset>/<assetId>)
       const pathAfterDomain = url.pathname;
       // Return the local CDN proxy path
-      return `/cdn${pathAfterDomain}`;
+      const finalUrl = `/cdn${pathAfterDomain}`;
+      if (process.client) {
+        console.log('useSanityVideo: Generated URL', { 
+          originalRef: video.asset._ref, 
+          assetId, 
+          sanityUrl, 
+          finalUrl 
+        });
+      }
+      return finalUrl;
     } catch (error) {
-      console.warn('Failed to parse Sanity video URL:', sanityUrl);
+      console.warn('Failed to parse Sanity video URL:', sanityUrl, error);
       return sanityUrl; // Fallback to original URL if parsing fails
     }
   };
