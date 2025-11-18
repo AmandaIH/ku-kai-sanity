@@ -3,7 +3,6 @@
     ref="video" 
     :class="props.classes" 
     :key="videoSource || undefined" 
-    :src="videoSource || undefined"
     autoplay 
     muted 
     loop 
@@ -16,7 +15,7 @@
   >
     <slot>
       <source v-if="videoSource" :src="videoSource" type="video/mp4">
-      <source v-if="mobileVideoSource" :src="mobileVideoSource" type="video/mp4" media="(max-width: 768px)">
+      <source v-if="mobileVideoSource && mobileVideoSource !== videoSource" :src="mobileVideoSource" type="video/mp4" media="(max-width: 768px)">
     </slot>
   </video>
 
@@ -127,7 +126,7 @@ onMounted(() => {
   if (video.value) {
     console.log('🔴 Setting up video element');
     console.log('🔴 Video currentSrc before setup:', video.value.currentSrc);
-    console.log('🔴 Video sources:', Array.from(video.value.querySelectorAll('source')).map(s => s.src));
+    console.log('🔴 Video sources:', Array.from(video.value.querySelectorAll('source') as NodeListOf<HTMLSourceElement>).map(s => s.src));
     
     // Force hardware acceleration for Safari
     video.value.style.transform = 'translateZ(0)';
@@ -145,25 +144,35 @@ onMounted(() => {
     video.value.setAttribute('playsinline', 'true');
     video.value.setAttribute('x-webkit-airplay', 'allow');
     
-    // Force video to load
+    // Safari needs the video element to not have a src attribute when using source elements
+    // Remove any src attribute that might have been set
+    if (video.value.hasAttribute('src')) {
+      video.value.removeAttribute('src');
+    }
+    
+    // Force video to load - Safari needs a slight delay
     setTimeout(() => {
       console.log('🔴 Attempting to load video');
       console.log('🔴 Video readyState before load():', video.value?.readyState);
       console.log('🔴 Video networkState before load():', video.value?.networkState);
       
       // Test if the video URL is accessible
-      fetch(video.value.currentSrc, { method: 'HEAD' })
-        .then(response => {
-          console.log('🔴 Video URL fetch test - Status:', response.status);
-          console.log('🔴 Video URL fetch test - Headers:', Object.fromEntries(response.headers.entries()));
-          if (!response.ok) {
-            console.error('🔴 Video URL is not accessible! Status:', response.status);
-          }
-        })
-        .catch(error => {
-          console.error('🔴 Video URL fetch test failed:', error);
-        });
+      const sourceElement = video.value?.querySelector('source');
+      if (sourceElement?.src) {
+        fetch(sourceElement.src, { method: 'HEAD' })
+          .then(response => {
+            console.log('🔴 Video URL fetch test - Status:', response.status);
+            console.log('🔴 Video URL fetch test - Headers:', Object.fromEntries(response.headers.entries()));
+            if (!response.ok) {
+              console.error('🔴 Video URL is not accessible! Status:', response.status);
+            }
+          })
+          .catch(error => {
+            console.error('🔴 Video URL fetch test failed:', error);
+          });
+      }
       
+      // Safari: Call load() to reload the source elements
       video.value?.load();
       console.log('🔴 Video currentSrc after load():', video.value?.currentSrc);
       console.log('🔴 Video readyState after load():', video.value?.readyState);
