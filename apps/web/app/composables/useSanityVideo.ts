@@ -83,7 +83,17 @@ export const useSanityVideo = () => {
       // Safari workaround: Use direct Sanity URL instead of proxy
       // Safari can have issues with proxied video URLs
       if (process.client) {
-        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        // Better Safari detection - check for Safari vendor or Safari in user agent
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent) && !/chromium/.test(userAgent);
+        
+        // Debug: Log user agent for troubleshooting
+        console.log('useSanityVideo: Browser detection', {
+          userAgent: navigator.userAgent,
+          isSafari,
+          vendor: navigator.vendor
+        });
+        
         if (isSafari) {
           console.log('useSanityVideo: Safari detected, using direct URL', { 
             originalRef: video.asset._ref, 

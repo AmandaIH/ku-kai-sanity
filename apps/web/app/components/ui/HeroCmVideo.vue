@@ -151,14 +151,33 @@ onMounted(() => {
     });
     video.value.addEventListener('error', (e: Event) => {
       const videoEl = e.target as HTMLVideoElement;
+      const error = videoEl.error;
       console.error('Video error:', {
-        code: videoEl.error?.code,
-        message: videoEl.error?.message,
+        code: error?.code,
+        message: error?.message,
         networkState: videoEl.networkState,
         readyState: videoEl.readyState,
         currentSrc: videoEl.currentSrc,
-        src: videoEl.src
+        src: videoEl.src,
+        errorCodes: {
+          1: 'MEDIA_ERR_ABORTED',
+          2: 'MEDIA_ERR_NETWORK',
+          3: 'MEDIA_ERR_DECODE',
+          4: 'MEDIA_ERR_SRC_NOT_SUPPORTED'
+        }
       });
+      if (error) {
+        console.error(`Video error code ${error.code}: ${error.message || 'Unknown error'}`);
+      }
+    });
+    
+    // Also listen for stalled and suspend events which Safari might use
+    video.value.addEventListener('stalled', () => {
+      console.warn('Video stalled - networkState:', video.value?.networkState);
+    });
+    
+    video.value.addEventListener('suspend', () => {
+      console.warn('Video suspend - networkState:', video.value?.networkState);
     });
     video.value.addEventListener('loadstart', () => {
       console.log('Video loadstart');
