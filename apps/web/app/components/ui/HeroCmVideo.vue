@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import {useSanityFile} from "~/composables/useSanityFile";
+import {useSanityVideo} from "~/composables/useSanityVideo";
 
 const props = defineProps({
   src: {
@@ -60,8 +60,8 @@ const props = defineProps({
   }
 });
 
-// Initialize Sanity file composable
-const { getFileUrl } = useSanityFile();
+// Initialize Sanity video composable
+const { getVideoUrl } = useSanityVideo();
 
 const videoSource = computed(() => {
   if (!props.src) {
@@ -73,55 +73,9 @@ const videoSource = computed(() => {
     return props.src;
   }
   
-  // If src is a Sanity file object, convert it to URL using the composable
-  if (props.src && typeof props.src === 'object' && props.src._type === 'file' && props.src.asset) {
-    const proxyUrl = getFileUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
-    
-    // Make it absolute for Safari compatibility and to avoid hydration mismatch
-    if (proxyUrl) {
-      if (proxyUrl.startsWith('/cdn')) {
-        // Relative proxy URL - make it absolute
-        const config = useRuntimeConfig();
-        let origin: string;
-        
-        if (process.client) {
-          // Client-side: use current window origin (Safari needs absolute URLs)
-          origin = window.location.origin;
-        } else {
-          // Server-side: try to get from request URL or use config
-          try {
-            const requestURL = useRequestURL();
-            origin = requestURL.origin;
-          } catch {
-            // Fallback to config or construct from headers if available
-            const headers = useRequestHeaders();
-            const host = headers.host || headers['x-forwarded-host'] || headers[':authority'];
-            // Safari requires HTTPS on production
-            const protocol = headers['x-forwarded-proto'] || 
-                           (process.env.NODE_ENV === 'production' ? 'https' : 'http');
-            
-            if (host) {
-              origin = `${protocol}://${host}`;
-            } else {
-              // Last resort: use config or default
-              origin = config.public.siteUrl || 'http://localhost:3000';
-            }
-          }
-        }
-        
-        // Ensure HTTPS on production for Safari compatibility
-        if (process.env.NODE_ENV === 'production' && origin.startsWith('http://')) {
-          origin = origin.replace('http://', 'https://');
-        }
-        
-        return `${origin}${proxyUrl}`;
-      } else if (proxyUrl.startsWith('http')) {
-        // Already absolute (fallback from composable)
-        return proxyUrl;
-      }
-    }
-    
-    return proxyUrl;
+  // If src is a Sanity file object, convert it to URL using the video composable
+  if (props.src && typeof props.src === 'object' && props.src._type === 'file') {
+    return getVideoUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
   }
   
   return null;
@@ -166,9 +120,6 @@ onMounted(() => {
     video.value.setAttribute('webkit-playsinline', 'true');
     video.value.setAttribute('playsinline', 'true');
     video.value.setAttribute('x-webkit-airplay', 'allow');
-    
-    // Force Safari to load the video
-    video.value.load();
   }
   
   // Add mobile-specific optimizations

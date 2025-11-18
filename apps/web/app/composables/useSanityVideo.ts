@@ -41,7 +41,30 @@ export const useSanityVideo = () => {
     let assetId = '';
     if (video.asset._ref) {
       // Standard Sanity asset reference: "file-abc123-def456-720p-mp4"
+      // Remove "file-" prefix
       assetId = video.asset._ref.replace('file-', '');
+      
+      // Sanity file URLs need the extension in dot format
+      // Convert "-mp4" to ".mp4", "-webm" to ".webm", etc.
+      const extensionMap: { [key: string]: string } = {
+        '-mp4': '.mp4',
+        '-webm': '.webm',
+        '-mov': '.mov',
+        '-avi': '.avi'
+      };
+      
+      // Convert extension format from dash to dot
+      for (const [dashExt, dotExt] of Object.entries(extensionMap)) {
+        if (assetId.endsWith(dashExt)) {
+          assetId = assetId.replace(new RegExp(dashExt + '$', 'i'), dotExt);
+          break;
+        }
+      }
+      
+      // If no extension was found, assume it's an mp4 video
+      if (!assetId.includes('.')) {
+        assetId = `${assetId}.mp4`;
+      }
     } else {
       console.error('useSanityVideo: Unknown asset structure:', video.asset);
       return '';
