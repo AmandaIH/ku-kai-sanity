@@ -79,7 +79,22 @@ export const useSanityVideo = () => {
       const url = new URL(sanityUrl);
       // Extract the path after the domain (e.g., /files/<projectId>/<dataset>/<assetId>)
       const pathAfterDomain = url.pathname;
-      // Return the local CDN proxy path
+      
+      // Safari workaround: Use direct Sanity URL instead of proxy
+      // Safari can have issues with proxied video URLs
+      if (process.client) {
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari) {
+          console.log('useSanityVideo: Safari detected, using direct URL', { 
+            originalRef: video.asset._ref, 
+            assetId, 
+            sanityUrl
+          });
+          return sanityUrl; // Return direct Sanity URL for Safari
+        }
+      }
+      
+      // Return the local CDN proxy path for other browsers
       const finalUrl = `/cdn${pathAfterDomain}`;
       if (process.client) {
         console.log('useSanityVideo: Generated URL', { 

@@ -100,11 +100,15 @@ const video = ref();
 const isMobile = ref(false);
 
 onMounted(() => {
+  console.log('HeroCmVideo onMounted - videoSource:', videoSource.value);
+  console.log('HeroCmVideo onMounted - video element exists:', !!video.value);
+  
   // Detect mobile device
   isMobile.value = window.innerWidth <= 768;
   
   // Safari-specific optimizations
   if (video.value) {
+    console.log('HeroCmVideo: Setting up video element');
     // Force hardware acceleration for Safari
     video.value.style.transform = 'translateZ(0)';
     video.value.style.webkitTransform = 'translateZ(0)';
