@@ -28,7 +28,7 @@
               <h2 v-if="index === 0" class="">
                 <span v-html="componentData.header"></span>
               </h2>
-              <h2 v-else class="h2 text-3xl">
+              <h2 v-else class="h2">
                 <span v-html="componentData.header"></span>
               </h2>
             </div>
