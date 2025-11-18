@@ -35,7 +35,7 @@
         <!-- Column 2: Location 2 and Location 3 -->
         <div v-if="companyInfo?.location2 || companyInfo?.location3" class="flex flex-col justify-start text-left m-0 p-0 footer-col">
           <!-- Location 2 -->
-          <div v-if="companyInfo?.location2" class="mb-16 md:mb-1 m-0 p-0 mt-0 pt-0">
+          <div v-if="companyInfo?.location2" class="mb-6 md:mb-1 m-0 p-0 mt-0 pt-0">
             <p class="text-sm uppercase footer-first-text">{{ companyInfo.location2.companyName || 'Location 2' }}</p>
             <div class="mt-2">
               <div class="space-y-0.5">
@@ -51,7 +51,7 @@
           
           <!-- Location 3 -->
           <div v-if="companyInfo?.location3" class="mb-16 md:mb-0 md:mt-0">
-            <p class="mb-4 text-sm uppercase">{{ companyInfo.location3.companyName || 'Location 3' }}</p>
+            <p class="mb-2 text-sm uppercase">{{ companyInfo.location3.companyName || 'Location 3' }}</p>
             <div>
               <div class="space-y-0.5">
                 <a v-if="companyInfo.location3.phone" :href="'tel:' + companyInfo.location3.phone" class="text-xl block mb-0 relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">{{ companyInfo.location3.phone }}</a>
@@ -59,28 +59,66 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Footer Menu (Mobile only) -->
-          <div v-if="footerMenu" class="flex flex-col md:hidden">
-            <div class="flex flex-col gap-2">
-              <div v-for="item in footerMenu">
-                <a v-if="item.openInNewTab" class="text-lg relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
+        <!-- Mobile: Footer Menus aligned horizontally -->
+        <div class="col-span-2 md:hidden pt-0 mt-0 grid grid-cols-2 gap-8">
+          <!-- Footer Menu 1 (Mobile: in column 1) -->
+          <div v-if="footerMenuMobile && footerMenuMobile.length > 0" class="flex flex-col">
+            <template v-for="(item, index) in footerMenuMobile" :key="index">
+              <div :class="index === 0 ? '' : 'mt-2'">
+                <a v-if="item.openInNewTab" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
                   <span v-html="item.title"></span>
                 </a>
-                <nuxt-link v-else class="text-lg relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
+                <nuxt-link v-else class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
                   <span v-html="item.title"></span>
                 </nuxt-link>
               </div>
-            </div>
+            </template>
+          </div>
+
+          <!-- Footer Menu 2 and Social Media (Mobile: in column 2) -->
+          <div class="flex flex-col">
+            <!-- Footer Menu 2 (filter out Tilladelser on mobile) -->
+            <template v-if="footerMenu2Mobile && footerMenu2Mobile.length > 0">
+              <template v-for="(item, index) in footerMenu2Mobile" :key="index">
+                <div :class="index === 0 ? '' : 'mt-2'">
+                  <a v-if="item.openInNewTab" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
+                    <span v-html="item.title"></span>
+                  </a>
+                  <nuxt-link v-else class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :to="item.url">
+                    <span v-html="item.title"></span>
+                  </nuxt-link>
+                </div>
+              </template>
+            </template>
+
+            <!-- Social Media -->
+            <template v-if="footerMenu2Mobile && footerMenu2Mobile.length > 0">
+              <a v-if="socialMediaChannels.instagram" :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 mt-2">
+                Instagram
+              </a>
+              <a v-if="socialMediaChannels.linkedin" :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 mt-2">
+                LinkedIn
+              </a>
+            </template>
+            <template v-else>
+              <a v-if="socialMediaChannels.instagram" :href="socialMediaChannels.instagram" target="_blank" title="Instagram" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100">
+                Instagram
+              </a>
+              <a v-if="socialMediaChannels.linkedin" :href="socialMediaChannels.linkedin" target="_blank" title="LinkedIn" class="text-base inline-block relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 mt-2">
+                LinkedIn
+              </a>
+            </template>
           </div>
         </div>
 
         <!-- Column 3: Logo -->
-        <div class="flex flex-col justify-center items-center">
+        <div class="hidden md:flex flex-col justify-center items-center">
           <SmallLogo class="w-40 h-40" fill-color="white" :fill-opacity="0.2" />
         </div>
 
-        <!-- Column 4: Footer Menu (Desktop only) -->
+        <!-- Column 4: Footer Menu (Desktop) -->
         <div v-if="footerMenu" class="hidden md:flex flex-col justify-center items-center md:ml-16 text-left m-0 p-0 footer-col md:-mt-1">
           <template v-for="(item, index) in footerMenu" :key="index">
             <a v-if="item.openInNewTab && index === 0" class="text-base footer-first-text relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :href="item.url" target="_blank" rel="noopener noreferrer">
@@ -100,8 +138,8 @@
           </template>
         </div>
 
-        <!-- Column 5: Footer Menu 2 and Social Media -->
-        <div class="flex flex-col justify-start items-start text-left md:ml-12 m-0 p-0 footer-col md:-mt-1">
+        <!-- Column 5: Footer Menu 2 and Social Media (Desktop only) -->
+        <div class="hidden md:flex flex-col justify-start items-start text-left md:ml-12 m-0 p-0 footer-col md:-mt-1">
           <!-- Footer Menu 2 (Desktop only) -->
           <template v-if="footerMenu2 && footerMenu2.length > 0">
             <template v-for="(item, index) in footerMenu2" :key="index">
@@ -161,6 +199,76 @@ const footerMenu = computed(() => {
 
 const footerMenu2 = computed(() => {
   return coreStore.getMenu('footer-menu-2', locale.value) || [];
+});
+
+// Helper function to check if an item is "Tilladelser"
+const isTilladelserItem = (item) => {
+  if (!item) return false;
+  
+  // Normalize a string for comparison
+  const normalize = (str) => String(str || '').toLowerCase().trim();
+  
+  // Check URL (most reliable) - could be /tilladelser or /da/tilladelser or just tilladelser
+  if (item.url) {
+    const urlStr = normalize(item.url);
+    // Check for exact match or ends with /tilladelser
+    if (urlStr === '/tilladelser' || 
+        urlStr === 'tilladelser' ||
+        urlStr === '/tilladelser/' ||
+        urlStr.endsWith('/tilladelser') ||
+        urlStr.endsWith('/tilladelser/') ||
+        urlStr.includes('/tilladelser')) {
+      return true;
+    }
+  }
+  
+  // Check internal link slug (slug is just "tilladelser" without leading slash)
+  if (item.internalLink?.slug?.current) {
+    const slugStr = normalize(item.internalLink.slug.current);
+    if (slugStr === 'tilladelser') {
+      return true;
+    }
+  }
+  
+  // Check title as fallback
+  if (item.title) {
+    const titleStr = normalize(item.title);
+    // Strip HTML if present
+    const cleanTitle = titleStr.replace(/<[^>]*>/g, '').replace(/&[#\w]+;/g, ' ').trim();
+    if (cleanTitle === 'tilladelser' || cleanTitle.includes('tilladelser')) {
+      return true;
+    }
+  }
+  
+  return false;
+};
+
+// Helper function to get the visible index (excluding Tilladelser) for spacing
+const getVisibleItemIndex = (menu, currentIndex) => {
+  if (!menu || !Array.isArray(menu)) return 0;
+  let visibleIndex = 0;
+  for (let i = 0; i <= currentIndex; i++) {
+    if (!isTilladelserItem(menu[i])) {
+      if (i === currentIndex) return visibleIndex;
+      visibleIndex++;
+    }
+  }
+  return visibleIndex;
+};
+
+
+// Filter out "Tilladelser" from Footer Menu 1 for mobile (left column)
+const footerMenuMobile = computed(() => {
+  if (!footerMenu.value || !Array.isArray(footerMenu.value)) return [];
+  
+  return footerMenu.value.filter(item => !isTilladelserItem(item));
+});
+
+// Footer Menu 2 for mobile - show as-is (keep Tilladelser in right column)
+const footerMenu2Mobile = computed(() => {
+  if (!footerMenu2.value || !Array.isArray(footerMenu2.value)) return [];
+  
+  return footerMenu2.value;
 });
 
 // Open footer form
