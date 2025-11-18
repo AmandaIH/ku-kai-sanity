@@ -38,7 +38,7 @@
           <div 
             v-for="(item, index) in materielItems" 
             :key="item._id || index"
-            class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
+            class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0 w-full max-w-sm mx-auto"
           >
             <!-- Image -->
             <div v-if="item.image" class="w-full mb-4 rounded-lg overflow-hidden">
@@ -95,10 +95,12 @@
   const route = useRoute();
   
   // Fetch materiel from API
+  // Note: Service filter removed - showing all materiel items regardless of service
+  // This allows materiel items with different services to be displayed together
   const { data: materielData, pending } = await useFetch('/api/documents/teasers/materiel/', {
     query: {
-      language: locale.value || 'da',
-      ...(componentData.value.service?._ref && { service: componentData.value.service._ref })
+      language: locale.value || 'da'
+      // Service filter removed - show all materiel items
     }
   });
   
@@ -136,7 +138,7 @@
     const currentPath = getCurrentPagePath();
     
     // API already returns items sorted by order field, so we just use all items
-    return materielData.value.data
+    const filtered = materielData.value.data
       .filter((item) => {
         // Filter out the current materiel item if we're on its page
         if (!item.slug || !currentPath) return true;
@@ -161,7 +163,9 @@
           normalizedMaterielSlugWithoutPrefix === normalizedCurrentPath.split('/').pop();
         
         return !isMatch;
-      })
+      });
+    
+    return filtered
       .map((item) => {
         // Build CTA button from slug
         const ctaButton = item.slug ? {
@@ -208,7 +212,7 @@ const gridClasses = computed(() => {
   const itemCount = materielItems.value.length;
   
   // Base classes - single column on mobile, responsive on md+
-  let classes = 'grid grid-cols-1 gap-16 mt-16';
+  let classes = 'grid grid-cols-1 gap-8 md:gap-12 lg:gap-16 mt-16';
   
   // Add responsive classes based on item count for md and up
   if (itemCount >= 2) {
@@ -216,7 +220,8 @@ const gridClasses = computed(() => {
   }
   
   if (itemCount >= 3) {
-    classes += ' lg:grid-cols-3';
+    // For 3 items, use 3 columns on large screens, but ensure items are evenly distributed
+    classes += ' lg:grid-cols-3 lg:justify-items-center';
   }
   
   if (itemCount >= 4) {

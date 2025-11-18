@@ -85,7 +85,7 @@ const videoSource = computed(() => {
         let origin: string;
         
         if (process.client) {
-          // Client-side: use current window origin
+          // Client-side: use current window origin (Safari needs absolute URLs)
           origin = window.location.origin;
         } else {
           // Server-side: try to get from request URL or use config
@@ -96,7 +96,9 @@ const videoSource = computed(() => {
             // Fallback to config or construct from headers if available
             const headers = useRequestHeaders();
             const host = headers.host || headers['x-forwarded-host'] || headers[':authority'];
-            const protocol = headers['x-forwarded-proto'] || (process.env.NODE_ENV === 'production' ? 'https' : 'http');
+            // Safari requires HTTPS on production
+            const protocol = headers['x-forwarded-proto'] || 
+                           (process.env.NODE_ENV === 'production' ? 'https' : 'http');
             
             if (host) {
               origin = `${protocol}://${host}`;
@@ -105,6 +107,11 @@ const videoSource = computed(() => {
               origin = config.public.siteUrl || 'http://localhost:3000';
             }
           }
+        }
+        
+        // Ensure HTTPS on production for Safari compatibility
+        if (process.env.NODE_ENV === 'production' && origin.startsWith('http://')) {
+          origin = origin.replace('http://', 'https://');
         }
         
         return `${origin}${proxyUrl}`;
