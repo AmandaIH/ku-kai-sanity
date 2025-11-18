@@ -199,22 +199,29 @@ onMounted(() => {
       console.log('Video loadedmetadata');
     });
     
-    // Safari: Explicitly trigger load after source elements are in DOM
+    // Safari: Update source elements with correct URL and trigger load
     nextTick(() => {
       setTimeout(() => {
         const sourceElements = video.value?.querySelectorAll('source');
-        console.log('Video source elements:', sourceElements?.length);
-        if (sourceElements && sourceElements.length > 0) {
+        console.log('Video source elements before update:', sourceElements?.length);
+        
+        if (sourceElements && sourceElements.length > 0 && videoSource.value) {
+          // Update all source elements with the correct URL
           sourceElements.forEach((source: HTMLSourceElement, index: number) => {
-            console.log(`Source ${index}:`, {
-              src: source.src,
+            const oldSrc = source.src;
+            source.src = videoSource.value || '';
+            console.log(`Source ${index} updated:`, {
+              oldSrc,
+              newSrc: source.src,
               type: source.type
             });
           });
-          // Explicitly call load() to trigger Safari to recognize sources
+          
+          // Explicitly call load() to trigger Safari to recognize the updated sources
+          console.log('Calling video.load() with updated sources');
           video.value?.load();
         } else {
-          console.warn('No source elements found in video element');
+          console.warn('No source elements found in video element or no videoSource');
         }
       }, 100);
     });
