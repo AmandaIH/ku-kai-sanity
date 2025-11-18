@@ -3,11 +3,12 @@
     ref="video" 
     :class="props.classes" 
     :key="videoSource || undefined" 
+    :src="videoSource || undefined"
     autoplay 
     muted 
     loop 
     playsinline
-    preload="metadata"
+    preload="auto"
     :poster="videoPoster || undefined"
     webkit-playsinline
     x-webkit-airplay="allow"
