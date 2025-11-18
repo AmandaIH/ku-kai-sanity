@@ -43,7 +43,6 @@ interface AccordionItem {
   title?: string;
   content?: any[];
   ctas?: any[];
-  formButton?: any;
 }
 
 interface AccordionBlockData {

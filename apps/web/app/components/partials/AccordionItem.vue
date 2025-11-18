@@ -22,10 +22,8 @@
               <PortableText :value="filteredContent" />
               <!-- Desktop: Buttons after content -->
               <div class="hidden md:block">
-                <!-- CTA Buttons -->
+                <!-- CTA Buttons (supports Internal, External, and Open Form) -->
                 <Buttons v-if="item.ctas" :data="item.ctas"></Buttons>
-                <!-- Form Button -->
-                <FormButton v-if="item.formButton" :data="item.formButton"></FormButton>
               </div>
             </div>
           </div>
@@ -85,11 +83,9 @@
         </div>
         
         <!-- Mobile: Button inside content (only visible when expanded) -->
-        <div v-if="item.ctas || item.formButton" class="ml-14 mr-20 my-4 md:hidden">
-          <!-- CTA Buttons -->
+        <div v-if="item.ctas" class="ml-14 mr-20 my-4 md:hidden">
+          <!-- CTA Buttons (supports Internal, External, and Open Form) -->
           <Buttons v-if="item.ctas" :data="item.ctas"></Buttons>
-          <!-- Form Button -->
-          <FormButton v-if="item.formButton" :data="item.formButton"></FormButton>
         </div>
       </div>
       
@@ -110,7 +106,6 @@
 import { PortableText } from '@portabletext/vue';
 import { computed, ref, watch, onMounted } from 'vue';
 import Buttons from '~/components/ui/Buttons.vue';
-import FormButton from '~/components/ui/FormButton.vue';
 const props = defineProps({
   item: {
     type: Object,
