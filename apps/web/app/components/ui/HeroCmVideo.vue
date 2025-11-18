@@ -14,8 +14,8 @@
     disablepictureinpicture
   >
     <slot>
-      <source v-if="videoSource" :src="videoSource" type="video/mp4">
-      <source v-if="mobileVideoSource && mobileVideoSource !== videoSource" :src="mobileVideoSource" type="video/mp4" media="(max-width: 768px)">
+      <source v-if="absoluteVideoSource" :src="absoluteVideoSource" :type="videoMimeType">
+      <source v-if="absoluteMobileVideoSource && absoluteMobileVideoSource !== absoluteVideoSource" :src="absoluteMobileVideoSource" :type="videoMimeType" media="(max-width: 768px)">
     </slot>
   </video>
 
@@ -63,6 +63,32 @@ const props = defineProps({
 // Initialize Sanity video composable
 const { getVideoUrl } = useSanityVideo();
 
+// Helper function to get MIME type from file extension
+const getMimeType = (url: string | null): string => {
+  if (!url) return 'video/mp4';
+  const ext = url.toLowerCase().split('.').pop();
+  const mimeTypes: Record<string, string> = {
+    'mp4': 'video/mp4',
+    'webm': 'video/webm',
+    'mov': 'video/quicktime',
+    'avi': 'video/x-msvideo',
+    'm4v': 'video/x-m4v',
+  };
+  return mimeTypes[ext || ''] || 'video/mp4';
+};
+
+// Helper function to convert relative URL to absolute
+const getAbsoluteUrl = (url: string | null): string | null => {
+  if (!url) return null;
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  if (process.client) {
+    return new URL(url, window.location.origin).toString();
+  }
+  return url;
+};
+
 // Debug: Log immediately when component is created
 if (process.client) {
   console.log('🔴 HeroCmVideo component created with props.src:', props.src);
@@ -94,9 +120,23 @@ const videoSource = computed(() => {
   return null;
 });
 
+// Get absolute URL for Safari compatibility
+const absoluteVideoSource = computed(() => {
+  return getAbsoluteUrl(videoSource.value);
+});
+
+// Get MIME type for the video source
+const videoMimeType = computed(() => {
+  return getMimeType(videoSource.value);
+});
+
 // Mobile-optimized video source (same as desktop for now)
 const mobileVideoSource = computed(() => {
   return videoSource.value;
+});
+
+const absoluteMobileVideoSource = computed(() => {
+  return getAbsoluteUrl(mobileVideoSource.value);
 });
 
 // Video poster for better loading experience
@@ -150,34 +190,54 @@ onMounted(() => {
       video.value.removeAttribute('src');
     }
     
-    // Force video to load - Safari needs a slight delay
-    setTimeout(() => {
-      console.log('🔴 Attempting to load video');
-      console.log('🔴 Video readyState before load():', video.value?.readyState);
-      console.log('🔴 Video networkState before load():', video.value?.networkState);
-      
-      // Test if the video URL is accessible
-      const sourceElement = video.value?.querySelector('source');
-      if (sourceElement?.src) {
-        fetch(sourceElement.src, { method: 'HEAD' })
-          .then(response => {
-            console.log('🔴 Video URL fetch test - Status:', response.status);
-            console.log('🔴 Video URL fetch test - Headers:', Object.fromEntries(response.headers.entries()));
-            if (!response.ok) {
-              console.error('🔴 Video URL is not accessible! Status:', response.status);
-            }
-          })
-          .catch(error => {
-            console.error('🔴 Video URL fetch test failed:', error);
+    // Force video to load - Safari needs source elements to be in DOM first
+    nextTick(() => {
+      setTimeout(() => {
+        console.log('🔴 Attempting to load video');
+        console.log('🔴 Video readyState before load():', video.value?.readyState);
+        console.log('🔴 Video networkState before load():', video.value?.networkState);
+        
+        // Ensure source elements are properly set up for Safari
+        const sourceElements = video.value?.querySelectorAll('source');
+        console.log('🔴 Source elements found:', sourceElements?.length);
+        sourceElements?.forEach((source: HTMLSourceElement, index: number) => {
+          console.log(`🔴 Source ${index}:`, {
+            src: source.src,
+            type: source.type,
+            media: source.media
           });
-      }
-      
-      // Safari: Call load() to reload the source elements
-      video.value?.load();
-      console.log('🔴 Video currentSrc after load():', video.value?.currentSrc);
-      console.log('🔴 Video readyState after load():', video.value?.readyState);
-      console.log('🔴 Video networkState after load():', video.value?.networkState);
-    }, 100);
+        });
+        
+        // Test if the video URL is accessible
+        const sourceElement = video.value?.querySelector('source');
+        if (sourceElement?.src) {
+          fetch(sourceElement.src, { method: 'HEAD' })
+            .then(response => {
+              console.log('🔴 Video URL fetch test - Status:', response.status);
+              console.log('🔴 Video URL fetch test - Headers:', Object.fromEntries(response.headers.entries()));
+              const contentType = response.headers.get('content-type');
+              console.log('🔴 Video URL Content-Type:', contentType);
+              if (!response.ok) {
+                console.error('🔴 Video URL is not accessible! Status:', response.status);
+              }
+            })
+            .catch(error => {
+              console.error('🔴 Video URL fetch test failed:', error);
+            });
+        }
+        
+        // Safari: Call load() to reload the source elements
+        // Make sure source elements are in the DOM before calling load()
+        if (sourceElements && sourceElements.length > 0) {
+          video.value?.load();
+          console.log('🔴 Video currentSrc after load():', video.value?.currentSrc);
+          console.log('🔴 Video readyState after load():', video.value?.readyState);
+          console.log('🔴 Video networkState after load():', video.value?.networkState);
+        } else {
+          console.error('🔴 No source elements found! Video cannot load.');
+        }
+      }, 100);
+    });
   }
   
   // Add mobile-specific optimizations
