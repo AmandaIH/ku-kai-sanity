@@ -14,8 +14,8 @@
     disablepictureinpicture
   >
     <slot>
-      <source v-if="videoSource" :src="videoSource" type="video/mp4; codecs=avc1.42E01E">
-      <source v-if="mobileVideoSource" :src="mobileVideoSource" type="video/mp4; codecs=avc1.42E01E" media="(max-width: 768px)">
+      <source v-if="videoSource" :src="videoSource" type="video/mp4">
+      <source v-if="mobileVideoSource" :src="mobileVideoSource" type="video/mp4" media="(max-width: 768px)">
     </slot>
   </video>
 
