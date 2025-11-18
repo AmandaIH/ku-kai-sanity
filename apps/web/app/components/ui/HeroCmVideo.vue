@@ -75,7 +75,11 @@ const videoSource = computed(() => {
   
   // If src is a Sanity file object, convert it to URL using the video composable
   if (props.src && typeof props.src === 'object' && props.src._type === 'file') {
-    return getVideoUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
+    const url = getVideoUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
+    if (!url) {
+      console.warn('HeroCmVideo: Failed to generate video URL from:', props.src);
+    }
+    return url;
   }
   
   return null;
@@ -100,6 +104,12 @@ const video = ref();
 const isMobile = ref(false);
 
 onMounted(() => {
+  // Debug: Log video source
+  if (process.client) {
+    console.log('HeroCmVideo mounted - videoSource:', videoSource.value);
+    console.log('HeroCmVideo props.src:', props.src);
+  }
+  
   // Detect mobile device
   isMobile.value = window.innerWidth <= 768;
   
@@ -142,6 +152,8 @@ onMounted(() => {
     });
     video.value.addEventListener('error', (e: Event) => {
       console.error('Video error:', e);
+      console.error('Video source:', video.value?.src);
+      console.error('Video element:', video.value);
     });
     video.value.addEventListener('loadeddata', () => {
       // Force Safari to play the video
