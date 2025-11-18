@@ -147,8 +147,26 @@ onMounted(() => {
     // Force video to load
     setTimeout(() => {
       console.log('🔴 Attempting to load video');
+      console.log('🔴 Video readyState before load():', video.value?.readyState);
+      console.log('🔴 Video networkState before load():', video.value?.networkState);
+      
+      // Test if the video URL is accessible
+      fetch(video.value.currentSrc, { method: 'HEAD' })
+        .then(response => {
+          console.log('🔴 Video URL fetch test - Status:', response.status);
+          console.log('🔴 Video URL fetch test - Headers:', Object.fromEntries(response.headers.entries()));
+          if (!response.ok) {
+            console.error('🔴 Video URL is not accessible! Status:', response.status);
+          }
+        })
+        .catch(error => {
+          console.error('🔴 Video URL fetch test failed:', error);
+        });
+      
       video.value?.load();
       console.log('🔴 Video currentSrc after load():', video.value?.currentSrc);
+      console.log('🔴 Video readyState after load():', video.value?.readyState);
+      console.log('🔴 Video networkState after load():', video.value?.networkState);
     }, 100);
   }
   
@@ -181,15 +199,30 @@ onMounted(() => {
     });
     
     video.value.addEventListener('loadstart', () => {
-      console.log('🔴 Video loadstart - attempting to load:', video.value?.src);
+      console.log('🔴 Video loadstart');
+      console.log('🔴 Video src:', video.value?.src);
+      console.log('🔴 Video currentSrc:', video.value?.currentSrc);
+      console.log('🔴 Video readyState:', video.value?.readyState);
+      console.log('🔴 Video networkState:', video.value?.networkState);
     });
     
     video.value.addEventListener('stalled', () => {
       console.warn('🔴 Video stalled');
+      console.warn('🔴 Video networkState:', video.value?.networkState);
     });
     
     video.value.addEventListener('suspend', () => {
       console.warn('🔴 Video suspend');
+      console.warn('🔴 Video networkState:', video.value?.networkState);
+    });
+    
+    video.value.addEventListener('abort', () => {
+      console.error('🔴 Video abort');
+      console.error('🔴 Video networkState:', video.value?.networkState);
+    });
+    
+    video.value.addEventListener('progress', () => {
+      console.log('🔴 Video progress - buffered:', video.value?.buffered.length ? `${video.value.buffered.start(0)}-${video.value.buffered.end(0)}` : 'none');
     });
     video.value.addEventListener('loadeddata', () => {
       console.log('🔴 Video loadeddata - ready to play');
