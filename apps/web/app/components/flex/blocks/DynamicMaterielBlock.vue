@@ -9,7 +9,7 @@
             <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase">
               {{ componentData.eyebrow }}
             </p>
-            <h2 v-if="componentData.header" class="text-3xl font-bold mb-4">
+            <h2 v-if="componentData.header" class=" font-bold mb-4">
               {{ componentData.header }}
             </h2>
             <h3 v-if="componentData.subheader" class="md:mb-8">
