@@ -120,6 +120,11 @@ onMounted(() => {
     video.value.setAttribute('webkit-playsinline', 'true');
     video.value.setAttribute('playsinline', 'true');
     video.value.setAttribute('x-webkit-airplay', 'allow');
+    
+    // Ensure no src attribute (use source elements only)
+    if (video.value.hasAttribute('src')) {
+      video.value.removeAttribute('src');
+    }
   }
   
   // Add mobile-specific optimizations
@@ -141,15 +146,66 @@ onMounted(() => {
       videoIsPaused.value = true;
     });
     video.value.addEventListener('error', (e: Event) => {
-      console.error('Video error:', e);
+      const videoEl = e.target as HTMLVideoElement;
+      console.error('Video error:', {
+        code: videoEl.error?.code,
+        message: videoEl.error?.message,
+        networkState: videoEl.networkState,
+        readyState: videoEl.readyState,
+        currentSrc: videoEl.currentSrc,
+        src: videoEl.src
+      });
+    });
+    video.value.addEventListener('loadstart', () => {
+      console.log('Video loadstart');
     });
     video.value.addEventListener('loadeddata', () => {
+      console.log('Video loadeddata');
       // Force Safari to play the video
       video.value.play().catch((e: any) => console.log('Video play failed:', e));
     });
+    video.value.addEventListener('canplay', () => {
+      console.log('Video canplay');
+    });
     video.value.addEventListener('canplaythrough', () => {
+      console.log('Video canplaythrough');
       // Force Safari to play the video
       video.value.play().catch((e: any) => console.log('Video play failed:', e));
+    });
+    video.value.addEventListener('loadedmetadata', () => {
+      console.log('Video loadedmetadata');
+    });
+    
+    // Safari: Explicitly trigger load after source elements are in DOM
+    nextTick(() => {
+      setTimeout(() => {
+        const sourceElements = video.value?.querySelectorAll('source');
+        console.log('Video source elements:', sourceElements?.length);
+        if (sourceElements && sourceElements.length > 0) {
+          sourceElements.forEach((source: HTMLSourceElement, index: number) => {
+            console.log(`Source ${index}:`, {
+              src: source.src,
+              type: source.type
+            });
+          });
+          // Explicitly call load() to trigger Safari to recognize sources
+          video.value?.load();
+        } else {
+          console.warn('No source elements found in video element');
+        }
+      }, 100);
+    });
+  }
+});
+
+// Watch for video source changes and reload if needed
+watch(videoSource, (newSrc) => {
+  if (newSrc && video.value) {
+    nextTick(() => {
+      const sourceElements = video.value?.querySelectorAll('source');
+      if (sourceElements && sourceElements.length > 0) {
+        video.value?.load();
+      }
     });
   }
 });
