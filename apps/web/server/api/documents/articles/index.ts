@@ -57,7 +57,8 @@ export default cachedEventHandler(
       `
 
       // Add ordering and pagination
-      groqQuery += ` | order(coalesce(date, _createdAt) desc) [${offset}...${offset + limit}]`
+      // Use _id as secondary sort to ensure deterministic ordering and prevent duplicates
+      groqQuery += ` | order(coalesce(date, _createdAt) desc, _id desc) [${offset}...${offset + limit}]`
 
       const sanityClient = createSanityClient()
       

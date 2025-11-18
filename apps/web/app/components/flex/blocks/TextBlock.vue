@@ -10,7 +10,7 @@
             <h2 v-if="index === 0" class=" !mb-0">
               <span v-html="componentData.header"></span>
             </h2>
-            <h2 v-else class="h2 !mb-0">
+            <h2 v-else class="h2 !mb-4">
               <span v-html="componentData.header"></span>
             </h2>
           </div>
@@ -53,10 +53,10 @@
         <div class="flex flex-col" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
           <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
           <div ref="headerWrapperRef" class="opacity-0" v-if="componentData.header">
-            <h2 v-if="index === 0" class="!mb-0">
+            <h2 v-if="index === 0" class="!mb-4">
               <span v-html="componentData.header"></span>
             </h2>
-            <h2 v-else class="h2 !mb-0">
+            <h2 v-else class="h2 !mb-4">
               <span v-html="componentData.header"></span>
             </h2>
           </div>

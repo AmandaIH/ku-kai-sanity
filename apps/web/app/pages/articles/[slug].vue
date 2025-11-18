@@ -60,32 +60,75 @@
         </div>
 
         <!-- Related Articles -->
-        <div class="section-container py-8 md:py-16">
-          <div class="col-span-full md:col-span-8 md:col-start-3 lg:col-start-4 lg:col-span-6">
-            <h4 class="text-center mb-8">Other news</h4>
+        <div class="px-8 md:px-16 py-8">
+          <!-- White Background Container -->
+          <div class="bg-[#F8F6F5] rounded-lg shadow-sm px-8 py-16 md:p-16">
+            <h4 class="text-center mb-12">Other news</h4>
             
             <!-- Loading State -->
-            <div v-if="isLoadingArticles" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            <div v-if="isLoadingArticles" :class="[relatedArticlesGridClasses, 'mt-24']">
               <div v-for="i in 4" :key="i" class="animate-pulse">
-                <div class="relative overflow-hidden h-[600px] bg-gray-200">
-                  <div class="absolute inset-0 p-6 flex flex-col justify-between">
-                    <div class="flex flex-col gap-3">
-                      <div class="h-4 bg-gray-300 w-1/3"></div>
-                      <div class="h-6 bg-gray-300 w-3/4"></div>
-                    </div>
-                    <div class="h-10 bg-gray-300 w-1/3"></div>
+                <div class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0">
+                  <!-- Image skeleton -->
+                  <div class="w-full h-64 md:h-56 lg:h-64 xl:h-72 relative mb-4 rounded-lg overflow-hidden bg-gray-200"></div>
+                  <!-- Content skeleton -->
+                  <div class="text-center flex flex-col flex-grow">
+                    <div class="h-6 bg-gray-200 w-3/4 mx-auto mb-2"></div>
+                    <div class="h-4 bg-gray-200 w-full mb-1"></div>
+                    <div class="h-4 bg-gray-200 w-1/3 mx-auto mt-auto"></div>
                   </div>
                 </div>
               </div>
             </div>
             
             <!-- Articles Grid -->
-            <div v-else-if="relatedArticles.length > 0" class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-8">
-              <ArchiveCard 
+            <div v-else-if="relatedArticles.length > 0" :class="[relatedArticlesGridClasses, 'mt-24']">
+              <div 
                 v-for="article in relatedArticles" 
-                :key="article._id"
-                :item="article"
-              />
+                :key="article._id" 
+                class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
+              >
+                <!-- Image -->
+                <div v-if="article.featuredImage" class="w-full h-64 md:h-56 lg:h-64 xl:h-72 relative mb-4 rounded-lg overflow-hidden">
+                  <CmPicture
+                    :image-object="article.featuredImage"
+                    classes="w-full h-full object-cover rounded-lg"
+                    :lazy="true"
+                  />
+                </div>
+                
+                <!-- Content -->
+                <div class="text-center flex flex-col flex-grow">
+                  <!-- Title -->
+                  <h5 v-if="article.title" class="mb-2">
+                    {{ article.title }}
+                  </h5>
+                  
+                  <!-- Excerpt -->
+                  <p v-if="article.excerpt || article.headline" class="mb-1 text-sm">
+                    {{ article.excerpt || article.headline }}
+                  </p>
+                  
+                  <!-- Date -->
+                  <p v-if="article.date || article._createdAt" class="text-xs text-gray-600 mb-4">
+                    {{ formatDate(article.date || article._createdAt) }}
+                  </p>
+                  
+                  <!-- CTA Button -->
+                  <div class="mt-auto flex justify-center">
+                    <Buttons :data="[{ 
+                      linkTitle: 'Læs mere', 
+                      variant: 'secondary2', 
+                      linkType: 'internal',
+                      internalLink: {
+                        slug: {
+                          current: article.slug?.current || article.slug
+                        }
+                      }
+                    }]" />
+                  </div>
+                </div>
+              </div>
             </div>
             
             <div v-else class="text-center py-8">
@@ -190,12 +233,20 @@ const currentPage = computed(() => {
 
 const formatDate = (dateString) => {
   const date = new Date(dateString)
-  return date.toLocaleDateString('en-US', {
+  return date.toLocaleDateString('da-DK', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   })
 }
+
+// Dynamic grid classes for related articles (matching ArchiveBlock)
+// Always show 4 items, so grid is fixed for 4 columns
+const relatedArticlesGridClasses = computed(() => {
+  // Base classes - single column on mobile, responsive on md+
+  // Always 4 items, so use fixed grid layout
+  return 'grid grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-16';
+});
 
 /**
  * Fetch related articles (4 latest articles, excluding current article)
@@ -204,12 +255,15 @@ const fetchRelatedArticles = async () => {
   isLoadingArticles.value = true;
   
   try {
-    const response = await fetch('/api/documents/articles/?limit=4');
+    // Fetch 5 articles to ensure we have 4 after filtering out the current article
+    const response = await fetch('/api/documents/articles/?limit=5');
     const data = await response.json();
     
     if (data && data.data) {
-      // Filter out the current article
-      relatedArticles.value = data.data.filter(article => article._id !== currentPage.value?._id);
+      // Filter out the current article and take only the first 4
+      relatedArticles.value = data.data
+        .filter(article => article._id !== currentPage.value?._id)
+        .slice(0, 4);
     } else {
       relatedArticles.value = [];
     }
