@@ -124,6 +124,10 @@ onMounted(() => {
   
   // Safari-specific optimizations
   if (video.value) {
+    console.log('🔴 Setting up video element');
+    console.log('🔴 Video currentSrc before setup:', video.value.currentSrc);
+    console.log('🔴 Video sources:', Array.from(video.value.querySelectorAll('source')).map(s => s.src));
+    
     // Force hardware acceleration for Safari
     video.value.style.transform = 'translateZ(0)';
     video.value.style.webkitTransform = 'translateZ(0)';
@@ -139,6 +143,13 @@ onMounted(() => {
     video.value.setAttribute('webkit-playsinline', 'true');
     video.value.setAttribute('playsinline', 'true');
     video.value.setAttribute('x-webkit-airplay', 'allow');
+    
+    // Force video to load
+    setTimeout(() => {
+      console.log('🔴 Attempting to load video');
+      video.value?.load();
+      console.log('🔴 Video currentSrc after load():', video.value?.currentSrc);
+    }, 100);
   }
   
   // Add mobile-specific optimizations
@@ -160,17 +171,43 @@ onMounted(() => {
       videoIsPaused.value = true;
     });
     video.value.addEventListener('error', (e: Event) => {
-      console.error('Video error:', e);
-      console.error('Video source:', video.value?.src);
-      console.error('Video element:', video.value);
+      console.error('🔴 VIDEO ERROR:', e);
+      console.error('🔴 Video source:', video.value?.src);
+      console.error('🔴 Video currentSrc:', video.value?.currentSrc);
+      console.error('🔴 Video networkState:', video.value?.networkState);
+      console.error('🔴 Video error code:', video.value?.error?.code);
+      console.error('🔴 Video error message:', video.value?.error?.message);
+      console.error('🔴 Video element:', video.value);
+    });
+    
+    video.value.addEventListener('loadstart', () => {
+      console.log('🔴 Video loadstart - attempting to load:', video.value?.src);
+    });
+    
+    video.value.addEventListener('stalled', () => {
+      console.warn('🔴 Video stalled');
+    });
+    
+    video.value.addEventListener('suspend', () => {
+      console.warn('🔴 Video suspend');
     });
     video.value.addEventListener('loadeddata', () => {
+      console.log('🔴 Video loadeddata - ready to play');
       // Force Safari to play the video
-      video.value.play().catch((e: any) => console.log('Video play failed:', e));
+      video.value.play().catch((e: any) => console.error('🔴 Video play failed:', e));
+    });
+    video.value.addEventListener('canplay', () => {
+      console.log('🔴 Video canplay');
     });
     video.value.addEventListener('canplaythrough', () => {
+      console.log('🔴 Video canplaythrough - ready to play');
       // Force Safari to play the video
-      video.value.play().catch((e: any) => console.log('Video play failed:', e));
+      video.value.play().catch((e: any) => console.error('🔴 Video play failed:', e));
+    });
+    video.value.addEventListener('loadedmetadata', () => {
+      console.log('🔴 Video loadedmetadata');
+      console.log('🔴 Video duration:', video.value?.duration);
+      console.log('🔴 Video readyState:', video.value?.readyState);
     });
   }
 });
