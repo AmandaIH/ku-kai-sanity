@@ -16,7 +16,7 @@
     <div class="h-full flex items-center justify-start pb-32">
       <nav v-if="mainMenu" class="p-6">
         <ul class="flex flex-col">
-          <li class="mb-0 relative group nav-item" v-for="link in mainMenu" :key="'burger-' + link.ID" >
+          <li class="mb-0 relative group nav-item mb-6" v-for="link in mainMenu" :key="'burger-' + link.ID" >
             <nuxt-link 
               class="text-2xl font-medium text-white relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" 
               :class="isActivePage(link.url) ? 'after:scale-x-100' : ''"
