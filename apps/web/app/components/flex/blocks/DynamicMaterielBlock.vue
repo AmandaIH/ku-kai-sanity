@@ -92,6 +92,7 @@
   const componentData = computed(() => props.data);
   const { getContainerClasses } = useCheckmateFlexSettings(componentData);
   const { locale } = useI18n();
+  const route = useRoute();
   
   // Fetch materiel from API
   const { data: materielData, pending } = await useFetch('/api/documents/teasers/materiel/', {
@@ -101,34 +102,87 @@
     }
   });
   
+  // Get current page path for filtering
+  const getCurrentPagePath = () => {
+    // Try to get slug from route params first
+    let path = null;
+    
+    if (route.params.slug) {
+      const slugArray = route.params.slug;
+      path = Array.isArray(slugArray) ? slugArray.join('/') : slugArray;
+    } else if (route.path) {
+      // Fallback to route.path if params.slug is not available
+      path = route.path;
+    }
+    
+    if (!path) return null;
+    
+    // Remove language prefix if present (e.g., "en/containertransport" -> "containertransport")
+    const languagePrefixPattern = /^[a-z]{2}\//;
+    let cleanPath = languagePrefixPattern.test(path) ? path.replace(languagePrefixPattern, '') : path;
+    
+    // Remove leading slash if present
+    cleanPath = cleanPath.startsWith('/') ? cleanPath.slice(1) : cleanPath;
+    
+    return cleanPath;
+  };
+  
   // Transform API response to match component structure
   const materielItems = computed(() => {
     if (!materielData.value?.data || !Array.isArray(materielData.value.data)) {
       return [];
     }
   
+    const currentPath = getCurrentPagePath();
+    
     // API already returns items sorted by order field, so we just use all items
-    return materielData.value.data.map((item) => {
-      // Build CTA button from slug
-      const ctaButton = item.slug ? {
-        linkTitle: componentData.value.buttonText || 'Læs mere',
-        variant: componentData.value.buttonStyle || 'secondary2',
-        linkType: 'internal',
-        internalLink: {
-          slug: {
-            current: item.slug
+    return materielData.value.data
+      .filter((item) => {
+        // Filter out the current materiel item if we're on its page
+        if (!item.slug || !currentPath) return true;
+        
+        // Materiel slugs are stored as "materiel/..." format
+        // Current path could be "..." or "materiel/..."
+        const materielSlug = item.slug;
+        const materielSlugWithoutPrefix = materielSlug.replace(/^materiel\//, '');
+        
+        // Normalize paths for comparison (remove trailing slashes)
+        const normalizedCurrentPath = currentPath.replace(/\/+$/, '');
+        const normalizedMaterielSlug = materielSlug.replace(/\/+$/, '');
+        const normalizedMaterielSlugWithoutPrefix = materielSlugWithoutPrefix.replace(/\/+$/, '');
+        
+        // Check if current path matches the materiel slug (with or without "materiel/" prefix)
+        // Handle both exact matches and path segments
+        const isMatch = 
+          normalizedCurrentPath === normalizedMaterielSlug ||
+          normalizedCurrentPath === normalizedMaterielSlugWithoutPrefix ||
+          normalizedCurrentPath.endsWith(`/${normalizedMaterielSlug}`) ||
+          normalizedCurrentPath.endsWith(`/${normalizedMaterielSlugWithoutPrefix}`) ||
+          normalizedMaterielSlugWithoutPrefix === normalizedCurrentPath.split('/').pop();
+        
+        return !isMatch;
+      })
+      .map((item) => {
+        // Build CTA button from slug
+        const ctaButton = item.slug ? {
+          linkTitle: componentData.value.buttonText || 'Læs mere',
+          variant: componentData.value.buttonStyle || 'secondary2',
+          linkType: 'internal',
+          internalLink: {
+            slug: {
+              current: item.slug
+            }
           }
-        }
-      } : null;
+        } : null;
   
-      return {
-        _id: item._id,
-        header: item.title,
-        description: item.short_description,
-        image: item.featuredImage,
-        ctaButton
-      };
-    });
+        return {
+          _id: item._id,
+          header: item.title,
+          description: item.short_description,
+          image: item.featuredImage,
+          ctaButton
+        };
+      });
   });
   
 // Container classes
