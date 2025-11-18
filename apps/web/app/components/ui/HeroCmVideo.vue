@@ -63,6 +63,11 @@ const props = defineProps({
 // Initialize Sanity video composable
 const { getVideoUrl } = useSanityVideo();
 
+// Debug: Log immediately when component is created
+if (process.client) {
+  console.log('🔴 HeroCmVideo component created with props.src:', props.src);
+}
+
 const videoSource = computed(() => {
   if (!props.src) {
     return null;
@@ -75,12 +80,16 @@ const videoSource = computed(() => {
   
   // If src is a Sanity file object, convert it to URL using the video composable
   if (props.src && typeof props.src === 'object' && props.src._type === 'file') {
+    console.log('🔴 HeroCmVideo: Processing Sanity file object:', props.src);
     const url = getVideoUrl(props.src as { _type: 'file'; asset: { _ref: string; _type: 'reference' } });
+    console.log('🔴 HeroCmVideo: Generated URL:', url);
     if (!url) {
-      console.warn('HeroCmVideo: Failed to generate video URL from:', props.src);
+      console.error('🔴 HeroCmVideo: Failed to generate video URL from:', props.src);
     }
     return url;
   }
+  
+  console.warn('🔴 HeroCmVideo: props.src is not a recognized format:', props.src);
   
   return null;
 });
@@ -105,10 +114,10 @@ const isMobile = ref(false);
 
 onMounted(() => {
   // Debug: Log video source
-  if (process.client) {
-    console.log('HeroCmVideo mounted - videoSource:', videoSource.value);
-    console.log('HeroCmVideo props.src:', props.src);
-  }
+  console.log('🔴 HeroCmVideo MOUNTED');
+  console.log('🔴 videoSource.value:', videoSource.value);
+  console.log('🔴 props.src:', props.src);
+  console.log('🔴 video element exists:', !!video.value);
   
   // Detect mobile device
   isMobile.value = window.innerWidth <= 768;
