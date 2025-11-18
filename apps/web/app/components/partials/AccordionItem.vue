@@ -66,7 +66,7 @@
         </div>
         <div class="flex-1 flex items-center justify-between">
           <button class="flex-1 text-left" @click="toggleAccordion">
-            <h6 class="text-xl font-medium !mb-0">{{ item.title }}</h6>
+            <h6 class="text-xl font-medium !mb-0 pr-4">{{ item.title }}</h6>
           </button>
           <button @click="toggleAccordion" class="w-8 h-8 flex items-center justify-center text-xl bg-[#111111] bg-opacity-10 duration-300 rounded-md">
             <span class="text-2xl" v-if="!isActive">+</span>
