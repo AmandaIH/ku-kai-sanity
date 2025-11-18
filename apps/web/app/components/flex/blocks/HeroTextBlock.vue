@@ -11,34 +11,17 @@
 
     <div class="w-full relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center justify-items-center">
-        <!-- Mobile: single column, centered -->
-        <div class="w-full md:hidden text-center">
+       
+        <div class="w-full md:col-span-8 md:col-start-3 text-center">
           <div class="flex flex-col" v-if="componentData.eyebrow || componentData.header || componentData.subheader">
             <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
             <div ref="headerWrapperRef" class="" v-if="componentData.header">
-              <h2 class="h2 !mb-0 text-black">
+              <h2 class="h2 !mb-8 text-black">
                 <span v-html="componentData.header"></span>
               </h2>
             </div>
-            <h6 ref="subheaderRef" v-if="componentData.subheader" class="text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
+            <h6 ref="subheaderRef" v-if="componentData.subheader" class="text-lg text-black leading-[1.4] md:mb-8" v-html="componentData.subheader"></h6>
           </div>
-        </div>
-        
-        <!-- Desktop: eyebrow and header in columns 3-10 (spans 8 columns), centered -->
-        <div class="hidden md:block md:col-span-8 md:col-start-3 text-center">
-          <div class="flex flex-col" v-if="componentData.eyebrow || componentData.header">
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm font-medium uppercase tracking-wide text-black" v-html="componentData.eyebrow"></p>
-            <div ref="headerWrapperRef" class="" v-if="componentData.header">
-              <h2 class="h2 !mb-0 text-black">
-                <span v-html="componentData.header"></span>
-              </h2>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Desktop: subheader in columns 4-9 (spans 6 columns), centered -->
-        <div class="hidden md:block md:col-span-6 md:col-start-4 text-center" v-if="componentData.subheader">
-          <h6 ref="subheaderRef" class="text-lg text-black leading-[1.4]" v-html="componentData.subheader"></h6>
         </div>
       </div>
     </div>
