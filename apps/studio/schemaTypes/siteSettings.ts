@@ -214,6 +214,42 @@ export const siteSettings = {
         },
       ]
     },
+    {
+      name: 'footerCta',
+      title: 'Footer CTA Section',
+      type: 'object',
+      description: 'Footer call-to-action section at the top of the footer',
+      fields: [
+        {
+          name: 'enabled',
+          title: 'Enable Footer CTA',
+          type: 'boolean',
+          description: 'Show or hide the footer CTA section',
+          initialValue: true,
+        },
+        {
+          name: 'question',
+          title: 'Eyebrow Text',
+          type: 'string',
+          description: 'The eyebrow text displayed above the heading (e.g., "Klar til at komme i mål?")',
+          initialValue: 'Klar til at komme i mål?',
+        },
+        {
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          description: 'The main heading text (e.g., "Lad os finde den bedste løsning sammen")',
+          initialValue: 'Lad os finde den bedste løsning sammen',
+        },
+        {
+          name: 'buttonText',
+          title: 'Button Text',
+          type: 'string',
+          description: 'The text displayed on the CTA button (e.g., "Indhent tilbud i dag")',
+          initialValue: 'Indhent tilbud i dag',
+        },
+      ]
+    },
     // other global settings fields...
   ],
   preview: {

@@ -1,20 +1,21 @@
 <template>
   <footer class="text-white" style="background-color: #111111;">
     <!-- Footer CTA Section -->
-    <div v-if="!isOfferFormPage" class="flex flex-col items-center justify-center py-8 md:py-16 px-8 md:pt-24">
-      <p class="text-sm uppercase mb-8 mt-8">Klar til at komme i mål?</p>
-      <h2 class="text-2xl md:text-3xl font-medium mb-8 text-center">Lad os finde den bedste løsning sammen</h2>
+    <div v-if="!isOfferFormPage && footerCta?.enabled" class="flex flex-col items-center justify-center py-8 md:py-16 px-8 md:pt-24">
+      <p v-if="footerCta.question" class="text-sm uppercase mb-8 mt-8">{{ footerCta.question }}</p>
+      <h2 v-if="footerCta.heading" class="text-2xl md:text-3xl font-medium mb-8 text-center">{{ footerCta.heading }}</h2>
       <nuxt-link 
+        v-if="footerCta.buttonText"
         :to="offerFormPath"
         class="btn btn-primary"
       >
-        Indhent tilbud i dag
+        {{ footerCta.buttonText }}
       </nuxt-link>
     </div>
 
     <!-- Main Footer Content -->
     <div class="px-8 md:px-20 pt-12 md:pt-8 py-8 md:pb-16">
-      <div :class="['pt-8 md:pt-24', { 'border-t border-white/10': !isOfferFormPage }]">
+      <div :class="['pt-8 md:pt-24', { 'border-t border-white/10': !isOfferFormPage && footerCta?.enabled }]">
         <div class="grid grid-cols-2 md:grid-cols-5 gap-8 min-h-[400px] md:min-h-0 items-start content-start">
         <!-- Column 1: Location 1 -->
         <div v-if="companyInfo?.location1" class="flex flex-col justify-start text-left m-0 p-0 footer-col">
@@ -209,6 +210,10 @@ const companyInfo = computed(() => {
 
 const socialMediaChannels = computed(() => {
   return coreStore.getSettings?.socialMediaChannels || {};
+})
+
+const footerCta = computed(() => {
+  return coreStore.getSettings?.footerCta || null;
 })
 
 const footerMenu = computed(() => {

@@ -130,6 +130,12 @@ interface SiteSettings {
     linkedin?: string;
     instagram?: string;
   };
+  footerCta?: {
+    enabled?: boolean;
+    question?: string;
+    heading?: string;
+    buttonText?: string;
+  };
   [key: string]: any;
 }
 

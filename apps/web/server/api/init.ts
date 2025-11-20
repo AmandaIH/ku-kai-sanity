@@ -28,6 +28,8 @@ export default cachedEventHandler(
             siteDescription,
             logos,
             companyInfo,
+            socialMediaChannels,
+            footerCta,
             frontpage->{
               _id,
               _type,
