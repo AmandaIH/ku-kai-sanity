@@ -40,7 +40,7 @@
                     </div>
                     
                     <!-- Body Text -->
-                    <div v-if="componentData.paragraphText" class="text-white text-base mb-4 break-words" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+                    <div v-if="componentData.paragraphText" class="text-white text-base break-words" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
                     </div>
                     
                     <!-- Buttons -->
