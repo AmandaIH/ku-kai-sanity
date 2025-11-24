@@ -26,7 +26,7 @@
       </div>
 
       <!-- Desktop Navigation - Centered -->
-      <nav class="hidden md:flex items-center justify-center flex-1 z-[22]">
+      <nav class="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-[22]">
         <div class="flex items-center gap-8">
           <NavigationLink 
             v-for="menuItem in mainMenu.filter(item => {
