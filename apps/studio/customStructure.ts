@@ -95,12 +95,8 @@ export const structure = (S: StructureBuilder) => {
 function getSchemaTitle(schemaType: string): string {
   const titles: Record<string, string> = {
     page: 'Pages',
-    article: 'Articles',
     siteSettings: 'Site Settings',
-    menu: 'Menus',
-    portfolio: 'Portfolios',
-    solutions: 'Services',
-    materiel: 'Materiel'
+    menu: 'Menus'
   }
   
   return titles[schemaType] || schemaType.charAt(0).toUpperCase() + schemaType.slice(1) + 's'

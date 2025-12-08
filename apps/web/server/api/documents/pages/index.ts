@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
       const language = query.language as string || 'da' // Default to Danish
 
       // Validate document type
-      const validTypes = ['page', 'solutions', 'materiel', 'article', 'portfolio', 'all']
+      const validTypes = ['page', 'all']
       if (type && !validTypes.includes(type)) {
         throw createError({
           statusCode: 400,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
         }
         
         const groqQuery = `
-          *[slug.current == $path && _type in ["page", "solutions", "materiel", "article", "portfolio"] && language == $language][0] {
+          *[slug.current == $path && _type == "page" && language == $language][0] {
             ${commonFields},
             ${ctaReferences},
             ${getTranslationsQuery('page')}
@@ -71,7 +71,7 @@ export default defineEventHandler(async (event) => {
 
       // Base query for documents - search across all types if no specific type requested
       let groqQuery = `
-        *[_type in ["page", "solutions", "materiel", "article", "portfolio"] && language == $language] {
+        *[_type == "page" && language == $language] {
           ${commonFields},
           ${ctaReferences},
           ${getTranslationsQuery('page')}
@@ -90,12 +90,7 @@ export default defineEventHandler(async (event) => {
       }
 
       // Add ordering and pagination
-      // For articles, order by date field if it exists, otherwise by _createdAt
-      if (type === 'article' || type === 'portfolio' || type === 'all') {
-        groqQuery += ` | order(coalesce(date, _createdAt) desc) [${offset}...${offset + limit}]`
-      } else {
-        groqQuery += ` | order(_createdAt desc) [${offset}...${offset + limit}]`
-      }
+      groqQuery += ` | order(_createdAt desc) [${offset}...${offset + limit}]`
 
       const sanityClient = createSanityClient()
       const documents = await sanityClient.fetch(groqQuery, type && type !== 'all' ? { type, language } : { language })

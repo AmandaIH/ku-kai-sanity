@@ -178,26 +178,6 @@ function detectDocumentType(path: string): { documentType: string; apiEndpoint: 
     cleanPath = cleanPath.replace(languagePrefixPattern, '');
   }
 
-  // Look for document type patterns: articles/, solutions/, etc.
-  const documentTypeMatch = cleanPath.match(/^([a-z]+)\//);
-  if (documentTypeMatch && documentTypeMatch[1]) {
-    const pathType = documentTypeMatch[1];
-    
-    // Map path prefixes to document types
-    const typeMapping: { [key: string]: string } = {
-      'articles': 'article',
-      'solutions': 'solutions',
-      'pages': 'page',
-      'portfolios': 'portfolio'
-    };
-    
-    const documentType = typeMapping[pathType] || 'page';
-    return {
-      documentType: documentType,
-      apiEndpoint: '/api/documents/pages' // Use unified pages endpoint
-    };
-  }
-
   // Default to page
   return { documentType: 'page', apiEndpoint: '/api/documents/pages' };
 }

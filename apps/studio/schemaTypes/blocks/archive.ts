@@ -28,11 +28,10 @@ export const archiveBlock = {
       group: 'content',
       options: {
         list: [
-          { title: 'Articles', value: 'articles' },
-          { title: 'Portfolios', value: 'portfolios' }
+          { title: 'Pages', value: 'pages' }
         ]
       },
-      initialValue: 'articles'
+      initialValue: 'pages'
     },
 
     // Archive mode
@@ -64,8 +63,7 @@ export const archiveBlock = {
         {
           type: 'reference',
           to: [
-            { type: 'article' },
-            { type: 'portfolio' }
+            { type: 'page' }
           ]
         }
       ]

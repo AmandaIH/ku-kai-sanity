@@ -3,17 +3,13 @@ import { INTERNATIONALIZATION_CONFIG } from '../config/internationalization';
 
 // Centralized list of document types that can be referenced in links
 export const referenceableDocumentTypes = [
-  { type: 'page' },
-  { type: 'article' },
-  { type: 'solutions' }
+  { type: 'page' }
 ];
 
 // Helper function to get document type labels for previews
 export const getDocumentTypeLabel = (type: string) => {
   const typeLabels: Record<string, string> = {
-    'page': 'Page',
-    'article': 'Article',
-    'solutions': 'Service'
+    'page': 'Page'
   };
   return typeLabels[type] || type;
 };

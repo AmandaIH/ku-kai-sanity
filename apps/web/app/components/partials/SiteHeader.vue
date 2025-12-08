@@ -8,13 +8,13 @@
       <div class="z-[26] flex-shrink-0">
       <nuxt-link :to="frontpageRoute">
         <!-- Regular logo when not scrolled -->
-        <Logo 
+        <SimpleLogo 
         v-if="!menuScrollActive"
         class="w-auto" 
         style="height: 3.5rem;"
         :fill-color="darkHeader ? '#111111' : (shouldUseWhiteText ? 'white' : 'black')"
         :hide-text="false"
-         ></Logo>
+         ></SimpleLogo>
         <!-- Simple logo when scrolled -->
         <SimpleLogo 
         v-else

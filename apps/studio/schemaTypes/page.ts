@@ -96,9 +96,6 @@ export const page = {
         { type: 'textAndVideoBlock' },
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
-        { type: 'serviceSliderBlock' },
-        { type: 'dynamicServicesBlock' },
-        { type: 'dynamicMaterielBlock' },
         { type: 'leadFormBlock' }
       ],
       group: 'content'

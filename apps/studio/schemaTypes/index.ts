@@ -1,10 +1,6 @@
 import * as blocks from './blocks'
 import { page } from './page'
-import { article } from './article'
-import { portfolio } from './portfolio'
 import { employee } from './employee'
-import { solutions } from './services'
-import { materiel } from './materiel'
 import { menu } from './menu'
 import { siteSettings } from './siteSettings'
 import { ctaButton, navigationLink } from './common'
@@ -12,11 +8,7 @@ import { ctaButton, navigationLink } from './common'
 export const schemaTypes = [
   // Documents
   page,
-  article,
-  portfolio,
   employee,
-  solutions,
-  materiel,
   menu,
   siteSettings,
   
@@ -35,10 +27,7 @@ export const schemaTypes = [
   blocks.employeesBlock,
   blocks.textAndImageBlock,
   blocks.textAndVideoBlock,
-  blocks.sliderBlock,
-  blocks.numbersBlock,
-  blocks.serviceSliderBlock,
-  blocks.dynamicServicesBlock,
-  blocks.dynamicMaterielBlock,
-  blocks.leadFormBlock
+    blocks.sliderBlock,
+    blocks.numbersBlock,
+    blocks.leadFormBlock
 ]
