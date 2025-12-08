@@ -1,8 +1,8 @@
 <template>
       <header ref="headerRef" class="site-header fixed top-0 w-full z-50" :class="[
-        darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black')
+        menuScrollActive ? 'text-[#181D2D]' : 'text-white'
       ]">
-    <div ref="headerInnerRef" class="w-full px-8 md:px-8 lg:px-16 flex items-center justify-between">
+    <div ref="headerInnerRef" class="px-8 md:px-16 max-w-[1480px] mx-auto flex items-center justify-between">
 
       <!-- Logo -->
       <div class="z-[26] flex-shrink-0">
@@ -11,8 +11,8 @@
         <SimpleLogo 
         v-if="!menuScrollActive"
         class="w-auto" 
-        style="height: 3.5rem;"
-        :fill-color="darkHeader ? '#111111' : (shouldUseWhiteText ? 'white' : 'black')"
+        style="height: 1.9rem;"
+        :fill-color="menuScrollActive ? '#111111' : 'white'"
         :hide-text="false"
          ></SimpleLogo>
         <!-- Simple logo when scrolled -->
@@ -26,7 +26,7 @@
       </div>
 
       <!-- Desktop Navigation - Centered -->
-      <nav class="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-[22]">
+      <nav class="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-[22] pointer-events-auto">
         <div class="flex items-center gap-8">
           <NavigationLink 
             v-for="menuItem in mainMenu.filter(item => {
@@ -36,10 +36,10 @@
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-        :class="[
-          menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black')),
-          isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
-        ]"
+            :style="{ color: menuScrollActive ? '#181D2D' : 'white' }"
+            :class="[
+              isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
+            ]"
           >
             {{ menuItem.title }}
           </NavigationLink>
@@ -48,7 +48,7 @@
       </nav>
 
       <!-- Desktop Buttons - Right Side -->
-      <div class="hidden md:flex items-center justify-center gap-6 z-[22]">
+      <div class="hidden md:flex items-center justify-center gap-6 z-[22] pointer-events-auto">
         <LanguageSwitcher />
         
         <!-- Menu Items from main-menu-2 -->
@@ -59,9 +59,7 @@
             :key="`menu-item-text-${menuItem.ID}-${index}`"
             :link="menuItem"
             class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :class="[
-              menuScrollActive ? 'text-[#181D2D]' : (darkHeader ? 'text-[#111111]' : (shouldUseWhiteText ? 'text-white' : 'text-black'))
-            ]"
+            :style="{ color: menuScrollActive ? '#181D2D' : 'white' }"
           >
             {{ menuItem.title }}
           </NavigationLink>
@@ -169,9 +167,14 @@ const isActivePage = (menuUrl) => {
 
 // Determine text color based on scroll state
 const shouldUseWhiteText = computed(() => {
-  // Always use white text when at the top of the page (not scrolled)
-  // Use black text when scrolled
-  return !menuScrollActive.value;
+  // Use black text by default (since background is light #F9F5EC)
+  // Only use white text if explicitly needed (e.g., on dark hero images)
+  // When scrolled, always use black text on white background
+  if (menuScrollActive.value) {
+    return false; // Black text when scrolled (white background)
+  }
+  // When not scrolled, use black text unless darkHeader is true
+  return false; // Default to black text for visibility on light background
 });
 
 const hideTop = ref(false);

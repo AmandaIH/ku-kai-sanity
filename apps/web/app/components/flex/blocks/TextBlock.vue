@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClasses">
-    <div class="px-8 md:px-16 max-w-[1480px] mx-auto">
+    <div class="px-8 md:px-16 max-w-[1480px] mx-auto py-8 md:py-16">
     <!-- RIGHT LAYOUT: Text aligned to the right side of the grid -->
     <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'right'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12 gap-8" :class="isInSbs ? '' : getLayoutPosition()">
@@ -48,7 +48,7 @@
       </div>
     </div>
     <!-- CENTER LAYOUT: Text centered in the middle of the grid -->
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16" v-if="componentSettings.layout === 'center'" :class="isInSbs ? 'md:grid-cols-6' : ''">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 py-8 md:py-16" v-if="componentSettings.layout === 'center'" :class="isInSbs ? 'md:grid-cols-6' : ''">
       <div class="col-span-1 md:col-span-12" :class="isInSbs ? '' : getLayoutPosition()">
         <div class="flex flex-col" v-if="componentData.eyebrow || componentData.header || componentData.subheader" :class="getTextAlignment()">
           <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow opacity-0 text-sm font-medium uppercase" v-html="componentData.eyebrow"></p>
@@ -210,7 +210,7 @@ const getLayoutPosition = () => {
     case 'left':
       return 'md:col-start-1 md:col-span-5'; // LEFT: Starts at column 1, spans 5 columns
     case 'center':
-      return 'md:col-start-4 md:col-span-6'; // CENTER: Starts at column 4, spans 6 columns
+      return 'md:col-start-3 md:col-span-8'; // CENTER: Starts at column 4, spans 6 columns
     case 'right':
       return 'md:col-start-8 md:col-span-5'; // RIGHT: Starts at column 8, spans 5 columns
     default:

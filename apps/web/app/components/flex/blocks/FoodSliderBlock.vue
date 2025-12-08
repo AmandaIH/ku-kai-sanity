@@ -17,7 +17,7 @@
           </h3>
         </div>
 
-        <!-- Service Items Grid -->
+        <!-- Food Items Grid -->
         <div :class="[gridClasses, 'mt-12']">
         <div 
           v-for="(item, index) in componentData.linkItems" 
@@ -93,7 +93,7 @@ const containerClasses = computed(() => {
 const gridClasses = computed(() => {
   const itemCount = componentData.value.linkItems?.length || 0;
   
-  // Base classes - single column on mobile, always 3 columns on desktop for ramen bowls
+  // Base classes - single column on mobile, always 3 columns on desktop for food items
   let classes = 'grid grid-cols-1 gap-8';
   
   // Add responsive classes - 3 columns on desktop
@@ -108,3 +108,4 @@ const gridClasses = computed(() => {
   return classes;
 });
 </script>
+
