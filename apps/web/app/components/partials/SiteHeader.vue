@@ -1,5 +1,5 @@
 <template>
-      <header ref="headerRef" class="site-header fixed top-0 w-full z-50 text-white backdrop-blur-md bg-black/80">
+      <header ref="headerRef" class="site-header fixed top-0 w-full z-50 text-white backdrop-blur-md bg-black/80 text-[#F3EC26]">
     <div ref="headerInnerRef" class="px-8 md:px-16 max-w-[1480px] mx-auto flex items-center justify-between">
 
       <!-- Logo -->
@@ -9,7 +9,7 @@
         <SimpleLogo 
         class="w-auto" 
         style="height: 1.9rem;"
-        :fill-color="'white'"
+        :fill-color="'#F3EC26'"
         :hide-text="false"
          ></SimpleLogo>
       </nuxt-link>
@@ -27,7 +27,7 @@
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :style="{ color: 'white' }"
+            :style="{ color: '#F3EC26' }"
             :class="[
               isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
             ]"
@@ -46,7 +46,7 @@
             :key="`menu-item-text-${menuItem.ID}-${index}`"
             :link="menuItem"
             class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :style="{ color: 'white' }"
+            :style="{ color: '#F3EC26' }"
           >
             {{ menuItem.title }}
           </NavigationLink>

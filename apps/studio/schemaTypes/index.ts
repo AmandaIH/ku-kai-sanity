@@ -31,5 +31,6 @@ export const schemaTypes = [
     blocks.numbersBlock,
     blocks.foodSliderBlock,
     blocks.menuBlock,
+    blocks.imageGridBlock,
     blocks.leadFormBlock
 ]

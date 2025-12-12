@@ -98,6 +98,7 @@ export const page = {
         { type: 'numbersBlock' },
         { type: 'foodSliderBlock' },
         { type: 'menuBlock' },
+        { type: 'imageGridBlock' },
         { type: 'leadFormBlock' }
       ],
       group: 'content'

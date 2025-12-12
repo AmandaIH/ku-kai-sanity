@@ -15,10 +15,10 @@
 
   // Primary button: white background, black text, hover: #0A1172 background, white text
   &.btn-primary {
-    @apply bg-white border-white text-black !important;
+    @apply bg-[#F3EC26] border-[#302C26] text-[#302C26] !important;
     
     &:hover {
-      @apply bg-[#0A1172] border-[#0A1172] text-white !important;
+      @apply bg-[#302C26] border-[#F3EC26] text-[#F3EC26] !important;
     }
   }
 

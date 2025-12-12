@@ -12,35 +12,32 @@
 
     <!-- Single responsive layout -->
     <div class="flex flex-col sm:grid sm:grid-cols-12 gap-6 sm:gap-8 min-h-screen w-full px-8 sm:px-16 pt-16 pb-16">
-      <!-- Text content - same layout for mobile and desktop -->
-      <div v-if="hasContent" ref="textBoxRef" class="sm:col-span-7 md:col-span-5 lg:col-span-4 xl:col-span-4 sm:col-start-1 md:col-start-1 lg:col-start-1 xl:col-start-1 text-white z-20 flex items-end justify-center sm:justify-start mt-auto sm:mt-0">
-        <div class="w-full flex flex-col">
+      <!-- Text content - centered in the middle of the screen -->
+      <div v-if="hasContent" ref="textBoxRef" class="sm:col-span-12 text-white z-20 flex items-center justify-center min-h-screen">
+        <div class="w-full flex flex-col items-center text-center">
           <!-- Eyebrow -->
           <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white/80 md:text-white tracking-wider" v-html="componentData.eyebrow"></p>
           
           <!-- Header -->
           <div ref="headerRef" v-if="componentData.header" class="mb-32">
-            <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(3.25rem, 4vw, 5rem);">
+            <h1 class="font-display leading-none hero-heading" style="color: #F3EC26; letter-spacing: -0.02em;">
               <span v-html="componentData.header"></span>
             </h1>
           </div>
           
           <!-- Body Text and Buttons Container -->
-          <div class="flex flex-col">
+          <div class="flex flex-col items-center">
             <!-- Body Text -->
-            <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-0" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
+            <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-0 text-center" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
             </div>
             
             <!-- Buttons -->
             <div ref="buttonsRef" v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-8">
-              <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
+              <Buttons :data="componentData.ctas" class="!justify-center !mt-0"></Buttons>
             </div>
           </div>
         </div>
       </div>
-      
-      <!-- Spacer columns 6-12 (empty) - hidden on mobile -->
-      <div class="hidden md:block md:col-span-7"></div>
     </div>
   </div>
 </template>
@@ -234,5 +231,21 @@ onBeforeUnmount(() => {
 });
 </script>
 
+<style scoped>
+.hero-heading {
+  font-size: clamp(3.25rem, 4vw, 5rem);
+}
 
+@media (min-width: 960px) {
+  .hero-heading {
+    font-size: clamp(4rem, 6vw, 8rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-heading {
+    font-size: clamp(5rem, 8vw, 10rem);
+  }
+}
+</style>
 

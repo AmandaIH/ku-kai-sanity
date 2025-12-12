@@ -3,7 +3,7 @@
     <!-- Dark Container -->
     <div class="px-8 md:px-16 py-8">
       <!-- Dark Background Container -->
-      <div class="bg-[#8B5E3C]/60 rounded-lg shadow-sm p-8 md:p-16">
+      <div class="bg-[#302C26] rounded-lg shadow-sm p-8 md:p-16">
         <!-- Header Section -->
         <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
           <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white">
@@ -22,13 +22,13 @@
         <div 
           v-for="(item, index) in componentData.linkItems" 
           :key="index"
-          class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0"
+          class="duration-300 overflow-hidden flex flex-col h-full px-4 py-4 md:px-0 group"
         >
           <!-- Image - Square -->
           <div v-if="item.image" class="w-full mb-4 rounded-lg overflow-hidden aspect-square">
             <CmPicture
               :image-object="item.image"
-              classes="w-full h-full object-cover rounded-lg"
+              classes="w-full h-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-110"
               :lazy="true"
             />
           </div>
