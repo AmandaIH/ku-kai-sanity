@@ -1,33 +1,24 @@
 <template>
-      <header ref="headerRef" class="site-header fixed top-0 w-full z-50" :class="[
-        menuScrollActive ? 'text-[#181D2D]' : 'text-white'
-      ]">
+      <header ref="headerRef" class="site-header fixed top-0 w-full z-50 text-white backdrop-blur-md bg-black/80">
     <div ref="headerInnerRef" class="px-8 md:px-16 max-w-[1480px] mx-auto flex items-center justify-between">
 
       <!-- Logo -->
       <div class="z-[26] flex-shrink-0">
       <nuxt-link :to="frontpageRoute">
-        <!-- Regular logo when not scrolled -->
+        <!-- Logo -->
         <SimpleLogo 
-        v-if="!menuScrollActive"
         class="w-auto" 
         style="height: 1.9rem;"
-        :fill-color="menuScrollActive ? '#111111' : 'white'"
+        :fill-color="'white'"
         :hide-text="false"
-         ></SimpleLogo>
-        <!-- Simple logo when scrolled -->
-        <SimpleLogo 
-        v-else
-        class="w-auto" 
-        style="height: 1.9rem;"
-        :fill-color="'#111111'"
          ></SimpleLogo>
       </nuxt-link>
       </div>
 
-      <!-- Desktop Navigation - Centered -->
-      <nav class="hidden md:flex items-center justify-center absolute left-1/2 transform -translate-x-1/2 z-[22] pointer-events-auto">
-        <div class="flex items-center gap-8">
+      <!-- Desktop Navigation - Right Side -->
+      <div class="hidden md:flex items-center justify-center gap-6 z-[22] pointer-events-auto">
+        <!-- Main Menu Links -->
+        <nav class="flex items-center gap-8">
           <NavigationLink 
             v-for="menuItem in mainMenu.filter(item => {
               const linkType = item.linkType || (item.isExternal === true ? 'external' : item.isExternal === false ? 'internal' : 'form')
@@ -36,19 +27,15 @@
             :key="menuItem.ID" 
             :link="menuItem"
             class="nav-link text-sm uppercase font-medium whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :style="{ color: menuScrollActive ? '#181D2D' : 'white' }"
+            :style="{ color: 'white' }"
             :class="[
               isActivePage(menuItem.url) ? 'after:scale-x-100' : ''
             ]"
           >
             {{ menuItem.title }}
           </NavigationLink>
+        </nav>
 
-        </div>
-      </nav>
-
-      <!-- Desktop Buttons - Right Side -->
-      <div class="hidden md:flex items-center justify-center gap-6 z-[22] pointer-events-auto">
         <LanguageSwitcher />
         
         <!-- Menu Items from main-menu-2 -->
@@ -59,7 +46,7 @@
             :key="`menu-item-text-${menuItem.ID}-${index}`"
             :link="menuItem"
             class="uppercase font-medium text-sm cursor-pointer relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
-            :style="{ color: menuScrollActive ? '#181D2D' : 'white' }"
+            :style="{ color: 'white' }"
           >
             {{ menuItem.title }}
           </NavigationLink>
@@ -130,11 +117,31 @@ watch(() => store.getCurrentPage, (newPage) => {
 }, { immediate: true });
 
 const mainMenu = computed(() => {
-  return store.getMenu('main-menu', locale.value) || [];
+  // Try both "main-menu" and "main-navigation" slugs
+  let menu = store.getMenu('main-menu', locale.value) || [];
+  if (menu.length === 0) {
+    menu = store.getMenu('main-navigation', locale.value) || [];
+  }
+  // Debug: log menu items
+  if (process.client && menu.length === 0) {
+    console.log('No main-menu items found. Make sure you have created a menu with slug "main-menu-da" or "main-navigation-da" in Sanity Studio.');
+    console.log('Available menus:', Object.keys(store.menues[locale.value] || {}));
+  }
+  return menu;
 });
 
 const mainMenu2 = computed(() => {
-  return store.getMenu('main-menu-2', locale.value) || [];
+  // Try both "main-menu-2" and "main-navigation-2" slugs
+  let menu = store.getMenu('main-menu-2', locale.value) || [];
+  if (menu.length === 0) {
+    menu = store.getMenu('main-navigation-2', locale.value) || [];
+  }
+  // Debug: log menu items
+  if (process.client && menu.length === 0) {
+    console.log('No main-menu-2 items found. Make sure you have created a menu with slug "main-menu-2-da" or "main-navigation-2-da" in Sanity Studio.');
+    console.log('Available menus:', Object.keys(store.menues[locale.value] || {}));
+  }
+  return menu;
 });
 
 // Check if we're on the front page
@@ -207,9 +214,9 @@ function handleScroll() {
       }
       
       if (shouldBeActive) {
-        // Scrolled state: white background, smaller padding
+        // Scrolled state: black background with blur, smaller padding
         headerAnimation = gsap.to(headerRef.value, {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
           duration: 0.4,
           ease: 'power2.out'
         });
@@ -221,9 +228,9 @@ function handleScroll() {
           ease: 'power2.out'
         });
       } else {
-        // Top state: transparent background, larger padding
+        // Top state: black background with blur, larger padding
         headerAnimation = gsap.to(headerRef.value, {
-          backgroundColor: 'transparent',
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
           duration: 0.4,
           ease: 'power2.out'
         });
@@ -259,10 +266,10 @@ onMounted(() => {
   // Ensure we're on client and window is available
   if (typeof window === 'undefined' || !process.client) return;
   
-  // Initialize header styles
+  // Initialize header styles - black background with blur
   if (headerRef.value) {
     gsap.set(headerRef.value, {
-      backgroundColor: menuScrollActive.value ? '#FFFFFF' : 'transparent'
+      backgroundColor: 'rgba(0, 0, 0, 0.8)'
     });
   }
   
@@ -304,6 +311,12 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.site-header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 /* Override any last-child rules that might affect navigation alignment */
 nav a:last-child {
   margin-bottom: 0 !important;

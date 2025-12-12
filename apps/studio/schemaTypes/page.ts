@@ -97,6 +97,7 @@ export const page = {
         { type: 'sliderBlock' },
         { type: 'numbersBlock' },
         { type: 'foodSliderBlock' },
+        { type: 'menuBlock' },
         { type: 'leadFormBlock' }
       ],
       group: 'content'

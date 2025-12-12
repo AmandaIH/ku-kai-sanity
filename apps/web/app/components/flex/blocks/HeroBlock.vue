@@ -12,30 +12,28 @@
 
     <!-- Single responsive layout -->
     <div class="flex flex-col sm:grid sm:grid-cols-12 gap-6 sm:gap-8 min-h-screen w-full px-8 sm:px-16 pt-16 pb-16">
-      <!-- Text box - same layout for mobile and desktop -->
+      <!-- Text content - same layout for mobile and desktop -->
       <div v-if="hasContent" ref="textBoxRef" class="sm:col-span-7 md:col-span-5 lg:col-span-4 xl:col-span-4 sm:col-start-1 md:col-start-1 lg:col-start-1 xl:col-start-1 text-white z-20 flex items-end justify-center sm:justify-start mt-auto sm:mt-0">
-        <div class="w-full bg-white/10 backdrop-blur-md rounded-2xl p-8">
+        <div class="w-full flex flex-col">
+          <!-- Eyebrow -->
+          <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white/80 md:text-white tracking-wider" v-html="componentData.eyebrow"></p>
+          
+          <!-- Header -->
+          <div ref="headerRef" v-if="componentData.header" class="mb-32">
+            <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(3.25rem, 4vw, 5rem);">
+              <span v-html="componentData.header"></span>
+            </h1>
+          </div>
+          
+          <!-- Body Text and Buttons Container -->
           <div class="flex flex-col">
-            <!-- Eyebrow -->
-            <p ref="eyebrowRef" v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white/80 md:text-white tracking-wider" v-html="componentData.eyebrow"></p>
-            
-            <!-- Header -->
-            <div ref="headerRef" v-if="componentData.header" class="mb-32">
-              <h1 class="font-bold text-white leading-none" style="letter-spacing: -0.02em; font-size: clamp(3.25rem, 4vw, 5rem);">
-                <span v-html="componentData.header"></span>
-              </h1>
+            <!-- Body Text -->
+            <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-0" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
             </div>
             
-            <!-- Body Text and Buttons Container -->
-            <div class="flex flex-col">
-              <!-- Body Text -->
-              <div ref="paragraphRef" v-if="componentData.paragraphText" class="text-white text-base md:text-md leading-normal mb-0" style="letter-spacing: -0.01em;" v-html="componentData.paragraphText">
-              </div>
-              
-              <!-- Buttons -->
-              <div ref="buttonsRef" v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-8">
-                <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
-              </div>
+            <!-- Buttons -->
+            <div ref="buttonsRef" v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-8">
+              <Buttons :data="componentData.ctas" class="!justify-start !mt-0"></Buttons>
             </div>
           </div>
         </div>

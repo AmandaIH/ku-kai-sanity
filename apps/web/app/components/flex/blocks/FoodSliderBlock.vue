@@ -3,7 +3,7 @@
     <!-- Dark Container -->
     <div class="px-8 md:px-16 py-8">
       <!-- Dark Background Container -->
-      <div class="bg-[#1E1F22]/60 rounded-lg shadow-sm p-8 md:p-16">
+      <div class="bg-[#8B5E3C]/60 rounded-lg shadow-sm p-8 md:p-16">
         <!-- Header Section -->
         <div v-if="componentData.header || componentData.eyebrow || componentData.subheader" class="text-center mb-12">
           <p v-if="componentData.eyebrow" class="eyebrow text-sm uppercase text-white">
@@ -49,7 +49,7 @@
         </div>
 
         <!-- Single CTA Button at Bottom -->
-        <div v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-12 flex justify-center">
+        <div v-if="componentData.ctas && componentData.ctas.length > 0" class="flex justify-center">
           <Buttons :data="componentData.ctas" />
         </div>
       </div>
@@ -93,17 +93,8 @@ const containerClasses = computed(() => {
 const gridClasses = computed(() => {
   const itemCount = componentData.value.linkItems?.length || 0;
   
-  // Base classes - single column on mobile, always 3 columns on desktop for food items
-  let classes = 'grid grid-cols-1 gap-8';
-  
-  // Add responsive classes - 3 columns on desktop
-  if (itemCount >= 2) {
-    classes += ' md:grid-cols-2';
-  }
-  
-  if (itemCount >= 3) {
-    classes += ' lg:grid-cols-3';
-  }
+  // Base classes - single column on mobile, 3 columns at md breakpoint
+  let classes = 'grid grid-cols-1 gap-8 md:grid-cols-3';
   
   return classes;
 });

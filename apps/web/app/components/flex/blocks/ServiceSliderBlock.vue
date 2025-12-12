@@ -18,7 +18,7 @@
         </div>
 
         <!-- Service Items Grid -->
-        <div :class="[gridClasses, 'mt-12']">
+        <div :class="[gridClasses]">
         <div 
           v-for="(item, index) in componentData.linkItems" 
           :key="index"
@@ -49,7 +49,7 @@
         </div>
 
         <!-- Single CTA Button at Bottom -->
-        <div v-if="componentData.ctas && componentData.ctas.length > 0" class="mt-12 flex justify-center">
+        <div v-if="componentData.ctas && componentData.ctas.length > 0" class=" flex justify-center">
           <Buttons :data="componentData.ctas" />
         </div>
       </div>
@@ -93,17 +93,8 @@ const containerClasses = computed(() => {
 const gridClasses = computed(() => {
   const itemCount = componentData.value.linkItems?.length || 0;
   
-  // Base classes - single column on mobile, always 3 columns on desktop for ramen bowls
-  let classes = 'grid grid-cols-1 gap-8';
-  
-  // Add responsive classes - 3 columns on desktop
-  if (itemCount >= 2) {
-    classes += ' md:grid-cols-2';
-  }
-  
-  if (itemCount >= 3) {
-    classes += ' lg:grid-cols-3';
-  }
+  // Base classes - single column on mobile, 3 columns at md breakpoint
+  let classes = 'grid grid-cols-1 gap-8 md:grid-cols-3';
   
   return classes;
 });

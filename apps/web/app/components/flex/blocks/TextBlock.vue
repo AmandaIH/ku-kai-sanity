@@ -210,11 +210,11 @@ const getLayoutPosition = () => {
     case 'left':
       return 'md:col-start-1 md:col-span-5'; // LEFT: Starts at column 1, spans 5 columns
     case 'center':
-      return 'md:col-start-3 md:col-span-8'; // CENTER: Starts at column 4, spans 6 columns
+      return 'md:col-start-2 md:col-span-10'; // CENTER: Starts at column 4, spans 6 columns
     case 'right':
       return 'md:col-start-8 md:col-span-5'; // RIGHT: Starts at column 8, spans 5 columns
     default:
-      return 'md:col-start-4 md:col-span-6'; // DEFAULT: Centered (same as center)
+      return 'md:col-start-2 md:col-span-10'; // DEFAULT: Centered (same as center)
   }
 };
 </script>
