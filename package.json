@@ -6,7 +6,7 @@
     "apps/*"
   ],
   "engines": {
-    "node": ">=18"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "dev:studio": "pnpm --filter checkmate-sanity-studio dev",
