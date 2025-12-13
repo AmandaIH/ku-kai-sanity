@@ -72,7 +72,7 @@
       <div class="md:hidden flex items-center justify-center gap-4 z-[22]">
         <div class="flex items-center">
           <BurgerIcon />
-          <BurgerMenu :main-menu="mainMenu" :is-scrolled="menuScrollActive" />
+          <BurgerMenu :main-menu="mainMenu" :main-menu-2="mainMenu2" :is-scrolled="menuScrollActive" />
         </div>
       </div>
     </div>

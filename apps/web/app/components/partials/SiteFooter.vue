@@ -2,24 +2,36 @@
   <footer class="bg-primary text-black">
     <!-- Main Footer Content -->
     <div class="px-8 md:px-16 py-8 md:py-12 max-w-[1480px] mx-auto">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
-        <!-- Left: Address -->
-        <div v-if="companyInfo?.location1" class="flex flex-col text-center md:text-left">
-          <p v-if="companyInfo.location1.address" class="text-base font-body">{{ companyInfo.location1.address }}</p>
-          <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-base font-body">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
-        </div>
-        <div v-else class="flex flex-col text-center md:text-left">
-          <p class="text-base font-body">Amagerbrogade 14</p>
-          <p class="text-base font-body">2300 Amager</p>
+      <div class="flex flex-row md:flex-row items-start md:items-center justify-between gap-4 md:gap-4">
+        <!-- Left: Address (and Logo on mobile) -->
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
+          <!-- Address -->
+          <div v-if="companyInfo?.location1" class="flex flex-col text-left">
+            <p v-if="companyInfo.location1.address" class="text-base font-body">{{ companyInfo.location1.address }}</p>
+            <p v-if="companyInfo.location1.zipCode && companyInfo.location1.city" class="text-base font-body">{{ companyInfo.location1.zipCode }} {{ companyInfo.location1.city }}</p>
+          </div>
+          <div v-else class="flex flex-col text-left">
+            <p class="text-base font-body">Amagerbrogade 14</p>
+            <p class="text-base font-body">2300 Amager</p>
+          </div>
+
+          <!-- Logo (on mobile, next to address; hidden on desktop) -->
+          <div class="flex flex-col justify-center items-start md:hidden">
+            <nuxt-link :to="frontpageRoute">
+              <RamenBowlLogo />
+            </nuxt-link>
+          </div>
         </div>
 
-        <!-- Center: Ramen Bowl Logo -->
-        <div class="flex flex-col justify-center items-center">
-          <RamenBowlLogo />
+        <!-- Center: Logo (desktop only) -->
+        <div class="hidden md:flex flex-col justify-center items-center absolute left-1/2 transform -translate-x-1/2">
+          <nuxt-link :to="frontpageRoute">
+            <RamenBowlLogo />
+          </nuxt-link>
         </div>
 
         <!-- Right: Footer Menu -->
-        <div v-if="footerMenu && footerMenu.length > 0" class="flex flex-col text-center md:text-right">
+        <div v-if="footerMenu && footerMenu.length > 0" class="flex flex-col text-right items-end md:items-end">
           <template v-for="(item, index) in footerMenu" :key="index">
             <div :class="index === 0 ? '' : 'mt-2'">
               <a v-if="item.openInNewTab" class="text-sm uppercase font-medium text-black whitespace-nowrap relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-[1px] after:bg-current after:scale-x-0 after:origin-left after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100" :class="[isActivePage(item.url) ? 'after:scale-x-100' : '']" :href="item.url" target="_blank" rel="noopener noreferrer">
