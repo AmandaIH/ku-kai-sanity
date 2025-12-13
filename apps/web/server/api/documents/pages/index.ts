@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
       const offset = parseInt(query.offset as string) || 0
       const path = query.path as string
       const type = query.type as string || 'page' // Default to 'page' if no type specified
-      const language = query.language as string || 'da' // Default to Danish
+      const language = query.language as string || 'en' // Default to English
 
       // Validate document type
       const validTypes = ['page', 'all']
