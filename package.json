@@ -1,6 +1,7 @@
 {
   "name": "checkmate-sanity-boilerplate",
   "private": true,
+  "packageManager": "pnpm@10.24.0",
   "workspaces": [
     "apps/*"
   ],
