@@ -1,6 +1,6 @@
 {
   "buildCommand": "cd apps/web && pnpm build",
-  "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --no-optional",
+  "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --no-optional --ignore-scripts",
   "framework": "nuxtjs",
   "functions": {
     "apps/web/app/**": {
