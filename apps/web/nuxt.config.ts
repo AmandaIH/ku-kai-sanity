@@ -241,9 +241,8 @@ export default defineNuxtConfig({
 
   i18n: {
     baseUrl: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.NUXT_PUBLIC_SITE_URL,
-    defaultLocale: 'da',
+    defaultLocale: 'en',
     locales: [
-      { code: 'da', iso: 'da-DK', name: 'Dansk', dir: 'ltr', file: 'da.js' },
       { code: 'en', iso: 'en-GB', name: 'English', dir: 'ltr', file: 'en.js' },
     ],
     langDir: 'lang',
