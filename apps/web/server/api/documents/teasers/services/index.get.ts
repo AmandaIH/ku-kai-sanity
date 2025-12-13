@@ -4,7 +4,7 @@ export default cachedEventHandler(
   async (event) => {
     try {
       const query = getQuery(event)
-      const language = (query.language as string) || 'da' // Default to Danish
+      const language = (query.language as string) || 'en' // Default to English
 
       // Query for all solutions with only the requested fields
       const groqQuery = `

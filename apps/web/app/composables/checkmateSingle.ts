@@ -259,8 +259,8 @@ export async function useCheckmateSingle(options: CheckmateSingleOptions = {}) {
         // Check if the path already contains a language prefix
         const hasLanguagePrefix = /^[a-z]{2}\//.test(cleanPath);
         
-        // Only add language prefix if it's not already present and not the default locale (Danish)
-        if (!hasLanguagePrefix && language !== 'da') {
+        // Only add language prefix if it's not already present and not the default locale (English)
+        if (!hasLanguagePrefix && language !== 'en') {
             path = `/${language}/${cleanPath}`;
         } else {
             // Use the clean path as is (already has language prefix or is default locale)

@@ -118,12 +118,12 @@ export default cachedEventHandler(
             type = internalLink._type
             
             // Construct URL - slugs already include language prefix (e.g., "en/services")
-            const pageLanguage = internalLink.language || language || 'da'
+            const pageLanguage = internalLink.language || language || 'en'
             const slug = internalLink.slug?.current || ''
             
             if (!slug || slug === '/' || slug === '') {
               // Frontpage - no prefix for default locale, prefix for others
-              url = pageLanguage === 'da' ? '/' : `/${pageLanguage}/`
+              url = pageLanguage === 'en' ? '/' : `/${pageLanguage}/`
             } else {
               // Check if slug already contains a language prefix
               const languagePrefixPattern = /^[a-z]{2}\//
@@ -135,7 +135,7 @@ export default cachedEventHandler(
               } else {
                 // Slug doesn't have language prefix, add it for non-default locales
                 const cleanSlug = slug.startsWith('/') ? slug.substring(1) : slug
-                url = pageLanguage === 'da' ? `/${cleanSlug}` : `/${pageLanguage}/${cleanSlug}`
+                url = pageLanguage === 'en' ? `/${cleanSlug}` : `/${pageLanguage}/${cleanSlug}`
               }
             }
           } else {

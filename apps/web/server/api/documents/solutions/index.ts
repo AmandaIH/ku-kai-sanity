@@ -7,7 +7,7 @@ export default cachedEventHandler(
       const limit = parseInt(query.limit as string) || 10
       const offset = parseInt(query.offset as string) || 0
       const path = query.path as string
-      const language = query.language as string || 'da' // Default to Danish
+      const language = query.language as string || 'en' // Default to English
 
       // If path is provided, lookup single solution by slug
       if (path) {
