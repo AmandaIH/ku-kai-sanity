@@ -1,5 +1,5 @@
 {
-  "name": "checkmate-sanity-boilerplate",
+  "name": "kukai-ramen",
   "private": true,
   "packageManager": "pnpm@8.15.6",
   "workspaces": [
@@ -9,8 +9,8 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev:studio": "pnpm --filter checkmate-sanity-studio dev",
-    "dev:web": "pnpm --filter checkmate-sanity-nuxt dev"
+    "dev:studio": "pnpm --filter kukai-ramen-studio dev",
+    "dev:web": "pnpm --filter kukai-ramen-web dev"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
