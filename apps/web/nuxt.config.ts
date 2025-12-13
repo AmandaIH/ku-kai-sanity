@@ -235,7 +235,6 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss', 
     '@nuxtjs/sitemap', 
-    '@checkmatecph/flowmate-nuxt-integration',
     '@nuxtjs/i18n',
     '@pinia/nuxt'
   ],
