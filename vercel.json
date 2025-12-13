@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd apps/web && pnpm exec nuxt prepare && pnpm build",
+  "buildCommand": "pnpm --filter checkmate-sanity-nuxt exec nuxt prepare && pnpm --filter checkmate-sanity-nuxt build",
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --no-optional --ignore-scripts",
   "framework": "nuxtjs",
   "functions": {
