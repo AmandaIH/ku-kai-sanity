@@ -58,10 +58,10 @@ pnpm run dev:web     # Starts Nuxt dev server (usually on http://localhost:3000)
 
 ```bash
 # Start only Sanity Studio
-pnpm --filter checkmate-sanity-studio dev
+pnpm --filter kukai-ramen-studio dev
 
 # Start only Nuxt web app
-pnpm --filter checkmate-sanity-nuxt dev
+pnpm --filter kukai-ramen-web dev
 ```
 
 ## 🛠️ Available Scripts

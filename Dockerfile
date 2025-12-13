@@ -31,7 +31,7 @@ RUN apk update && \
     apk upgrade && \
     apk add --no-cache git openssh && \
     pnpm install --frozen-lockfile && \
-    pnpm --filter checkmate-sanity-nuxt build
+    pnpm --filter kukai-ramen-web build
 
 ### STAGE 2: App setup ###
 FROM node:24-alpine3.22
@@ -67,7 +67,7 @@ COPY --from=build /app/pnpm-lock.yaml /app/pnpm-lock.yaml
 
 # Install only production dependencies for the web app
 RUN npm install -g pnpm && \
-    pnpm install --prod --filter checkmate-sanity-nuxt --frozen-lockfile
+    pnpm install --prod --filter kukai-ramen-web --frozen-lockfile
 
 # Create a non-root user
 RUN addgroup -g 1001 -S nodejs && \

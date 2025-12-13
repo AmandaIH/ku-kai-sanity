@@ -1,5 +1,5 @@
 {
-  "buildCommand": "pnpm --filter checkmate-sanity-nuxt exec nuxt prepare && pnpm --filter checkmate-sanity-nuxt build",
+  "buildCommand": "pnpm --filter kukai-ramen-web exec nuxt prepare && pnpm --filter kukai-ramen-web build",
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --ignore-scripts",
   "framework": "nuxtjs",
   "functions": {
