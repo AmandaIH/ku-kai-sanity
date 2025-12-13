@@ -163,7 +163,7 @@ export default defineNuxtConfig({
     },
            // Private keys (only available on server-side)
            sanity: {
-             projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'gdm79zyf',
+             projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
              dataset: process.env.SANITY_STUDIO_DATASET || 'production',
              apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
            },
@@ -171,7 +171,7 @@ export default defineNuxtConfig({
       // Public keys (available on both server and client)
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       sanity: {
-        projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'gdm79zyf',
+        projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
         dataset: process.env.SANITY_STUDIO_DATASET || 'production',
         apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
       },
