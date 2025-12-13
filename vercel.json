@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd apps/web && npm run build",
-  "installCommand": "cd apps/web && npm install --omit=optional --legacy-peer-deps",
+  "buildCommand": "cd apps/web && pnpm build",
+  "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --no-optional",
   "framework": "nuxtjs",
   "functions": {
     "apps/web/app/**": {
@@ -9,7 +9,8 @@
   },
   "env": {
     "npm_config_optional": "false",
-    "npm_config_omit": "optional"
+    "npm_config_omit": "optional",
+    "PNPM_REGISTRY": "https://registry.npmjs.org/"
   }
 }
 
