@@ -1,5 +1,5 @@
 {
-  "buildCommand": "cd apps/web && pnpm build",
+  "buildCommand": "cd apps/web && pnpm exec nuxt prepare && pnpm build",
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --no-optional --ignore-scripts",
   "framework": "nuxtjs",
   "functions": {
