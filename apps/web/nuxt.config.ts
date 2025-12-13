@@ -163,16 +163,16 @@ export default defineNuxtConfig({
     },
            // Private keys (only available on server-side)
            sanity: {
-             projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
-             dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+             projectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
+             dataset: process.env.NUXT_PUBLIC_SANITY_DATASET || process.env.SANITY_STUDIO_DATASET || 'production',
              apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
            },
     public: {
       // Public keys (available on both server and client)
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       sanity: {
-        projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
-        dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+        projectId: process.env.NUXT_PUBLIC_SANITY_PROJECT_ID || process.env.SANITY_STUDIO_PROJECT_ID || 'g90bn5yd',
+        dataset: process.env.NUXT_PUBLIC_SANITY_DATASET || process.env.SANITY_STUDIO_DATASET || 'production',
         apiVersion: process.env.SANITY_STUDIO_API_VERSION || 'v2025-07-24',
       },
       flowmate: {
