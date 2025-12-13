@@ -1,6 +1,10 @@
 {
   "buildCommand": "cd apps/web && pnpm build",
-  "installCommand": "corepack enable && corepack prepare pnpm@10.24.0 --activate && pnpm install --no-optional",
-  "framework": "nuxtjs"
+  "installCommand": "bash scripts/vercel-install.sh",
+  "framework": "nuxtjs",
+  "env": {
+    "npm_config_optional": "false",
+    "PNPM_OPTIONAL": "false"
+  }
 }
 
