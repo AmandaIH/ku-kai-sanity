@@ -4,6 +4,9 @@
   "workspaces": [
     "apps/*"
   ],
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev:studio": "pnpm --filter checkmate-sanity-studio dev",
     "dev:web": "pnpm --filter checkmate-sanity-nuxt dev"
