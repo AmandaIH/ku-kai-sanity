@@ -1,6 +1,6 @@
 {
   "buildCommand": "cd apps/web && pnpm build",
-  "installCommand": "pnpm install --no-optional",
+  "installCommand": "corepack enable && corepack prepare pnpm@10.24.0 --activate && pnpm install --no-optional",
   "framework": "nuxtjs"
 }
 
