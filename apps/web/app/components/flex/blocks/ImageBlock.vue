@@ -25,13 +25,27 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, nextTick } from 'vue';
+// @ts-ignore - Auto-imported composables
 import { useCheckmateFlexSettings } from '~/composables/checkmateFlexSettings';
+// @ts-ignore - Auto-imported composables
 import { useSanityImage } from '~/composables/useSanityImage';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-if (process.client) {
-  gsap.registerPlugin(ScrollTrigger);
+// Dynamic imports for GSAP (client-side only)
+let gsap: any = null;
+let ScrollTrigger: any = null;
+
+if (typeof window !== 'undefined') {
+  // @ts-ignore - GSAP types may not be available
+  import('gsap').then((gsapModule) => {
+    gsap = gsapModule.default;
+    // @ts-ignore - GSAP types may not be available
+    return import('gsap/ScrollTrigger');
+  }).then((scrollTriggerModule: any) => {
+    ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+    if (gsap) {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+  });
 }
 
 // Define the component data interface
@@ -99,11 +113,18 @@ const loadSvg = async () => {
     
     // For SVG files, get the URL - don't specify format to preserve SVG
     // Get the base URL from Sanity image builder
+    // @ts-ignore - Auto-imported Nuxt composable
     const config = useRuntimeConfig();
-    const sanityConfig = config.public.sanity as {
+    const sanityConfig = config.public?.sanity as {
       projectId: string;
       dataset: string;
-    };
+    } | undefined;
+    
+    if (!sanityConfig) {
+      console.warn('Sanity config not found');
+      isSvgImage.value = false;
+      return;
+    }
     
     // Use imageUrlBuilder directly to get raw SVG URL
     const imageUrlBuilder = (await import('@sanity/image-url')).default;
@@ -188,7 +209,7 @@ const setupParallax = async () => {
       start: 'top bottom',
       end: 'bottom top',
       scrub: true,
-      onUpdate: (self) => {
+      onUpdate: (self: any) => {
         const progress = self.progress;
         const yOffset = (progress - 0.5) * 100; // Move up/down based on scroll
         gsap.set(svgContainerRef.value, {
@@ -216,7 +237,7 @@ const setupImageParallax = () => {
       start: 'top bottom',
       end: 'bottom top',
       scrub: true,
-      onUpdate: (self) => {
+      onUpdate: (self: any) => {
         const progress = self.progress;
         const yOffset = (progress - 0.5) * 100;
         gsap.set(imageElement, {

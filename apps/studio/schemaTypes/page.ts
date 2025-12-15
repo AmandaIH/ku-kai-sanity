@@ -85,21 +85,14 @@ export const page = {
       description: 'Add content blocks to build your page',
       of: [
         { type: 'heroBlock' },
-        { type: 'heroTextBlock' },
         { type: 'backgroundImageTextBlock' },
         { type: 'imageBlock' },
         { type: 'textBlock' },
         { type: 'accordionBlock' },
-        { type: 'archiveBlock' },
-        { type: 'employeesBlock' },
         { type: 'textAndImageBlock' },
-        { type: 'textAndVideoBlock' },
-        { type: 'sliderBlock' },
-        { type: 'numbersBlock' },
         { type: 'foodSliderBlock' },
         { type: 'menuBlock' },
-        { type: 'imageGridBlock' },
-        { type: 'leadFormBlock' }
+        { type: 'imageGridBlock' }
       ],
       group: 'content'
     },

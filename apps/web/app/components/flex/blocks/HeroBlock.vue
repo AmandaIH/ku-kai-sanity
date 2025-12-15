@@ -44,8 +44,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, nextTick } from 'vue';
-import { PortableText } from '@portabletext/vue';
 import { useGsapAnimations } from '../../../composables/useGsapAnimations';
+// @ts-ignore - GSAP types may not be available
 import { gsap } from 'gsap';
 import Buttons from '../../ui/Buttons.vue';
 

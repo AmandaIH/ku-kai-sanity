@@ -194,7 +194,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import DOMPurify from 'dompurify'
-import Logo from '~/components/ui/Logo.vue'
 
 interface FormData {
   id: string

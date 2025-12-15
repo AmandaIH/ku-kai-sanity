@@ -80,8 +80,6 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '~/components/ui/Logo.vue'
-
 // // SEO
 // useSeoHead({
 //   title: 'Booking System - FIVE Transport & Logistics',

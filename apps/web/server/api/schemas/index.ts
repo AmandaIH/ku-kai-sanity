@@ -99,17 +99,14 @@ export default defineEventHandler(async (event) => {
     // Process content blocks
     const contentBlocks = [
       processSchema(blocks.heroBlock, 'block'),
-      processSchema(blocks.heroTextBlock, 'block'),
       processSchema(blocks.backgroundImageTextBlock, 'block'),
+      processSchema(blocks.imageBlock, 'block'),
       processSchema(blocks.textBlock, 'block'),
       processSchema(blocks.accordionBlock, 'block'),
-      processSchema(blocks.archiveBlock, 'block'),
-      processSchema(blocks.employeesBlock, 'block'),
       processSchema(blocks.textAndImageBlock, 'block'),
-      processSchema(blocks.textAndVideoBlock, 'block'),
-      processSchema(blocks.sliderBlock, 'block'),
-      processSchema(blocks.numbersBlock, 'block'),
-      processSchema(blocks.linkBlock, 'block')
+      processSchema(blocks.foodSliderBlock, 'block'),
+      processSchema(blocks.menuBlock, 'block'),
+      processSchema(blocks.imageGridBlock, 'block')
     ]
 
     // Process common fields

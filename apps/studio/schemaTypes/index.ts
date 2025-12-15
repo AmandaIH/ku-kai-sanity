@@ -18,19 +18,12 @@ export const schemaTypes = [
   
   // Content Blocks
   blocks.heroBlock,
-  blocks.heroTextBlock,
   blocks.backgroundImageTextBlock,
   blocks.imageBlock,
   blocks.textBlock,
   blocks.accordionBlock,
-  blocks.archiveBlock,
-  blocks.employeesBlock,
   blocks.textAndImageBlock,
-  blocks.textAndVideoBlock,
-    blocks.sliderBlock,
-    blocks.numbersBlock,
-    blocks.foodSliderBlock,
-    blocks.menuBlock,
-    blocks.imageGridBlock,
-    blocks.leadFormBlock
+  blocks.foodSliderBlock,
+  blocks.menuBlock,
+  blocks.imageGridBlock
 ]
