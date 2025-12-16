@@ -38,6 +38,15 @@
 
         <LanguageSwitcher />
         
+        <!-- EVENTS Button -->
+        <nuxt-link 
+          :to="aboutRoute"
+          class="flex gap-4 items-center btn btn-primary uppercase whitespace-nowrap"
+          @click="scrollToEvents"
+        >
+          EVENTS
+        </nuxt-link>
+        
         <!-- Menu Items from main-menu-2 -->
         <template v-for="(menuItem, index) in mainMenu2">
           <!-- Text Link Style (all items except last) -->
@@ -69,7 +78,15 @@
       </div>
 
       <!-- Mobile Burger Menu -->
-      <div class="md:hidden flex items-center justify-center gap-4 z-[22]">
+      <div class="md:hidden flex items-center gap-3 z-[22]">
+        <!-- EVENTS Button (Mobile - left of burger) -->
+        <nuxt-link 
+          :to="aboutRoute"
+          class="flex items-center justify-center btn btn-primary uppercase whitespace-nowrap !py-1.5 !h-[1.9rem] !mb-0"
+          @click="scrollToEvents"
+        >
+          EVENTS
+        </nuxt-link>
         <div class="flex items-center">
           <BurgerIcon />
           <BurgerMenu :main-menu="mainMenu" :main-menu-2="mainMenu2" :is-scrolled="menuScrollActive" />
@@ -80,6 +97,7 @@
 </template>
 
 <script setup>
+import { nextTick, watch, onMounted, onUnmounted, computed, ref } from 'vue';
 import { useCoreStore } from '~/stores/core';
 import SimpleLogo from '~/components/ui/SimpleLogo.vue';
 import NavigationLink from '~/components/ui/NavigationLink.vue';
@@ -100,6 +118,23 @@ const { getCurrentFrontpage } = useMultilingual();
 
 // Get the frontpage route for the current locale
 const frontpageRoute = computed(() => getCurrentFrontpage());
+
+// Get the about page route - try to find it from menus or use default
+const aboutRoute = computed(() => {
+  // Try to find about page from menus
+  const aboutMenuItem = mainMenu.value.find(item => 
+    item.url && (item.url.includes('about') || item.title?.toLowerCase().includes('about'))
+  );
+  
+  if (aboutMenuItem?.url) {
+    // Add hash to the URL
+    let url = aboutMenuItem.url.startsWith('/') ? aboutMenuItem.url : `/${aboutMenuItem.url}`;
+    return `${url}#events`;
+  }
+  
+  // Fallback: use language prefix (even for default locale, since Sanity might store it with prefix)
+  return `/${locale.value}/about#events`;
+});
 
 // Get dark header setting from store
 const darkHeader = computed(() => {
@@ -249,6 +284,34 @@ function handleScroll() {
 function toggleBurger() {
   isMenuOpen.value = !isMenuOpen.value;
 }
+
+// Scroll to events section on about page
+function scrollToEvents(event) {
+  // Don't prevent default - let navigation happen first
+  // We'll scroll after the page loads
+}
+
+// Watch for route changes to scroll to events section
+watch(() => [route.path, route.hash], ([path, hash]) => {
+  if (hash === '#events') {
+    // Wait for page to load, then scroll
+    nextTick(() => {
+      // Try multiple times in case content loads slowly
+      const tryScroll = (attempts = 0) => {
+        const eventsSection = document.getElementById('events');
+        if (eventsSection) {
+          const headerHeight = headerRef.value?.offsetHeight || 80;
+          const sectionTop = eventsSection.offsetTop - headerHeight;
+          window.scrollTo({ top: sectionTop, behavior: 'smooth' });
+        } else if (attempts < 10) {
+          // Retry up to 10 times (2 seconds total)
+          setTimeout(() => tryScroll(attempts + 1), 200);
+        }
+      };
+      setTimeout(() => tryScroll(), 300);
+    });
+  }
+}, { immediate: true });
 
 
 watch(isMenuOpen, (newVal) => {

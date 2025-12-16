@@ -1,6 +1,10 @@
 <template>
-  <section class="flex-section" :data-index="index" :class="[sectionClasses]">
-<!--  <section class="flex-section" :data-index="index">-->
+  <section 
+    class="flex-section" 
+    :data-index="index" 
+    :class="[sectionClasses]"
+    :id="anchorId || null"
+  >
     <slot></slot>
   </section>
 </template>
@@ -43,6 +47,11 @@ const sectionClasses  = computed (() => {
     return getContainerClasses('background');
   }
   return [];
+});
+
+// Get anchor ID from data (it's in the root of the block data, not in settings)
+const anchorId = computed(() => {
+  return props.data?.anchorId || null;
 });
 
 </script>

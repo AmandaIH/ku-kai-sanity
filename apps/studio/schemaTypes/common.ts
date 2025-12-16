@@ -785,7 +785,18 @@ export const settingsFields = {
   layout: [
     { ...commonFields.customPadding, group: 'settings' },
     { ...commonFields.customMargin, group: 'settings' },
-    { ...commonFields.container, group: 'settings' }
+    { ...commonFields.container, group: 'settings' },
+    {
+      name: 'anchorId',
+      title: 'Anchor ID',
+      type: 'string',
+      description: 'Optional: Add an ID to this section for anchor links (e.g., "events", "contact"). Leave empty if not needed.',
+      group: 'settings',
+      validation: (Rule: any) => Rule.regex(/^[a-z0-9-]+$/, {
+        name: 'anchor-id',
+        invert: false
+      }).error('Anchor ID can only contain lowercase letters, numbers, and hyphens')
+    }
   ]
 }
 

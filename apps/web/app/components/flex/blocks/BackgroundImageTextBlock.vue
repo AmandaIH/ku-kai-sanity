@@ -3,21 +3,21 @@
     <!-- Container with padding - this shows the background color -->
     <div class="px-8 md:px-16 py-8 md:py-16 md:mt-8" :class="containerClasses">
       <!-- Container with background image and content -->
-      <div class="relative overflow-visible flex items-end min-h-[80vh] md:min-h-[70vh] rounded-lg bg-primary">
-        <!-- Background image - absolute positioned -->
-        <div class="absolute inset-0 rounded-lg overflow-hidden">
+      <div class="relative overflow-visible flex flex-col sm:flex-row sm:items-end min-h-[80vh] md:min-h-[70vh] rounded-lg bg-primary">
+        <!-- Background image - absolute positioned on desktop, relative on mobile -->
+        <div class="relative sm:absolute w-full sm:inset-0 rounded-lg overflow-hidden min-h-[40vh] sm:min-h-0 mt-8">
           <cm-picture v-if="heroType === 'image' && componentData.backgroundImage" :image-object="componentData.backgroundImage" :crops="['default:800', 'md:1200', 'lg:1600']" 
-            :classes="'w-full h-full object-cover'" :lazy="(index || 0) > 0"></cm-picture>
+            :classes="'w-full h-full object-cover rounded-lg'" :lazy="(index || 0) > 0"></cm-picture>
           
-          <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full object-cover'"></hero-cm-video>
+          <hero-cm-video v-if="heroType === 'video' && componentData.backgroundVideo" :index="index" :src="componentData.backgroundVideo" :classes="'w-full h-full object-cover rounded-lg'"></hero-cm-video>
+          
+          <!-- Overlay only on background media -->
+          <div class="absolute inset-0 bg-black z-[1] rounded-lg" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
         </div>
         
-        <!-- Overlay only on background media -->
-        <div class="inset-0 absolute bg-black z-[1] rounded-lg" :style="{ opacity: (componentData.opacity || 0) / 100 }"></div>
-        
-        <!-- Content - positioned at bottom with grid, extending outside -->
-        <div v-if="hasContent" class="relative z-10 w-full -mb-8 md:-mb-16">
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 px-8 md:px-16 pb-8 md:pb-16">
+        <!-- Text box - below image on mobile, positioned at bottom on desktop -->
+        <div v-if="hasContent" class="relative z-10 w-full sm:absolute sm:inset-0 sm:flex sm:items-end -mt-4 sm:-mt-0 sm:-mb-8 md:-mb-16">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 px-0 sm:px-16 pb-0 w-full">
             <!-- Text overlay - spans more columns, positioned at bottom -->
             <div class="md:col-span-10 md:col-start-2 lg:col-span-8 lg:col-start-3 text-white">
               <div class="w-full bg-black/80 backdrop-blur-md rounded-lg p-8 md:p-12">

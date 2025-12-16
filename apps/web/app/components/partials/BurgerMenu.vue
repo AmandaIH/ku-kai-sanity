@@ -7,10 +7,10 @@
   
   <!-- Burger menu -->
   <div class="fixed w-full h-svh right-0 top-0 z-[22] overflow-scroll burger-menu backdrop-blur-md bg-black/80 transition-transform duration-300" :class="coreStore.getShowMenu ? '' : 'translate-x-full'">
-    <!-- Close Button (X) -->
+    <!-- Close Button (X) - aligned with logo -->
     <button 
       @click="coreStore.toggleShowMenu()" 
-      class="absolute top-6 right-6 z-[30] w-8 h-8 flex items-center justify-center"
+      class="absolute top-[0.95rem] right-8 md:top-[1.45rem] md:right-16 z-[30] w-8 h-8 flex items-center justify-center"
       style="color: #F3EC26;"
     >
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -32,6 +32,22 @@ export const backgroundImageTextBlock = {
     // CTAs
     { ...contentFields.ctas, group: 'content' },
     
+    // Background Type - must be defined before image/video fields that depend on it
+    {
+      name: 'backgroundType',
+      title: 'Background Type',
+      type: 'string',
+      group: 'content',
+      options: {
+        list: [
+          { title: 'Image', value: 'image' },
+          { title: 'Video', value: 'video' }
+        ]
+      },
+      validation: (Rule: any) => Rule.required(),
+      initialValue: 'image'
+    },
+    
     // Background Image
     {
       name: 'backgroundImage',
@@ -60,21 +76,6 @@ export const backgroundImageTextBlock = {
     // Component settings
     { ...commonFields.customPadding, group: 'settings' },
     { ...commonFields.customMargin, group: 'settings' },
-    
-    // Background Type
-    {
-      name: 'backgroundType',
-      title: 'Background Type',
-      type: 'string',
-      group: 'content',
-      options: {
-        list: [
-          { title: 'Image', value: 'image' },
-          { title: 'Video', value: 'video' }
-        ]
-      },
-      validation: (Rule: any) => Rule.required()
-    },
     
     // Background overlay opacity
     {
