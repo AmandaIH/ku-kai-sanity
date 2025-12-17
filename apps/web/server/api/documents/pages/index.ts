@@ -1,7 +1,10 @@
 import { createSanityClient, commonFields, ctaReferences, getTranslationsQuery } from '../../../utils/sanity'
-import { defineEventHandler, getQuery, createError } from 'h3'
+import { defineEventHandler, getQuery, createError, setHeader } from 'h3'
 
 export default defineEventHandler(async (event) => {
+    // Add cache revalidation headers to allow browsers/CDN to check for updates
+    setHeader(event, 'Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60')
+    setHeader(event, 'CDN-Cache-Control', 'public, s-maxage=30')
     try {
       const query = getQuery(event)
       const limit = parseInt(query.limit as string) || 10

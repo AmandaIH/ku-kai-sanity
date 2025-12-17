@@ -28,11 +28,20 @@ export const createSanityClient = () => {
     throw new Error('Sanity projectId is not configured. Please set SANITY_STUDIO_PROJECT_ID environment variable.')
   }
   
+  // Allow bypassing CDN cache via query parameter or environment variable
+  // This helps when new content is published and needs to be immediately available
+  const bypassCdn = process.env.SANITY_BYPASS_CDN === 'true' || false
+  
   return createClient({
     projectId: sanityConfig.projectId,
     dataset: sanityConfig.dataset,
     apiVersion: sanityConfig.apiVersion,
-    useCdn: true, // Use CDN for better performance
+    useCdn: !bypassCdn, // Use CDN for better performance, but allow bypassing for fresh content
+    // Add cache revalidation - Sanity CDN typically caches for a few seconds to minutes
+    // Setting a shorter perspective helps ensure fresh content
+    perspective: 'published', // Only fetch published content
+    // Add request tag for cache revalidation (if supported by Sanity)
+    requestTagPrefix: 'kukai-ramen',
   })
 }
 

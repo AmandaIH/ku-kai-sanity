@@ -138,10 +138,11 @@ export default cachedEventHandler(
     }
   },
   {
-    maxAge: 60, // Cache for 10 minutes (longer cache since site settings don't change often)
+    maxAge: 30, // Cache for 30 seconds (reduced from 60 to allow faster updates)
     getKey: (event) => {
       const query = getQuery(event)
       return `init-${query.language || INTERNATIONALIZATION_CONFIG.defaultLanguage}`
-    }
+    },
+    shouldBypassCache: () => process.env.NODE_ENV !== 'production'
   }
 ) 
