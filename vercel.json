@@ -1,12 +1,49 @@
 {
-  "buildCommand": "pnpm --filter kukai-ramen-web exec nuxt prepare && pnpm --filter kukai-ramen-web build",
+  "buildCommand": "cd apps/web && pnpm exec nuxt build",
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --ignore-scripts",
-  "framework": "nuxtjs",
-  "functions": {
-    "apps/web/app/**": {
-      "runtime": "nodejs20.x"
+  "framework": null,
+  "rootDirectory": "apps/web",
+  "headers": [
+    {
+      "source": "/_nuxt/(.*\\.css)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/css; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_nuxt/(.*\\.js)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_nuxt/(.*\\.mjs)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
-  },
+  ],
   "env": {
     "PNPM_REGISTRY": "https://registry.npmjs.org/",
     "SANITY_STUDIO_PROJECT_ID": "g90bn5yd",
