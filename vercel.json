@@ -1,8 +1,7 @@
 {
-  "buildCommand": "cd apps/web && pnpm exec nuxt build",
+  "buildCommand": "pnpm --filter kukai-ramen-web exec nuxt build",
   "installCommand": "npm install -g pnpm@9.15.0 && pnpm install --ignore-scripts",
-  "framework": null,
-  "rootDirectory": "apps/web",
+  "framework": "nuxtjs",
   "headers": [
     {
       "source": "/_nuxt/(.*\\.css)",
