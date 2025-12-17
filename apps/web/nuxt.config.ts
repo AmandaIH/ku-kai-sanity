@@ -204,20 +204,41 @@ export default defineNuxtConfig({
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         }
       },
+      // Catch all CSS files (root level and _nuxt directory)
+      '/*.css': {
+        headers: {
+          'Content-Type': 'text/css; charset=utf-8',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        }
+      },
       '/_nuxt/**/*.css': {
         headers: {
           'Content-Type': 'text/css; charset=utf-8',
-          'Cache-Control': 'no-cache',
+          'Cache-Control': 'public, max-age=31536000, immutable',
         }
       },
       '/_nuxt/**/*.js': {
         headers: {
           'Content-Type': 'application/javascript; charset=utf-8',
+          'Cache-Control': 'public, max-age=31536000, immutable',
         }
       },
       '/_nuxt/**/*.mjs': {
         headers: {
           'Content-Type': 'application/javascript; charset=utf-8',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        }
+      },
+      '/*.js': {
+        headers: {
+          'Content-Type': 'application/javascript; charset=utf-8',
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        }
+      },
+      '/*.mjs': {
+        headers: {
+          'Content-Type': 'application/javascript; charset=utf-8',
+          'Cache-Control': 'public, max-age=31536000, immutable',
         }
       },
       '/flags/**': {
