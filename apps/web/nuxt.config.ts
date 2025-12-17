@@ -265,6 +265,7 @@ export default defineNuxtConfig({
              url: process.env.NUXT_PUBLIC_SITE_URL || 'https://kukai-ramen.vercel.app',
              trailingSlash: true,
          },
+         // Trigger rebuild for Vercel deployment
 
   components: [
       {
