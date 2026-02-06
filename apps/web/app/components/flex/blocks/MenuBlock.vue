@@ -41,7 +41,7 @@
           </div>
 
           <!-- Menu Items with Border -->
-          <div class="border border-[#8B5E3C] rounded-lg pt-3 md:pt-4 px-4 md:px-6 pb-3 md:pb-4 text-[#8B5E3C]">
+          <div class="border border-black rounded-lg pt-3 md:pt-4 px-4 md:px-6 pb-3 md:pb-4 text-black">
             <div 
               v-for="(item, itemIndex) in section.items" 
               :key="itemIndex"
@@ -63,7 +63,7 @@
                   <span 
                     v-for="(ingredient, ingIndex) in item.ingredients" 
                     :key="ingIndex"
-                    class="text-sm text-[#8B5E3C]/70 flex items-center gap-1"
+                    class="text-sm text-black/85 flex items-center gap-1"
                   >
                     <span class="w-1 h-1 bg-black/40 rounded-full"></span>
                     {{ ingredient }}
@@ -71,7 +71,7 @@
                 </div>
                 
                 <!-- Description -->
-                <p v-if="item.description" class="text-sm text-[#8B5E3C]/70 mt-1">
+                <p v-if="item.description" class="text-sm text-black/70 mt-1">
                   {{ item.description }}
                 </p>
               </div>
@@ -158,12 +158,7 @@ const getBentoGridClass = (index) => {
     return 'md:col-span-1';
   }
   
-  // For 4+ sections layout:
-  // RAMEN: row 1, cols 1-2 (top left, 2 columns, first row only)
-  // TOPPING: row 1, col 3 (third column, first row only - SVGs can be displayed within)
-  // DRINKS: row 2, col 1 (second row, first column, under RAMEN)
-  // Logo: row 2, col 2 (second row, second column - reserved for logo)
-  // SIDES: row 2, col 3 (second row, third column)
+  
   if (index === 0) return 'md:col-span-2 md:row-span-1 md:row-start-1 md:col-start-1'; // RAMEN - row 1, cols 1-2
   if (index === 1) return 'md:col-span-1 md:row-span-1 md:row-start-1 md:col-start-3'; // TOPPING - row 1, col 3
   if (index === 2) return 'md:col-span-1 md:row-span-1 md:row-start-2 md:col-start-3'; // SIDES - row 2, col 3
