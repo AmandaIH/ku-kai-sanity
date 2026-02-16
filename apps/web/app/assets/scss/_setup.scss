@@ -90,9 +90,12 @@
       @apply text-primary underline underline-offset-2 transition-colors duration-200 hover:text-primary/80 hover:no-underline;
     }
 
-    /* Links inside body text (WYSIWYG) use same color as surrounding text */
+    /* Links inside body text (WYSIWYG) use same color as surrounding text, hover: project yellow */
     p a {
-      @apply text-inherit hover:opacity-80;
+      @apply text-inherit transition-colors duration-200;
+    }
+    p a:hover {
+      color: #F3EC26;
     }
   }
 }
